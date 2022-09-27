@@ -46,15 +46,17 @@ def create_app(test_config=None):
         properties = PropertyList.query.order_by(PropertyList.id).all()
         current_properties = paginate_properties(request, properties)
         
+        try:
+            if len(properties) == 0:
+                abort(404)
 
-        if len(properties) == 0:
-            abort(404)
-
-        return jsonify ({
-            "success":True,
-            'property':current_properties,
-            'total_properties':len(properties)
-        })
+            return jsonify ({
+                "success":True,
+                'property':current_properties,
+                'total_properties':len(properties)
+            })
+        except:
+            abort(405)
 
            
         

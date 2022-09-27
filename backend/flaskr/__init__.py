@@ -47,7 +47,7 @@ def create_app(test_config=None):
         current_properties = paginate_properties(request, properties)
         
         try:
-            if len(properties) == 0:
+            if len(current_properties) == 0:
                 abort(404)
 
             return jsonify ({
@@ -56,7 +56,7 @@ def create_app(test_config=None):
                 'total_properties':len(properties)
             })
         except:
-            abort(405)
+            abort(404)
 
            
         

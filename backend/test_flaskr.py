@@ -97,7 +97,7 @@ class RealEstateTestCase(unittest.TestCase):
 
         pass
 
-    def test_get_propertylist(self):
+    def test_200_get_propertylist(self):
         res = self.client().get("/properties")
         data = json.loads(res.data)
 
@@ -105,7 +105,7 @@ class RealEstateTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertTrue(data["property"])
 
-    def test_get_propertylist_failure(self):
+    def test_405_get_propertylist_failure(self):
         res = self.client().delete("/properties")
         data = json.loads(res.data)
 
@@ -114,7 +114,7 @@ class RealEstateTestCase(unittest.TestCase):
         self.assertTrue(data["message"], "method not allowed")
 
 
-    def test_get_paginated_properties(self):
+    def test_200_get_paginated_properties(self):
         res = self.client().get("/properties")
         data = json.loads(res.data)
 
@@ -131,7 +131,7 @@ class RealEstateTestCase(unittest.TestCase):
         self.assertEqual(data["success"],False)
         self.assertEqual(data["message"], "resource not found")
 
-    def test_delete_properties(self):
+    def test_200_delete_properties(self):
         res = self.client().delete("/properties/2")
         data = json.loads(res.data)
 
@@ -152,7 +152,7 @@ class RealEstateTestCase(unittest.TestCase):
         self.assertEqual(data["success"], False)
         self.assertEqual(data['message'],"unprocessable")
 
-    def test_create_new_property(self):
+    def test_200_create_new_property(self):
         res = self.client().post('/properties', json = self.new_property)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -161,15 +161,99 @@ class RealEstateTestCase(unittest.TestCase):
 
         
     def test_405_create_new_property_failure(self):
-        res = self.client().post("/properties/999", json= self.new_property)
+        res = self.client().post("/properties/9999", json= self.new_property)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data["success"],False)
         self.assertEqual(data["message"], "method not allowed")
 
-        
+    def test_200_create_new_agent(self):
+        res = self.client().post("/agents", json = self.new_agent)
+        data = json.loads(res.data)
+        self.asertEqual(res.status_code,200)
+        self.assertEqual(data["success"], True)
 
+    def test_405_create_new_agent_failure(self):
+        res = self.client().post("/properties/9999", json=self.new_agent)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'],"method not allowed")
+
+    def test_200_create_new_user(self):
+        res = self.client().post("/users", json = self.new_user)
+        data = json.loads(res.data)
+        self.asertEqual(res.status_code,200)
+        self.assertEqual(data["success"], True)
+    
+    def test_405_create_new_user(self):
+        res = self.client().post("/userss/9999", json= self.new_user)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data["success"],False)
+        self.assertEqual(data["message"], "method not allowed")
+
+    def test_200_update_properties(self):
+        self.new_update = {
+            'description':'A newly renovated 2 bed room flat for sale',
+            'amount':'250000',
+            'status':'sale'
+        }
+        res = self.client().patch("/properties/1", json=self.new_update)        
+        data = json.loads(res.data)
+        patch_property= PropertyList.query.filter(PropertyList.id == 2).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(patch_property.format()['amount'],250000)
+
+    def test_400_update_property_fail(self):
+        res = self.client().patch("/properties/2",json=self.new_property)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code,400)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data["message"],"bad request")
+
+    def test_200_get_agent_properties(self):
+        res = self.client().get("/agents/1/properties")
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(data["first_name"],"John")
+        self.assertNotEqual(len(data['properties']), 0)
+
+    def test_404_fetch_properties_failure(self):
+        res = self.client().get("/agents/9999/properties")
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data["message"], "resource not found")
+
+    def test_200_search(self):
+        search ={
+            'search_Term':'Uyo'
+        }
+        res = self.client().post('/search', json = search)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(len(data['properties']))
+
+    def test_404_search_not_found(self):
+        search ={
+            'search_Term':'khvkjgdty'
+        }
+        res = self.client().post('/search', json=search)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "resource not found")
 
 
 

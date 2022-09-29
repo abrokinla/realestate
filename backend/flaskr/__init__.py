@@ -1,4 +1,5 @@
 import os
+from site import USER_SITE
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -122,6 +123,7 @@ def create_app(test_config=None):
                 propertyList.bed = body.get('action')
             if "status" in body:
                 propertyList.status = (body.get('status'))
+            
 
             propertyList.update()
 
@@ -181,13 +183,12 @@ def create_app(test_config=None):
             newAgent.insert()
 
             agents = Agent.query.order_by(Agent.id).all()
-            current_agents = paginate_properties(request, agents)
+            # current_agents = paginate_properties(request, agents)
 
 
             return jsonify({
                 'sucess':True,
                 'created':newAgent.id,
-                'agents':current_agents,
                 'total_agents':len(agents)
             })
         except:
@@ -204,7 +205,8 @@ def create_app(test_config=None):
             if agents:
                 properties = PropertyList.query.filter(PropertyList.agent_id == agent_id).all()
                 current_properties = paginate_properties(request, properties)
-
+                if (len(current_properties))==0:
+                    abort(404)
                 return jsonify ({
                     'success':True,
                     'properties':current_properties,
@@ -233,19 +235,40 @@ def create_app(test_config=None):
                 email=email, pword=pword, tel=tel)
 
             newUser.insert()
+            users = User.query.order_by(User.id).all()
+
+            return jsonify({
+                'sucess':True,
+                'created':newUser.id,
+                'total_users':len(users)
+            })
         except:
             abort(422)
+    @app.route('/search', methods=['POST'])
+    def search_term():
+
+        try:
+            body = request.get_json()
+            searchTerm = body.get('search_Term', None)
+
+            propertylist = PropertyList.query.filter(PropertyList.location.ilike('%'+searchTerm+'%')).all()
+            
+            if propertylist:
+                current_properties = paginate_properties(request, propertylist)
+                return jsonify({
+                    'success':True,
+                    'properties':current_properties,
+                    'total_properties':len(propertylist)
+                })
+            else:
+                abort(404)
+        except:
+            abort(404)
 
                 
     #ERROR HANDLERS
 
-    @app.errorhandler(404)
-    def not_found(error):
-        return jsonify({
-                "success": False, 
-                "error": 404, 
-                "message": "resource not found"
-                }), 404
+    
 
     @app.errorhandler(405)
     def method_not_allowed(error):

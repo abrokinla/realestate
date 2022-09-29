@@ -1,5 +1,11 @@
 to create new property
 
-curl http://127.0.0.1:5000/properties -X POST -H "Content-Type:application/json" -d "{\"description\":\"sample description of a property\",\"amount\":\"20000\", \"location\":\"sample location\",\"bed\":\"2\", \"bath\":\"2\", \"toilet\":\"2\", \"action\":\"rent\",\"status\":\"renovated\", \"agent_id\":\"1\"}"
+curl http://127.0.0.1:5000/properties -X POST -H "Content-Type:application/json" -d "{\"description\":\2 bed room apartment for sale.\",\"amount\":\"20000000\", \"location\":\"Uyo\",\"bed\":\"2\", \"bath\":\"2\", \"toilet\":\"2\", \"action\":\"sale\",\"status\":\"new\", \"agent_id\":\"1\"}"
 
 curl http://127.0.0.1:5000/agents -X POST -H "Content-Type:application/json" -d "{\"first_name\":\"John\", \"last_name\":\"Ackerty\", \"business_name\":\"Ackerty Properties\", \"email\":\"myemail@email.com\", \"pword\":\"mypassword\", \"tel\":\"+2348190907787\", \"agent_call_number\":\"+2348190907787\", \"whatsapp\":\"+2348190907787\", \"business_web\":\"ackertyproperties.com\"}"
+
+INSERT INTO propertylist ("id", "description","amount", "location", "bed", "bath", "toilet", "action", "status","agent_id") VALUES ('1', '3 bed room flat from rent', '200,000', 'Uyo', '2', '2','2', 'Rent', 'renovated', '1');
+
+INSERT INTO agent ("id", "first_name","last_name", "business_name", "email", "pword", "tel", "agent_call_number", "whatsapp","business_web") VALUES ('3', 'John', 'Ackerty', 'John Ackerty Properties', 'johnackerty@email.com', 'pword','+2348056734478', '+2347065545543', '+2348123356656', 'ackerty.com');
+
+curl -X POST -H "Content-Type: application/json" -d '{"searchTerm":"Uyo"}' http://localhost:5000/search

@@ -1,5 +1,5 @@
-import React from "react"
-import image from "./assets/components/images/logo.png"
+import React from 'react';
+import { image } from './components/images/logo.png';
 
 export default function NavBar() {
     return (

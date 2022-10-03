@@ -1,3 +1,138 @@
-body {
-    margin:0;
+* {
+    box-sizing: border-box;
 }
+
+body {
+    margin: 0;
+    background-color:#060221 ;
+    color:white;
+    font-family: Inter, sans-serif;
+}
+.container {
+    display:flex;
+    justify-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:100px;
+    padding: 30px 25px;
+    }
+.logo {
+    width:120px;
+}
+.nav-items {
+    list-style: none;
+    display: flex;
+    font-weight:400;
+    font-size: 14px;
+    
+}
+
+.nav-items > li {
+    padding: 10px;
+}
+
+.login {
+    background-color:#5CFFFF;
+    color: #000000;
+    border-radius: 20px;
+}
+main {
+    height: 100vh;
+    /* display: flex;
+    height: 400px;
+    align-items: center;    /* aligns vertically */
+    /* justify-content: center;  /* aligns horizontally */
+    /* border: 2px solid red;  */
+}
+
+ .background {
+    width:1000px;
+    height:400px;
+    opacity: 50%;
+ }
+
+ .main--background--image {
+    display: flex;
+    height: 400px;
+    align-items: center;    /* aligns vertically */
+    justify-content: center;  /* aligns horizontally */
+    /* border: 2px solid red; */
+ }
+ .main--intro {
+    position: absolute; 
+    top: 30%; 
+    left: 0; 
+    right: 0; 
+    transform: translate(0, -50%); 
+    text-align: center; 
+    color: #fff; 
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+ }
+ 
+ .main--sub--intro {
+    position: absolute; 
+    top: 43%; 
+    left: 0; 
+    right: 0; 
+    transform: translate(0, -50%); 
+    text-align: center; 
+    color: #5CFFFF; 
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: 2px, 2px, #000000;
+ }
+
+ .main--search--box {
+    display: flex;    
+    align-items: center;    /* aligns vertically */
+    justify-content: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    position: absolute;
+    width: 900px;
+    height: 140px;
+    bottom:45px;
+    border-radius: 5px;
+    box-shadow: 17px 14px 4px rgba(0, 0, 0, 0.25);
+    opacity: 85%;
+    color: #000000;
+ }
+.search-text {
+    border: 2px solid black;
+    margin: 20px;
+    padding:10px;
+}
+
+.searchBtn {
+    display:flex;
+    justify-content: center;
+    color: #fff;
+    align-items: center;
+    border:0;
+    background-color: #FF5C5C;
+    border-radius: 20px;
+    width: 140.88px;
+    height: 47.09px;
+}
+.search > p {
+    bottom:50%;
+    color: #ffffff;
+}
+ 
+.search--box {
+    display: flex;
+    flex-direction: row;
+}
+.search--icon {
+    margin-right: 10px;
+    padding: 0;
+    width: 30px;
+}
+ 

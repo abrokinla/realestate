@@ -1,0 +1,123 @@
+
+.card--content {
+    display:flex;
+    flex-direction: column;
+    justify-content:space-around;
+    width: 350px;
+    height:400px;
+}
+
+.houseimages {
+    width: 100%;
+    height: 250px; 
+    display:block;   
+}
+
+.card--action {
+    position: absolute;    
+    color: #ffffff;
+    background-color:#1411A8;
+    margin-bottom: 350px; 
+    margin-left: 7px; 
+    padding: 7px;
+    border-radius: 5px;
+}
+
+.card--amount{
+    position: absolute;
+    color: #1411A8;
+    background-color:#ffffff;
+    margin-left:12px;
+    padding: 2px 15px;
+    border-radius: 10px;
+    margin-top: 70px;
+    font-size: 18px;
+    font-weight:600;
+    letter-spacing: -0.04em;
+}
+
+.card--status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position:relative;
+    align-items: center;
+    background-color:white;
+    color:black;
+    height:35px;
+    font-size:10px;
+}
+.status--details {
+    color: #2d2a2a
+}
+
+.status {
+    margin:0;
+    padding:0 25px 0 10px;
+    color: #1411A8;
+    font-size:14px;
+    font-weight:600; 
+}
+
+.profile--pic {
+    height:30px;
+    width:30px;
+    border-radius: 50%;
+    margin-right:5px;
+}
+.card--house--details {
+    height: 100px;    
+    color:#ffffff;
+    font-size: 12px;
+    font-weight:400;
+    position: relative;
+    border: 2px solid #fff;
+}
+
+
+.location,
+.description,
+.extra {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    position:relative;
+    height:30px;
+}
+
+.facilities {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    position:relative;
+    align-items: center;
+    background-color:white;
+    color:black;
+    height:25px;
+    font-size:14px;
+    font-weight:600;
+    justify-content:center;
+}
+
+.icon {
+    width:20px;
+    height:20px;
+    margin-right:5px;
+    margin-left:5px;
+}
+.facilities-icon {
+    width:20px;
+    height:20px;
+    margin-right:20px;
+}
+.bed,
+.bath,
+.toilet {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    position:relative;
+    margin: 20px;
+    height:30px;
+}
+

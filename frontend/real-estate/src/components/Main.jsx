@@ -1,12 +1,13 @@
 import React from "react"
 import image from "./images/bckgrnd.jpg"
 import searchimage from "./images/search-icon.png"
+import Card from "./Card.jsx"
 
 
 
 export default function Main() {
     return (
-        <div className="container">
+        <div>
             <main>
                 <div className="main--background--image">
                     <p className="main--intro">Get Your Dream Home From a Relaible Agency</p>
@@ -22,11 +23,26 @@ export default function Main() {
                                 <img src={searchimage} className="search--icon" />
                                 <p>SEARCH</p>
                             </div>
-                        </label>
+                        </label>                        
+                    </div>
+                    <div className="search--options">
+                        <div className="rent--button">
+                            RENT
+                        </div>
+                        <div className="buy--button">
+                             BUY
+                        </div>                        
                     </div>
                 </div>
+                <div  className="subtitle">
+                    <p> Featured Properties </p>                    
+                </div> 
+                <div className="card--container">
+                    <Card />    
+                    <Card />    
+                    <Card />    
+                </div>
                 
-
             </main>
         </div>
     )

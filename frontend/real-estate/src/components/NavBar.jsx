@@ -2,8 +2,7 @@ import React from "react"
 import image from "./images/logo.png"
 
 export default function NavBar() {
-    return (
-        // <h1>hi</h1>
+    return (        
         <nav>
             <img src ={image} className="logo" />
             <ul className="nav-items">

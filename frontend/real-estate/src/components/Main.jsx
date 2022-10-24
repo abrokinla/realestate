@@ -4,8 +4,6 @@ import Card from "./Card.jsx"
 import Search from "./Search"
 import Reason from "./Reason"
 import Testimonial from "./Testimonial"
-import Footer from "./Footer"
-
 
 
 export default function Main() {
@@ -42,7 +40,6 @@ export default function Main() {
                     <button>Register Now</button>
                 </section>
                 <div className="foota--container">
-                    <Footer />
                 </div>
             </main>
         </div>

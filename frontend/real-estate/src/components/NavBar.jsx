@@ -1,27 +1,45 @@
 import React from "react"
+import { Component } from "react"
 import image from "./images/logo.png"
 
-export default function NavBar() {
+class NavBar extends Component {
+    state = { clicked : false };
+    handleClick = () => {
+        this.setState({
+            clicked : !this.state.clicked
+        })
+    }
+    render() {
     return (        
         <nav>
             <section className="logo">
                 <img src ={image} className="logo" />
             </section>
-            <input type="checkbox" id="check"></input>
-                <label for="click" className="menu-btn">
-                    <i className="fa fa-bars"></i>
-                </label>
-            <ul className="nav-items">
-                <li><a href="#" className="nav--link">Home</a></li>
-                <li><a href="" className="nav--link">About</a></li>
-                <li><a href="" className="nav--link">Contact</a></li>
-                <li><a href="" className="nav--link">Property</a></li>
-                <li className="login">
-                    <a href="" className="login--link">Login/Sign Up</a>
-                </li>
-            </ul>
+            <section>
+                <ul id="navitems" className=
+                {this.state.clicked ? "#navitems active" : "#navitems"}>
+                    <li><a className="active" href="#" >Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Property</a></li>
+                    <li className="login">
+                    <a href="">Login/Sign Up</a>
+                    </li>
+                </ul>
+            </section>
+            <div id="mobile" onClick={this.handleClick}>
+                <i id="bar"
+                className=
+                {
+                    this.state.clicked ? "fas fa-times" : "fas fa-bars"
+                }>                    
+                </i>
+            </div>
             
 
         </nav>
     )
 }
+}
+
+export default NavBar;

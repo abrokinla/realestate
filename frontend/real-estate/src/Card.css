@@ -1,10 +1,22 @@
+#card-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
 
 .card--content {
     display:flex;
     flex-direction: column;
     justify-content:space-around;
-    width: 350px;
+    width: 30%;
     height:450px;
+    margin-bottom:20px;
+    transition: 0.3s ease;
+}
+
+.card--content:hover {
+    box-shadow: 0 5px 15px rgb(172, 166, 166);
 }
 
 .houseimages {
@@ -125,9 +137,11 @@
 .search--area {
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    align-items:center;
+    flex-wrap: wrap;
     width: 100%;
 }
+
 .card {
     display:flex;
     justify-content: space-around;
@@ -136,14 +150,20 @@
     color: white;
     font-weight:600;
     background-color:#1411A8;
-    width: 350px;
+    width: 30%;
     height:400px;
+    margin-bottom:20px;
+    transition: 0.3s ease;
 }
+
+.card:hover {
+    box-shadow: 0 5px 15px rgb(172, 166, 166);
+}
+
 .search-house{
     display:block;
     width: 100%;
     height:350px;
-    /* top:10px; */
 }
 
 #search--title {
@@ -153,5 +173,20 @@
     align-items: center;
 }
 
+@media screen and (max-width:769px) {
+    #card-container {
+        justify-content: center;
+    }
+    .card--content {
+        width:80%;        
+        margin-right: 0;
+    }
 
-
+    .card {
+        width:80%;
+        margin-right:0;
+    }
+    .search--area {
+        justify-content: center;
+    }
+}

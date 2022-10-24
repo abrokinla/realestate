@@ -1,4 +1,5 @@
 import React from "react"
+import "../footer.css"
 import facebook from "./images/facebook.png"
 import twitter from "./images/twitter.png"
 import instagram from "./images/instagram.png"
@@ -54,7 +55,7 @@ export default function Footer() {
                             <p>Subscribe to our newsletter</p>
                             <section id="email--section">                                
                                 {/* <label> */}
-                                <input type="email" placeholder="Email Address" id="email--text"></input>
+                                <input type="email" placeholder="Email Address"></input>
                                 {/* <img src={subButton} id="sub--button"/> */}
                                 {/* </label> */}
                             </section>

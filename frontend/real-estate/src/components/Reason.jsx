@@ -1,4 +1,5 @@
 import React from "react"
+import "../rsn_testi.css"
 import experience from "./images/experience.png"
 import houseIcon from "./images/house-icon.png"
 import money from "./images/money.png"
@@ -6,7 +7,7 @@ import money from "./images/money.png"
 
 export default function Reason() {
     return (
-        <section className="a-container">
+        <section id="a-container">
             <section className="rsn--container--1">
                 <img src={experience} className="rsn--container--icon" />
                 <h3>We have the experience.</h3>

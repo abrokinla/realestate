@@ -1,4 +1,5 @@
 import React from "react"
+import "../Card.css"
 import house from "./images/house1.jpg"
 
 

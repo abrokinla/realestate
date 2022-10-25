@@ -1,6 +1,13 @@
 .aa--container {
     background: #000;
 }
+
+.foota--container{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+
 .first--section {
     display: flex;
     flex-wrap:wrap;

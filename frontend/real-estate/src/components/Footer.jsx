@@ -7,7 +7,7 @@ import subButton from "./images/sub-button.png"
 
 export default function Footer() {
     return (
-        <section className="aa--container">
+        <section className="aa--container foota--container">
             <section className="first--section">
                 <section id="about">
                     <p>About</p>

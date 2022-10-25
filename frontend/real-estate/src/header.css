@@ -95,14 +95,14 @@
 
     #header-container h3 {
         position: absolute;
-        top:10%;
+        top:15%;
         color: white;
         font-size:3vw;
     }
 
     #header-container p {
         position:absolute;
-        top:15%;
+        top:20%;
         color: #5CFFFF;
         font: size 0.5vw;
     }
@@ -113,7 +113,7 @@
         align-items:center;
         flex-direction:column;
         position:absolute;
-        top:23%;
+        top:30%;
         background:#ffffff;
         width:75%;
         height:90px;

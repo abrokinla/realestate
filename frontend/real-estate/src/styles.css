@@ -149,6 +149,7 @@ nav {
         align-items: flex-start;
         justify-content: flex-start;
         position:fixed;
+        z-index:+99;
         top:80px;
         right:-300px;
         width:300px;

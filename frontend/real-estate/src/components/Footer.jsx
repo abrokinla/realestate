@@ -58,8 +58,7 @@ export default function Footer() {
                                 <input type="email" placeholder="Email Address"></input>
                                 {/* <img src={subButton} id="sub--button"/> */}
                                 {/* </label> */}
-                            </section>
-                        
+                            </section>                        
                         </section>
                     </section>
                 </section>

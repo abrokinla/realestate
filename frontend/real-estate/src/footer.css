@@ -68,7 +68,8 @@
 #contact--container {
     width:100%;
     font-size: 2vh;  
-    margin-top: 15px;      
+    margin-top: 15px;     
+    word-wrap:break-word;
 }
 
 #contact--container p {
@@ -110,7 +111,7 @@
 
 #footer--link--container {
     display:flex;
-    Justify-content:space-between;
+    justify-content:space-between;
     align-items:center;
     margin: auto 20px 10px 15px;
     color:#fff;
@@ -248,7 +249,7 @@
     
     #footer--link--container {
         display:flex;
-        Justify-content:space-between;
+        justify-content:space-between;
         align-items:center;
         margin-top:auto;
         margin-left:10px;

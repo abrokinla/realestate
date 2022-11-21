@@ -1,65 +1,96 @@
-import React from "react"
+import React, { Component } from "react"
 import "../Card.css"
 import house from "./images/house1.jpg"
 import profilepic from "./images/sillouhette.jpg"
-import description from "./images/description.png"
-import location from "./images/location.png"
-import extra from "./images/extra.png"
-import bed from "./images/bed.png"
-import bath from "./images/bath.png"
-import toilet from "./images/toilet.png"
+import imgDesc from "./images/description.png"
+import imgLoca from "./images/location.png"
+import imgExtra from "./images/extra.png"
+import imgBed from "./images/bed.png"
+import imgBath from "./images/bath.png"
+import imgToilet from "./images/toilet.png"
 
 
-export default function Main() {
-    return (     
-        <div className="card--content">
-            <div className="card--image">
-                <img src={house} className="houseimages" alt="image of house for sale/rent" />
-            </div>
-            <p className="card--action">RENT</p>
-            <p className="card--amount"> NGN 600,000/yr </p>                            
-            
-            <div className="card--status">
-                <p className="status">RENOVATED</p>                           
-                <p className="status--details"> posted on 12/02/2022 by User </p>
-                <img src={profilepic} className="profile--pic" />
-            </div>
-            <div className="card--house--details">
-                <section className="location">
-                    <img src={location} className="icon" />                        
-                    <p> 12 Ewet Housing Estate, Uyo, Akwa Ibom </p>                                                
-                </section>
+class Card extends Component {
+    constructor() {
+        super();
+        this.state = {
+            property:[],
+        };
+    }
 
-                <section className="description">
-                    <img src={description} className="icon"/>
-                    <p> 5 bedroom apartment ensuite in good condition </p>
-                </section>
+    componentDidMount() {
+        this.getFeaturedProperties();
+    }
 
-                <section className="extra">
-                    <img src={location} className="icon" />
-                    <p> Steady power supply, supermarket, good road network, proximity to airport </p>                
-                </section>
-            </div>
-            <div className="facilities"> 
-                <section className="bed">
-                    <img src={bed} className="facilities-icon"/> 
-                    <p>2</p>
-                </section>
+    getFeaturedProperties = () => {
+        $.ajax({
+            url: `/properties`,
+            type: 'GET',
 
-                <section className="bath"> 
-                    <img src={bath} className="facilities-icon"/> 
-                    <p>2</p>
-                </section>
-
-                <section className="toilet">
-                    <img src={toilet} className="facilities-icon"/> 
-                    <p>2</p> 
-                </section>                   
+            success: (result) => {
+                this.setState({
+                    property: result.property,
+                });
+                return;
+            },
+            error: (error) => {
+                alert('no featured properties, please try again');
+                return;
+            },
+        });
+    };
+    render() {
+        const { action, amount, status, location, description, bed, bath, toilet } = this.props;
+        return (     
+            <div className="card--content">
                 
-            </div>
+                <div className="card--image">
+                    <img src={house} className="houseimages" alt="image of house for sale/rent" />
+                </div>
+                <p className="card--action">{action}</p>
+                <p className="card--amount"> NGN {amount}/yr </p>                            
+                
+                <div className="card--status">
+                    <p className="status">{status}</p>                           
+                    <p className="status--details"> posted on 12/02/2022 by User </p>
+                    <img src={profilepic} className="profile--pic" />
+                </div>
+                <div className="card--house--details">
+                    <section className="location">
+                        <img src={imgLoca} className="icon" />                        
+                        <p> {location} </p>                                                
+                    </section>
 
-        </div>
-    
+                    <section className="description">
+                        <img src={imgDesc} className="icon"/>
+                        <p> {description} </p>
+                    </section>
 
-    )
+                    <section className="extra">
+                        <img src={imgExtra} className="icon" />
+                        <p> Steady power supply, supermarket, good road network, proximity to airport </p>                
+                    </section>
+                </div>
+                <div className="facilities"> 
+                    <section className="bed">
+                        <img src={imgBed} className="facilities-icon"/> 
+                        <p>{bed}</p>
+                    </section>
+
+                    <section className="bath"> 
+                        <img src={imgBath} className="facilities-icon"/> 
+                        <p>{bath}</p>
+                    </section>
+
+                    <section className="toilet">
+                        <img src={imgToilet} className="facilities-icon"/> 
+                        <p>{toilet}</p> 
+                    </section>                   
+                    
+                </div>
+
+            </div> 
+        )
+    }
 }
+export default Card;

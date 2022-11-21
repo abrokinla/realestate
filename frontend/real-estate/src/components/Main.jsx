@@ -1,23 +1,24 @@
-import React from "react"
+import React from "react";
+import NavBar from "./NavBar"
 import Header from "./Header.jsx"
 import Card from "./Card.jsx"
 import Search from "./Search"
 import Reason from "./Reason"
 import Testimonial from "./Testimonial"
+import Footer from "./Footer"
 
 
 export default function Main() {
     return (
         <div>
             <main>
+                <NavBar />
                 <Header />
                 <div id="subtitle">
                     <p> Featured Properties </p>                    
                 </div> 
                 <div id="card-container">
-                    <Card />    
-                    <Card />    
-                    <Card />    
+                    {/* <Card />    */}
                 </div>
                 <div  id="subtitle">
                     <p> Found What You Need? </p>                    
@@ -40,6 +41,7 @@ export default function Main() {
                     <button>Register Now</button>
                 </section>
                 <div className="foota--container">
+                    <Footer />
                 </div>
             </main>
         </div>

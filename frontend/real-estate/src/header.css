@@ -12,21 +12,32 @@
     opacity: 40%;
 }
 
-#header-container h3 {
+#header--sub--con {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
     position: absolute;
-    top:25%;
+    border: 2px solid red;
+    width: 80%;
+    height: 80%;
+}
+
+#header--sub--con h3 {
+    position: absolute;
+    top:15%;
     color: white;
     font-size:3vw;
 }
 
-#header-container p {
+#header--sub--con p {
     position:absolute;
-    top:40%;
+    top:30%;
     color: #5CFFFF;
     font-size: 2vw;
 }
 
-#header-container form {
+#header--sub--con form {
     display:flex;
     justify-content: center;
     align-items:center;
@@ -34,7 +45,7 @@
     position:absolute;
     top:60%;
     background:#ffffff;
-    width:70%;
+    width:90%;
     height:100px;
     color:#000000;
     opacity: 90%;
@@ -62,6 +73,7 @@
     border-radius:20px;
     padding:5px 25px;
     margin-top:5px;
+    margin-left: 20px;
     background:red;
     box-shadow: 0 5px 15px rgba(0,0,0.03);
     cursor: pointer;
@@ -88,35 +100,44 @@
     }
 
     #header-container img {
-        width: 80%;
+        width: 100%;
         height: 100%;
         opacity: 40%;
     }
 
-    #header-container h3 {
+    #header--sub--con {
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
         position: absolute;
-        top:15%;
+        border: 2px solid red;
+        width: 80%;
+        height: 250px;
+    }
+
+    #header--sub--con h3 {
+        position: absolute;
         color: white;
         font-size:3vw;
     }
 
-    #header-container p {
+    #header--sub--con p {
         position:absolute;
-        top:20%;
         color: #5CFFFF;
         font: size 0.5vw;
     }
 
-    #header-container form {
+    #header--sub--con form {
         display:flex;
         justify-content: center;
         align-items:center;
         flex-direction:column;
         position:absolute;
-        top:30%;
+        top:45%;
         background:#ffffff;
-        width:75%;
-        height:90px;
+        width:90%;
+        height:70px;
         color:#000000;
         opacity: 90%;
     }
@@ -140,7 +161,7 @@
         align-items:center;
         color: #fff;
         border-radius:20px;
-        padding:5px 15px;
+        padding:5px 10px;
         margin-top:5px;
         background:red;
         box-shadow: 0 5px 15px rgba(0,0,0.03);
@@ -152,6 +173,7 @@
         color: #ffffff;
         margin-right:2px;
         cursor: pointer;
+        font-size: 8px;
     }
     #search-btn input[type="submit"]{
         background:red;
@@ -159,5 +181,6 @@
         border:red;
         margin:2px;
         cursor: pointer;
+        font-size: 8px;
     }
 }

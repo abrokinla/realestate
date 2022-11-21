@@ -1,16 +1,16 @@
-import React from "react"
-import NavBar from "./components/NavBar.jsx"
-import Main from "./components/Main.jsx"
-import Footer from "./components/Footer"
+import React, { Component } from "react"
+import AppRouter from "./components/AppRouter.jsx"
 
 
-export default function App() {
-    return (
-        <div className="container">
-            <NavBar />
-            <Main />            
-            <Footer />            
-        </div>
-    )
+class App extends Component {
+    render() {
+        return (
+            <div className="container">
+                <AppRouter />
+            </div>
+
+        );
+    }
 }
+export default App;
 

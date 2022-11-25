@@ -11,12 +11,14 @@ import imgToilet from "./images/toilet.png"
 
 
 
-const FeaturedProps = (props) => {     
+const Card = (props) => {     
         return (     
             <div className="card--content">
+                console.log(properties); 
                 {props.properties && props.properties.map(featuredProps =>{
+                    
                     return (
-                        <>
+                        <div key = {featuredProps.id}>
                             <div className="card--image">
                                 <img src={featuredProps.img_url} className="houseimages" alt="image of house for sale/rent" />
                             </div>
@@ -61,12 +63,12 @@ const FeaturedProps = (props) => {
                                 </section>                   
                                 
                             </div> 
-                        </>
+                        </div>
                     )
                 })}
             </div> 
         )}
         
-                    
+        
 
 export default Card;

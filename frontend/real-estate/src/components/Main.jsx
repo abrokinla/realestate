@@ -7,11 +7,15 @@ import Reason from "./Reason"
 import Testimonial from "./Testimonial"
 import Footer from "./Footer"
 
+
+function Main() {
+
+    
 const [properties, setProperties] = useState([]);
 
 useEffect(()=>{
     fetch('http://127.0.0.1:5000/', {
-        'methods': GET,
+        'methods': 'GET',
         headers : {
             'Content-Type':'application/json'   
         }
@@ -22,7 +26,7 @@ useEffect(()=>{
 },[])
 
 
-export default function Main() {
+
     return (
         <div>
             <main>
@@ -62,3 +66,5 @@ export default function Main() {
         </div>
     )
 }
+
+export default Main;

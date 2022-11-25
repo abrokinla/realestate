@@ -23,6 +23,7 @@ The API will return these error types when requests fail.
 500 - Internal Server Error
 
 # ENDPOINTS
+
 ## GET /properties
 
 - General:

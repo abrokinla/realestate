@@ -32,11 +32,13 @@ class PropertyList(db.Model):
     toilet = db.Column(db.Integer)
     action = db.Column(db.String())#For sale or rent
     status = db.Column(db.String())
+    rating = db.Column(db.Integer)
+    img_url = db.Column(db.String())
     agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
 
     def __repr__(self):
         return f'<Property {self.id} {self.description} {self.amount} {self.location} {self.bed} {self.bath} {self.toilet} \
-            {self.action} {self.status}>'
+            {self.action} {self.status} {self.rating} {self.img_url}>'
     
     def insert(self):
         db.session.add(self)
@@ -60,6 +62,8 @@ class PropertyList(db.Model):
             'toilet':self.toilet,
             'action':self.action,
             'status':self.status,
+            'rating':self.rating,
+            'img_url': self.img_url,
         }
         
 

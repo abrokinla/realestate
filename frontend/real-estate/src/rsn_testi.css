@@ -10,7 +10,7 @@
 }
 #a-container {
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     width:100%;
@@ -91,6 +91,7 @@ article {
 
 @media screen and (max-width:769px) {
     #a-container {
-        width: 80%;
+        width: 100%;
+        justify-content: center;
     }
 }

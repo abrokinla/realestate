@@ -11,19 +11,19 @@ import Footer from "./Footer"
 function Main() {
 
     
-const [properties, setProperties] = useState([]);
+    const [properties, setProperties] = useState([]);
 
-useEffect(()=>{
-    fetch('http://127.0.0.1:5000/', {
-        'methods': 'GET',
-        headers : {
-            'Content-Type':'application/json'   
-        }
-    })
-    .then(response => response.json())
-    .then(response => setProperties(response.properties))
-    .catch(error => console.log(error))
-},[])
+    useEffect(()=>{
+        fetch('http://127.0.0.1:5000/', {
+            'methods': 'GET',
+            headers : {
+                'Content-Type':'application/json'   
+            }
+        })
+        .then(response => response.json())
+        .then(response => setProperties(response.properties))
+        .catch(error => console.log(error))
+    },[])
 
 
 

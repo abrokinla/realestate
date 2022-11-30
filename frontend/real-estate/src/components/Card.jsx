@@ -13,60 +13,61 @@ import imgToilet from "./images/toilet.png"
 
 const Card = (props) => {     
         return (     
-            <div className="card--content">
-                
-                {props.properties && props.properties.map(featuredProps =>{
-                    
-                    return (
-                        <div key = {featuredProps.id}>
-                            <div className="card--image">
-                                <img src={featuredProps.img_url} className="houseimages" alt="image of house for sale/rent" />
-                            </div>
-                            <p className="card--action">{featuredProps.action}</p>
-                            <p className="card--amount"> NGN {featuredProps.amount}/yr </p>                            
+            <section className="card--content">
+                   
+                        <section>
+                            <section id="card--action--amount">
+                                <p className="card--action">{props.action}</p>
+                                <p className="card--amount"> NGN {props.amount}/yr </p>                            
+                            </section>
+
+                            <section className="card--image">
+                                <img src={props.img_url} className="houseimages" alt="image of house for sale/rent" />
+
+                            </section>
                             
-                            <div className="card--status">
-                                <p className="status">{featuredProps.status}</p>                           
+                            
+                            <section className="card--status">
+                                <p className="status">{props.status}</p>                           
                                 <p className="status--details"> posted on 12/02/2022 by User </p>
                                 <img src={profilepic} className="profile--pic" />
-                            </div>
-                            <div className="card--house--details">
+                            </section>
+                            <section className="card--house--details">
                                 <section className="location">
                                     <img src={imgLoca} className="icon" />                        
-                                    <p> {featuredProps.location} </p>                                                
+                                    <p> {props.location} </p>                                                
                                 </section>
 
                                 <section className="description">
                                     <img src={imgDesc} className="icon"/>
-                                    <p> {featuredProps.description} </p>
+                                    <p> {props.description} </p>
                                 </section>
 
                                 <section className="extra">
                                     <img src={imgExtra} className="icon" />
                                     <p> Steady power supply, supermarket, good road network, proximity to airport </p>                
                                 </section>
-                            </div>
-                            <div className="facilities"> 
+                            </section>
+                            <section className="facilities"> 
                                 <section className="bed">
                                     <img src={imgBed} className="facilities-icon"/> 
-                                    <p>{featuredProps.bed}</p>
+                                    <p>{props.bed}</p>
                                 </section>
 
                                 <section className="bath"> 
                                     <img src={imgBath} className="facilities-icon"/> 
-                                    <p>{featuredProps.bath}</p>
+                                    <p>{props.bath}</p>
                                 </section>
 
                                 <section className="toilet">
                                     <img src={imgToilet} className="facilities-icon"/> 
-                                    <p>{featuredProps.toilet}</p> 
+                                    <p>{props.toilet}</p> 
                                 </section>                   
                                 
-                            </div> 
-                        </div>
-                    )
-                })}
-            </div> 
+                            </section> 
+                        </section>
+                    
+            </section> 
         )}
         
         

@@ -148,9 +148,9 @@ def create_app(test_config=None):
             if "status" in body:
                 propertyList.status = (body.get('status'))            
             if "rating" in body:
-                propertyList.status = (body.get('rating'))
+                propertyList.rating = (body.get('rating'))
             if "img_url" in body:
-                propertyList.status = (body.get('img_url'))
+                propertyList.img_url = (body.get('img_url'))
             
 
             propertyList.update()

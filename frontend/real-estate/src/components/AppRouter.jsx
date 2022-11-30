@@ -2,6 +2,7 @@ import React, { Component }  from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Main from "./Main"
+import PropertyList from "./PropertyList"
 
 class AppRouter extends Component {
     render() {
@@ -9,6 +10,7 @@ class AppRouter extends Component {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={ <Main /> } />
+                    <Route path='/properties' element={ <PropertyList /> } />
                 </Routes>
             </BrowserRouter>
             );

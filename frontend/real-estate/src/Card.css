@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    border: 2px solid red;
 }
 
 .card--content {
@@ -11,7 +12,7 @@
     justify-content:space-around;
     width: 30%;
     height:450px;
-    margin-bottom:20px;
+    margin:20px 10px;
     transition: 0.3s ease;
 }
 

@@ -14,7 +14,7 @@ import imgToilet from "./images/toilet.png"
 const Card = (props) => {     
         return (     
             <div className="card--content">
-                console.log(properties); 
+                
                 {props.properties && props.properties.map(featuredProps =>{
                     
                     return (
@@ -22,7 +22,7 @@ const Card = (props) => {
                             <div className="card--image">
                                 <img src={featuredProps.img_url} className="houseimages" alt="image of house for sale/rent" />
                             </div>
-                            <p className="card--action">{action}</p>
+                            <p className="card--action">{featuredProps.action}</p>
                             <p className="card--amount"> NGN {featuredProps.amount}/yr </p>                            
                             
                             <div className="card--status">

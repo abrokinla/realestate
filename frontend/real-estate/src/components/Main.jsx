@@ -21,7 +21,7 @@ useEffect(()=>{
         }
     })
     .then(response => response.json())
-    .then(response => setProperties(response))
+    .then(response => setProperties(response.properties))
     .catch(error => console.log(error))
 },[])
 
@@ -36,8 +36,9 @@ useEffect(()=>{
                     <p> Featured Properties </p>                    
                 </div> 
                 <div id="card-container">
+                    {properties.map(data => 
                     <Card 
-                    properties = {properties}/>   
+                    key = {data.id} {...data}/>)}                       
                 </div>
                 <div  id="subtitle">
                     <p> Found What You Need? </p>                    

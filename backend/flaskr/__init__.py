@@ -1,5 +1,5 @@
 import os
-from site import USER_SITE
+import random
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -38,7 +38,29 @@ def create_app(test_config=None):
 
 
 #--------------------------------ROUTES START-------------------
-    
+   
+    @app.route('/')
+    def featured_properties():
+        props = PropertyList.query.filter(PropertyList.rating==1).all()
+        
+        # props_id =[]
+        # if len(props) > 3:
+        #     for prop in props:
+        #         props_id.append(prop.id)
+        #     n = 3
+        #     my_props = random.sample(props_id,n)
+        #     curr_props = paginate_properties(request, my_props)
+
+        curr_props = paginate_properties(request, props)
+
+
+
+        return jsonify({
+            "Success":True,
+            "properties": curr_props
+        })
+
+
     """
     Fetch properties
     """ 
@@ -75,12 +97,14 @@ def create_app(test_config=None):
         toilet = body.get('toilet', None)
         action = body.get('action', None) 
         status = body.get('status', None)
+        rating = body.get('rating', None)
+        img_url = body.get('img_url', None)
         agent_id = body.get('agent_id', None)
 
         try:
             newProperty = PropertyList(description= description, amount = amount, \
                 location = location, bed = bed, bath = bath, toilet = toilet,\
-                    action = action, status = status, agent_id=agent_id)
+                    action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
             newProperty.insert()
 
             # return properties ordered by id
@@ -122,7 +146,11 @@ def create_app(test_config=None):
             if "action" in body:
                 propertyList.bed = body.get('action')
             if "status" in body:
-                propertyList.status = (body.get('status'))
+                propertyList.status = (body.get('status'))            
+            if "rating" in body:
+                propertyList.rating = (body.get('rating'))
+            if "img_url" in body:
+                propertyList.img_url = (body.get('img_url'))
             
 
             propertyList.update()
@@ -265,7 +293,7 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-                
+       
     #ERROR HANDLERS
 
     

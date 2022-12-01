@@ -1,5 +1,0 @@
-to create new property
-
-curl http://127.0.0.1:5000/properties -X POST -H "Content-Type:application/json" -d "{\"description\":\"sample description of a property\",\"amount\":\"20000\", \"location\":\"sample location\",\"bed\":\"2\", \"bath\":\"2\", \"toilet\":\"2\", \"action\":\"rent\",\"status\":\"renovated\", \"agent_id\":\"1\"}"
-
-curl http://127.0.0.1:5000/agents -X POST -H "Content-Type:application/json" -d "{\"first_name\":\"John\", \"last_name\":\"Ackerty\", \"business_name\":\"Ackerty Properties\", \"email\":\"myemail@email.com\", \"pword\":\"mypassword\", \"tel\":\"+2348190907787\", \"agent_call_number\":\"+2348190907787\", \"whatsapp\":\"+2348190907787\", \"business_web\":\"ackertyproperties.com\"}"

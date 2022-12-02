@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar"
 import Header from "./Header.jsx"
-import Card from "./Card.jsx"
+import CardList from "./CardList.jsx"
 import Search from "./Search"
 import Reason from "./Reason"
 import Testimonial from "./Testimonial"
@@ -36,9 +36,11 @@ function Main() {
                     <p> Featured Properties </p>                    
                 </div> 
                 <div id="card-container">
-                    {properties.map(data => 
+                    <CardList 
+                    rating={1}/>
+                    {/* {properties.map(data => 
                     <Card 
-                    key = {data.id} {...data}/>)}                       
+                    key = {data.id} {...data}/>)}                        */}
                 </div>
                 <div  id="subtitle">
                     <p> Found What You Need? </p>                    

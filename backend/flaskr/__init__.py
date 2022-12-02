@@ -75,7 +75,7 @@ def create_app(test_config=None):
 
             return jsonify ({
                 "success":True,
-                'property':current_properties,
+                'properties':current_properties,
                 'total_properties':len(properties)
             })
         except:

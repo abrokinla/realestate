@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NavBar from "./NavBar";
 import Header from "./Header.jsx";
-import Card from "./Card.jsx";
+import CardList from "./CardList.jsx";
 import Footer from "./Footer";
+import Pagination from "./Pagination";
 
 function PropertyList() {
-        
-    const [properties, setProperties] = useState([]);
-    
-    useEffect(()=>{
-        fetch('http://127.0.0.1:5000/properties', {
-            'methods': 'GET',
-            headers : {
-                'Content-Type':'application/json'   
-            }
-        })
-        .then(response => response.json())
-        .then(response => setProperties(response.properties))
-        .catch(error => console.log(error))
-    },[])
+  
 
     return (
         <section>
@@ -27,12 +15,12 @@ function PropertyList() {
             <section id="subtitle">
                 <p>PROPERTIES</p>
             </section>
-            <section id="card-container">
-                {properties.map(data => 
-                    <Card 
-                    key = {data.id} {...data}/>
-                    )} 
+            <section id="card-container">               
+                {/* <CardList rating = {1}  /> */}
+                <CardList rating = {2} />
+                {/* <CardList rating = {3}  /> */}
             </section>
+            <Pagination />
             <Footer />
 
         </section>

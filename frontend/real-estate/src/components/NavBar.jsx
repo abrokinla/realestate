@@ -3,6 +3,10 @@ import { Component } from "react"
 import image from "./images/logo.png"
 
 class NavBar extends Component {
+    navTo(uri) {
+        window.location.href = window.location.origin + uri;
+      }
+
     state = { clicked : false };
     handleClick = () => {
         this.setState({
@@ -18,10 +22,30 @@ class NavBar extends Component {
             <section>
                 <ul id="navitems" className=
                 {this.state.clicked ? "#navitems active" : "#navitems"}>
-                    <li><a className="active" href="#" >Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Property</a></li>
+                    <li onClick={() => {
+                            this.navTo('');
+                        }}
+                    >
+                        <a className=
+                        {this.state.clicked ? "active": ""}>Home</a></li>
+                    <li onClick={() => {
+                            this.navTo('/about');
+                        }}
+                    >
+                        <a className=
+                        {this.state.clicked ? "active": ""}>About</a></li>
+                    <li onClick={() => {
+                            this.navTo('/contact');
+                        }}
+                    >
+                        <a className=
+                        {this.state.clicked ? "active": ""}>Contact</a></li>
+                    <li  onClick={() => {
+                            this.navTo('/properties');
+                        }}
+                    >
+                        <a className=
+                        {this.state.clicked ? "active": ""}>Property</a></li>
                     <li className="login">
                     <a href="">Login/Sign Up</a>
                     </li>
@@ -35,8 +59,6 @@ class NavBar extends Component {
                 }>                    
                 </i>
             </div>
-            
-
         </nav>
     )
 }

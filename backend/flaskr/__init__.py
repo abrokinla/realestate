@@ -1,5 +1,3 @@
-import os
-import random
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -9,7 +7,7 @@ from models import db, setup_db, PropertyList, Agent, User
 PAGINATION
 """
 
-PROPERTIES_PER_PAGE = 10
+PROPERTIES_PER_PAGE = 6
 def paginate_properties(request, selection):
     page = request.args.get("page", 1, type=int)
     start = (page - 1) * PROPERTIES_PER_PAGE

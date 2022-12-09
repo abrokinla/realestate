@@ -10,23 +10,6 @@ import Footer from "./Footer"
 
 function Main() {
 
-    
-    const [properties, setProperties] = useState([]);
-
-    useEffect(()=>{
-        fetch('http://127.0.0.1:5000/', {
-            'methods': 'GET',
-            headers : {
-                'Content-Type':'application/json'   
-            }
-        })
-        .then(response => response.json())
-        .then(response => setProperties(response.properties))
-        .catch(error => console.log(error))
-    },[])
-
-
-
     return (
         <div>
             <main>
@@ -37,10 +20,8 @@ function Main() {
                 </div> 
                 <div id="card-container">
                     <CardList 
-                    rating={1}/>
-                    {/* {properties.map(data => 
-                    <Card 
-                    key = {data.id} {...data}/>)}                        */}
+                   rating={1}/>
+                   
                 </div>
                 <div  id="subtitle">
                     <p> Found What You Need? </p>                    

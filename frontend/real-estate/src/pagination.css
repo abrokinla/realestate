@@ -4,3 +4,9 @@
   align-items:center;
   color: #fff;
 }
+
+.pagination-number {
+  color: #000;
+  border: 2px solid red;
+  background-color:white;
+}

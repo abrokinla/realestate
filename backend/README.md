@@ -162,7 +162,7 @@ sale.",
 - General:
     - It creates a new property. Returns the id of the created property, success value, total properties, and property list based on current page number
 
-- Sample: (windows) $ curl http://127.0.0.1:5000/properties -X POST -H "Content-Type:application/json" -d "{\"description\":\"2 bed room apartment for sale.\",\"amount\":\"20000000\", \"location\":\"Uyo\",\"bed\":\"2\", \"bath\":\"2\", \"toilet\":\"2\", \"action\":\"sale\",\"status\":\"new\", \"agent_id\":\"1\"}"
+- Sample: (windows) $ curl http://127.0.0.1:5000/properties -X POST -H "Content-Type:application/json" -d "{\"description\":\"2 bed room apartment for sale.\",\"amount\":\"20000000\", \"location\":\"Uyo\",\"bed\":\"2\", \"bath\":\"2\", \"toilet\":\"2\", \"action\":\"sale\",\"status\":\"new\", \"agent_id\":\"1\", \"rating\":\"2\"}"
 
   "created": 4,
   "properties": [

@@ -15,12 +15,9 @@ function PropertyList() {
             <section id="subtitle">
                 <p>PROPERTIES</p>
             </section>
-            <section id="card-container">               
-                {/* <CardList rating = {1}  /> */}
+            <section id="card-container">  
                 <CardList rating = {2} />
-                {/* <CardList rating = {3}  /> */}
             </section>
-            <Pagination />
             <Footer />
 
         </section>

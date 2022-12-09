@@ -1,52 +1,27 @@
-import React, { useState} from "react";
+import React from 'react';
 import "../pagination.css";
-import CardList from "./CardList";
 
-const Pagination = () => {
-    
-    const [page, setPage] = useState(1);
+const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
+  const handleClick = (e, page) => {
+    e.preventDefault();
+    setCurrentPage(page);
+  };
 
-    const selectPage = (num) => {
-        setPage(num);
-    }
-
-    const createPagination = () => {
-        let pageNumbers = [];
-        let maxPage = Math.ceil(totalProps / 6);
-        console.log(maxPage);
-        // for (let i = 1; i <= maxPage; i++) {            
-        //   pageNumbers.push(
-        //     <span
-        //       key={i}
-        //       className={`page-num ${i === page ? 'active' : ''}`}
-        //       onClick={() => {
-        //         selectPage(i);
-        //       }}
-        //     >
-        //       {i}
-        //     </span>
-        //   );
-        // }
-        // return pageNumbers;
-      }
-
-    return (
-        <>
-            <section id="pag-container">
-                <p
-                onClick = {() => {
-                    setPage(page - 1);
-                }}>Prev </p>
-                <p>{page}</p>
-                <p
-                onClick = {()=> {
-                    setPage(page + 1);
-                }}> Next</p>
-            </section>
-            {/* {createPagination()} */}
-        </>
-    )
-    
-}
+  return (
+    <div>
+      {Array.from({ length: Math.ceil(totalPages / 6)}, (_, i) => (
+        <button
+          key={`pagination-number${i + 1}`}
+          className={`pagination-number ${
+            i + 1 === currentPage ? 'active' : ''
+          }`}
+          onClick={e => handleClick(e, i + 1)}
+        >
+          {i + 1}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 export default Pagination;

@@ -11,7 +11,7 @@ class AppRouter extends Component {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={ <Main /> } />
-                    <Route path='/properties' element={ <PropertyList /> } />
+                    <Route path="/properties" element={<PropertyList />} />
                     <Route path='/cards' element={ <CardList /> } />
                 </Routes>
             </BrowserRouter>

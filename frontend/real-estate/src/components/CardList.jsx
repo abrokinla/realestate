@@ -1,18 +1,26 @@
 import React, { useState, useEffect} from "react";
 import Card from "./Card";
+import Pagination from "./Pagination";
 
-const CardList = ({rating, page}) => {
+const CardList = ({rating}) => {
     rating == 0;
     const [myProperties, setMyProperties] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0);
+
     
 
     useEffect(() => {
-        const url= `http://127.0.0.1:5000/properties?page=${page}`
+        const url = `http://127.0.0.1:5000/properties?page=${currentPage}`
 
         const fetchData = async() => {
             try {
                 const res = await fetch(url);
-                const json = await res.json();
+                const json = await res.json();                
+                const totalPages=json.length;
+                
+                setTotalPages(totalPages);
+                console.log(json);
                 
                 const properties = json.properties.filter(data =>
                     data.rating == parseInt(rating, 10)
@@ -24,7 +32,7 @@ const CardList = ({rating, page}) => {
         };
 
         fetchData();
-    },[]);
+    },[currentPage]);
 
     return (
         <>
@@ -32,24 +40,12 @@ const CardList = ({rating, page}) => {
                 <Card
                 key = {data.id} {...data}/>
                 )}
-            
-            
-            {/* <div>
-                <p
-                onClick={() =>{
-                    setPage(page - 1);
-                    fetchData();
-                }}>
-                    Prev
-                    </p>
-                <p
-                onClick={() => {
-                    setPage(page + 1);
-                    fetchData();
-                }}>
-                    Next</p>
-                {createPagination()}
-                </div> */}
+
+            <Pagination 
+                totalPages={totalPages} 
+                currentPage={currentPage} 
+                setCurrentPage={setCurrentPage} 
+            />
         </>
     )
 }

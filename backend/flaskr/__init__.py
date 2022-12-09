@@ -7,7 +7,7 @@ from models import db, setup_db, PropertyList, Agent, User
 PAGINATION
 """
 
-PROPERTIES_PER_PAGE = 6
+PROPERTIES_PER_PAGE = 10
 def paginate_properties(request, selection):
     page = request.args.get("page", 1, type=int)
     start = (page - 1) * PROPERTIES_PER_PAGE

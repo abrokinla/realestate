@@ -7,7 +7,7 @@ from models import db, setup_db, PropertyList, Agent, User
 PAGINATION
 """
 
-PROPERTIES_PER_PAGE = 10
+PROPERTIES_PER_PAGE = 12
 def paginate_properties(request, selection):
     page = request.args.get("page", 1, type=int)
     start = (page - 1) * PROPERTIES_PER_PAGE
@@ -37,34 +37,12 @@ def create_app(test_config=None):
 
 #--------------------------------ROUTES START-------------------
    
-    @app.route('/')
-    def featured_properties():
-        props = PropertyList.query.filter(PropertyList.rating==1).all()
-        
-        # props_id =[]
-        # if len(props) > 3:
-        #     for prop in props:
-        #         props_id.append(prop.id)
-        #     n = 3
-        #     my_props = random.sample(props_id,n)
-        #     curr_props = paginate_properties(request, my_props)
-
-        curr_props = paginate_properties(request, props)
-
-
-
-        return jsonify({
-            "Success":True,
-            "properties": curr_props
-        })
-
-
     """
     Fetch properties
     """ 
     @app.route('/properties', methods=['GET'])
     def get_properties():
-        properties = PropertyList.query.order_by(PropertyList.id).all()
+        properties = PropertyList.query.order_by(PropertyList.rating).all()
         current_properties = paginate_properties(request, properties)
         
         try:

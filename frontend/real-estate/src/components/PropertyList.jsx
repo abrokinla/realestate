@@ -1,9 +1,8 @@
 import React from "react";
 import NavBar from "./NavBar";
 import Header from "./Header.jsx";
-import CardList from "./CardList.jsx";
+import CardLists from "./CardLists.jsx";
 import Footer from "./Footer";
-import Pagination from "./Pagination";
 
 function PropertyList() {
   
@@ -16,7 +15,7 @@ function PropertyList() {
                 <p>PROPERTIES</p>
             </section>
             <section id="card-container">  
-                <CardList rating = {2} />
+                <CardLists />
             </section>
             <Footer />
 

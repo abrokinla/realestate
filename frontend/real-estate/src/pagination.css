@@ -1,12 +1,25 @@
-#pag-container {
+#cards-container {
+  width:100%;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
+}
+#pagination-menu {
   display:flex;
   justify-content:center;
   align-items:center;
-  color: #fff;
+  position:relative;
+  width:100%;  
+  border: 1px solid #fff;
 }
 
 .pagination-number {
   color: #000;
-  border: 2px solid red;
   background-color:white;
+  font-size:20px;
+  padding:10px;
+  cursor:pointer;
+  margin: 2px;
 }

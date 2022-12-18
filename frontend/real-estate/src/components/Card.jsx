@@ -1,5 +1,5 @@
 import React from "react"
-import "../Card.css"
+import "../styles/Card.css"
 import house from "./images/house1.jpg"
 import profilepic from "./images/sillouhette.jpg"
 import imgDesc from "./images/description.png"

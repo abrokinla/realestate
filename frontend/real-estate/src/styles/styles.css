@@ -16,7 +16,7 @@
 
 nav {
     display: flex;
-    height:80px;
+    height:200px;
     width:100%;
     background: #060221;
     align-items: center;
@@ -33,6 +33,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor:pointer;
 }
 
 #navitems li {
@@ -66,6 +67,22 @@ nav {
     position:absolute;
     bottom: -4px;
     left: 30px;
+}
+
+.login-submenu {
+    display:none;
+}
+
+li.login:hover > ul.login-submenu {
+    display: block;
+    position: absolute;
+    cursor:pointer;
+    margin:10px;
+}
+
+.login-submenu li {
+    margin-bottom:15px;
+
 }
 .login--link {
     color: #000000;
@@ -185,6 +202,7 @@ nav {
         width: 100%;
     }
 
+    
     
     
 }

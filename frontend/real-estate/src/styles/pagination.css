@@ -17,9 +17,20 @@
 
 .pagination-number {
   color: #000;
-  background-color:white;
-  font-size:20px;
-  padding:10px;
-  cursor:pointer;
+  background-color:#fff;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
   margin: 2px;
+}
+.pagination-number:hover {
+  background-color:#17cf97;
+  color: #fff;
+}
+@media screen and (max-width:769px) {
+  #cards-container {
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
 }

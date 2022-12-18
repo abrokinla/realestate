@@ -1,5 +1,5 @@
 import React from "react"
-import "../rsn_testi.css"
+import "../styles/rsn_testi.css"
 import experience from "./images/experience.png"
 import houseIcon from "./images/house-icon.png"
 import money from "./images/money.png"

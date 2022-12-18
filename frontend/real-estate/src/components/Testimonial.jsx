@@ -1,5 +1,5 @@
 import React from "react"
-import "../rsn_testi.css"
+import "../styles/rsn_testi.css"
 import HeadShot from "./images/sillouhette.jpg"
 
 export default function Testimonial() {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Pagination from "./Pagination";
-import "../pagination.css";
+import "../styles/pagination.css";
 
 
 const CardLists =() => {
@@ -22,33 +22,22 @@ const CardLists =() => {
                 const totalProperties = json.total_properties;
 
                 setMyProperties(myProps);
-                setTotalPages(totalProperties);
+                // calculate number of pages
+                let numberOfPages = 0;
+                if(totalProperties % 12 !== 0) {
+                    numberOfPages = ((totalProperties/12) + 1);
+                } else {
+                    numberOfPages = (totalProperties/12);
+                }
+                
+                setTotalPages(numberOfPages);
+
             } catch (error) {
                 console.log("error", error)
             }
         };
 
-        const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
-            const handleClick = (e, page) => {
-                e.preventDefault();
-                setCurrentPage(page);
-              };
-              return (
-                <div>
-                    {Array.from({ length: Math.ceil(totalPages / 12) }, (_, i) => (
-                        <button
-                            key={`pagination-number${i + 1}`}
-                            className={`pagination-number ${
-                                i + 1 === currentPage ? 'active' : ''
-                            }`}
-                            onClick={e => handleClick(e, i + 1)}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                </div>
-            );
-        };
+        
         
 
         fetchData();

@@ -46,9 +46,15 @@ class NavBar extends Component {
                     >
                         <a className=
                         {this.state.clicked ? "active": ""}>Property</a></li>
+                    
                     <li className="login">
-                    <a href="">Login/Sign Up</a>
+                        <a>Login/Sign Up</a>
+                        <ul className="login-submenu">
+                            <li><a>Agent</a>  </li>
+                            <li><a>User</a></li>
+                        </ul>
                     </li>
+                    
                 </ul>
             </section>
             <div id="mobile" onClick={this.handleClick}>

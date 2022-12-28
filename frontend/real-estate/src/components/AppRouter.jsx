@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Main from "./Main";
 import PropertyList from "./PropertyList";
-import CardList from "./CardList";
+import Login from "../forms/LoginForm";
 
 class AppRouter extends Component {
     render() {
@@ -11,8 +11,8 @@ class AppRouter extends Component {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={ <Main /> } />
-                    <Route path="/properties" element={<PropertyList />} />
-                    <Route path='/cards' element={ <CardList /> } />
+                    <Route path="/properties" element={<PropertyList />} />                    
+                    <Route path='login' element={ <Login /> } />
                 </Routes>
             </BrowserRouter>
             );

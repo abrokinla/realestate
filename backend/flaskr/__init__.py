@@ -1,28 +1,31 @@
+import os
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+import json
+import firebase_admin
+import pyrebase
+from firebase_admin import credentials, auth
+from functools import wraps
 from flask_cors import CORS
 from models import db, setup_db, PropertyList, Agent, User
 
-"""
-PAGINATION
-"""
-
-PROPERTIES_PER_PAGE = 12
-def paginate_properties(request, selection):
-    page = request.args.get("page", 1, type=int)
-    start = (page - 1) * PROPERTIES_PER_PAGE
-    end = start + PROPERTIES_PER_PAGE
-
-    properties = [myproperty.format() for myproperty in selection]
-    current_properties = properties[start:end]
-
-    return current_properties
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    setup_db(app)
+    setup_db(app)    
+    bcrypt = Bcrypt(app)
 
     
+    firebaseConfig = {
+        "apiKey": "AIzaSyC1Fynp1Af2o2PPterFCWvyWWsdG1O51J4",
+        "authDomain": "real-estate-e45dd.firebaseapp.com",
+        "projectId": "real-estate-e45dd",
+        "storageBucket": "real-estate-e45dd.appspot.com",
+        "messagingSenderId": "799389364325",
+        "appId": "1:799389364325:web:9fa1f13cabd5471e9ed68c",
+        "measurementId": "G-0Z72D2ZCD6"
+    };
     # CORS HEADERS
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     # AFTER_REQUEST HEADERS
@@ -34,9 +37,101 @@ def create_app(test_config=None):
 
         return response
 
+    cred = credentials.Certificate(r"C:/re-fb-adminsdk.json")
+    firebase_admin.initialize_app(cred) 
+
+
+    # Create a decorator to handle authentication
+    def requires_auth(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            # Get the authorization header from the request
+            auth_header = request.headers.get("Authorization")
+            if not auth_header:
+                # If the header is not present, return an error
+                return jsonify({
+                    "error": "Authorization header is required"
+                    }), 401
+
+            # Get the token from the header
+            token = auth_header.split(" ")[1]
+
+            # Verify the token with Firebase
+            try:
+                decoded_token = auth.verify_id_token(token)
+            except:
+                # If the token is invalid, return an error
+                return jsonify({"error": "Invalid token"}), 401
+
+            # If the token is valid, extract the user's ID and role from the payload
+            user_id = decoded_token["uid"]
+            user_role = decoded_token.get("role", "user")
+
+            # Pass the user's ID and role to the route function
+            kwargs["user_id"] = user_id
+            kwargs["user_role"] = user_role
+
+            return f(*args, **kwargs)
+        return decorated
+
+    """
+    PAGINATION
+    """ 
+
+    PROPERTIES_PER_PAGE = 12
+    def paginate_properties(request, selection):
+        page = request.args.get("page", 1, type=int)
+        start = (page - 1) * PROPERTIES_PER_PAGE
+        end = start + PROPERTIES_PER_PAGE
+
+        properties = [myproperty.format() for myproperty in selection]
+        current_properties = properties[start:end]
+
+        return current_properties
+
+        
+    
 
 #--------------------------------ROUTES START-------------------
-   
+    
+
+    """
+    Login
+    """ 
+    @app.route("/api/login", methods=["POST"])
+    def login():
+        # Get the email and password from the request body
+        body = request.get_json()
+        email = body.get("email")
+        password = body.get("password")
+
+        # Try to sign in with Firebase
+        try:
+            # Create a Pyrebase client using the Firebase configuration
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            auth = firebase.auth()
+
+            # Sign in with the email and password
+            user = auth.sign_in_with_email_and_password(email, password)
+        except:
+            # If there was an error signing in, return an error
+            return jsonify({
+                "error": "Invalid email or password"
+                }), 401
+
+        # If the sign in was successful, get the user's ID and role from the decoded token
+        decoded_token = auth.get_account_info(user['idToken'])
+        user_id = decoded_token["users"][0]["localId"]
+        user_role = decoded_token["users"][0].get("role", "user")
+
+        # Create a custom token with the user's ID and role as custom claims
+        custom_token = auth.create_custom_token(user_id, role=user_role)
+
+        # Return the custom token to the client
+        return jsonify({"token": custom_token})
+
+            
+    
     """
     Fetch properties
     """ 
@@ -62,7 +157,7 @@ def create_app(test_config=None):
     """
     Create new property
     """
-    @app.route('/properties', methods =['POST'])
+    @app.route('/properties', methods =['POST'])    
     def new_property():    
         body = request.get_json()
         description = body.get('description', None)
@@ -99,7 +194,7 @@ def create_app(test_config=None):
     '''
     Edit Properties
     '''
-    @app.route('/properties/<int:property_id>', methods=['PATCH'])
+    @app.route('/properties/<int:property_id>', methods=['PATCH'])    
     def update_properties(property_id):
         body = request.get_json()
         try:
@@ -142,7 +237,12 @@ def create_app(test_config=None):
     Delete property
     '''
     @app.route('/properties/<int:property_id>', methods=['DELETE'])
-    def delete_property(property_id):
+    @requires_auth
+    def delete_property(property_id, user_id, user_role):
+        if user_role != "agent":
+            return jsonify({
+                "error": "Unauthorized"
+                }), 401
         try:
             propertyList = PropertyList.query.filter(PropertyList.id == property_id).one_or_none()
 
@@ -166,7 +266,7 @@ def create_app(test_config=None):
     """
     Create new agent
     """
-    @app.route('/agents', methods =['POST'])
+    @app.route('/agents', methods =['POST', 'GET'])
     def new_agent():
         body = request.get_json()
         first_name = body.get('first_name', None)
@@ -179,9 +279,24 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
 
+        if email is None or pword is None:
+            abort(400)
+
         try:
+            user_exists = Agent.query.filter_by(email=email).first() is not None
+
+            if user_exists:
+                abort(409)
+
+            hashed_password = bcrypt.generate_password_hash(pword)
+            
+            user = auth.create_user(
+               email=email,
+               password=pword
+            )
+
             newAgent = Agent(first_name=first_name, last_name=last_name, business_name=business_name,\
-                email=email, pword=pword, tel=tel, agent_call_number=agent_call_number,\
+                email=email, pword=hashed_password, tel=tel, agent_call_number=agent_call_number,\
                     whatsapp=whatsapp, business_web=business_web)
             
             newAgent.insert()
@@ -192,7 +307,7 @@ def create_app(test_config=None):
 
             return jsonify({
                 'sucess':True,
-                'created':newAgent.id,
+                'created':user.uid,
                 'total_agents':len(agents)
             })
         except:
@@ -202,6 +317,7 @@ def create_app(test_config=None):
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
+    # @check_token
     def get_agent_properties(agent_id):
         agents = Agent.query.filter_by(id=agent_id).one_or_none()
 
@@ -234,20 +350,35 @@ def create_app(test_config=None):
         pword = body.get('pword', None)
         tel = body.get('tel', None)
 
+        if email is None or pword is None:
+            abort(400)
+
         try:
+            user_exists = User.query.filter_by(email=email).first() is not None
+
+            if user_exists:
+                abort(409)
+
+            hashed_password = bcrypt.generate_password_hash(pword)
+            
+            user = auth.create_user(
+               email=email,
+               password=pword
+            )
             newUser = User(first_name=first_name, last_name=last_name, \
-                email=email, pword=pword, tel=tel)
+                email=email, pword=hashed_password, tel=tel)
 
             newUser.insert()
             users = User.query.order_by(User.id).all()
 
             return jsonify({
                 'sucess':True,
-                'created':newUser.id,
+                'created':user.uid,
                 'total_users':len(users)
             })
         except:
             abort(422)
+
     @app.route('/search', methods=['POST'])
     def search_term():
 
@@ -299,8 +430,24 @@ def create_app(test_config=None):
             "message": "bad request"
             }), 400
 
+    @app.errorhandler(401)
+    def bad_request(error):
+        return jsonify({
+            "success": False, 
+            "error": 401, 
+            "message": "Unauthorized Access"
+            }), 401
+
     
     
+    @app.errorhandler(409)
+    def internal_server_error(error):
+        return jsonify({
+            "success": False, 
+            "error": 409, 
+            "message": "User Already Exists"
+            }), 409
+
     @app.errorhandler(500)
     def internal_server_error(error):
         return jsonify({

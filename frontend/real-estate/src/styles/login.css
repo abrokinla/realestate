@@ -1,0 +1,16 @@
+#login-form {
+    display: flex;
+    justify-content: space-between;
+    align-items:left;
+    flex-direction:column;
+    color: #fff;
+}
+
+#login-form h2 {
+    color: #fff;
+    margin: 10px;
+}
+
+#login-form label {
+    margin:10px;
+}

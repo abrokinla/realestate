@@ -50,8 +50,14 @@ class NavBar extends Component {
                     <li className="login">
                         <a>Login/Sign Up</a>
                         <ul className="login-submenu">
-                            <li><a>Agent</a>  </li>
-                            <li><a>User</a></li>
+                            <li onClick={() => {
+                                this.navTo('/login');
+                        }}
+                            ><a>Agent</a>  </li>
+                            <li onClick={() => {
+                                this.navTo('/login');
+                        }}
+                            ><a>User</a></li>
                         </ul>
                     </li>
                     

@@ -79,12 +79,13 @@ class Agent(db.Model):
     agent_call_number = db.Column(db.String())
     whatsapp = db.Column(db.String())
     business_web = db.Column(db.String())
+    is_Admin = db.Column(db.Boolean, default=False, nullable=False)
     properties= db.relationship('PropertyList', backref = 'list', lazy=True)
 
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
             {self.business_name} {self.e_mail} {self.pword} {self.tel}\
-                {self.agent_call_number} {self.whatsapp} {self.business_web}>' 
+                {self.agent_call_number} {self.whatsapp} {self.business_web} {self.is_Admin}>' 
 
     def insert(self):
         db.session.add(self)

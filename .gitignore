@@ -1,3 +1,6 @@
+# my ignored files
+fbAdminConfig.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -120,7 +123,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-*.fbAdminConfig.json
 .env
 .venv
 env/

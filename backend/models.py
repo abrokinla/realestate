@@ -117,10 +117,11 @@ class User(db.Model):
     email = db.Column(db.String())
     pword = db.Column(db.String())
     tel = db.Column(db.String())
+    user_role = db.Column(db.String())
     
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
-            {self.e_mail} {self.pword} {self.tel}>' 
+            {self.e_mail} {self.pword} {self.tel} {self.user_role}>' 
     
     def insert(self):
         db.session.add(self)

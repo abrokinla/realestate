@@ -1,0 +1,26 @@
+h1 {
+    color:#fff;
+}
+.user-form {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    border: 2px solid red;
+    width: 100%;
+    height:90vh;
+}
+
+#form-container {
+    width:80%;
+    height:60vh;
+    background-color:#fff;
+    position:absolute;
+    border-radius:20px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction:column;
+}
+label, input {
+    margin: 0 0 10px 50px;
+
+}

@@ -1,5 +1,5 @@
 import react, { useState } from "React";
-import * as firebase from 'firebase/app';
+import axios from 'axios';
 import NavBar from "../NavBar";
 import { Link } from 'react-router-dom'
 import "../../styles/newuser.css";
@@ -9,50 +9,26 @@ const NewUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
+  const [tel, setTel] = useState("");
   const [access_token, setAccess_token] = useState("");
 
-  // Initialize Firebase
-  firebase.initializeApp({
-    "apiKey": "AIzaSyC1Fynp1Af2o2PPterFCWvyWWsdG1O51J4",
-    "authDomain": "real-estate-e45dd.firebaseapp.com",
-    "projectId": "real-estate-e45dd",
-    "storageBucket": "real-estate-e45dd.appspot.com",
-    "messagingSenderId": "799389364325",
-    "appId": "1:799389364325:web:9fa1f13cabd5471e9ed68c",
-    "measurementId": "G-0Z72D2ZCD6"
-    
-  });
-
-  const googleButton = document.getElementById('google-sign-in-button');
-  if(googleButton) {
-    googleButton.addEventListener('click', () => {
-        // Create a GoogleAuthProvider instance
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const token = result.credential.accessToken;
-            setAccess_token(token);
-            // The signed-in user info.
-            const user = result.user;
-            console.log(token, user);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    });}
-
-
+ 
 
   const handleSignUp = (event) => {
     // Prevent the default form submission
     event.preventDefault();
   
     // Get the values of the form inputs
-    const email = email;
-    const password = password;
-    const access_token = access_token;
-    const user_role = "user";
+    const user_email = email;
+    const user_password = password;
+    const user_first_name = first_name;
+    const user_last_name = last_name;
+    const user_tel = tel;
+    const user_access_token = access_token;
+    const u_user_role = "user";
+    
     let signup_type;
   
     if (access_token) {
@@ -65,15 +41,20 @@ const NewUser = () => {
   
     // Send a POST request to the server with the signup type, access token (if present), and user role
     axios.post('/users', {
-      signup_type: signup_type,
-      access_token: access_token,
-      user_role: user_role,
-      email: email,
-      password: password
+      signup_type: "email",
+      access_token:user_access_token,
+      user_role:u_user_role,
+      email:user_email,
+      password:user_password,
+      first_name:user_first_name,
+      last_name:user_last_name,
+      tel:user_tel
     })
     .then(response => {
       // If the request is successful, store the ID token in local storage
       localStorage.setItem('id_token', response.data.id_token);
+      console.log("sign-up sucessful")
+      window.location.href = '/login'
     })
     .catch(error => {
       // If there is an error, display the error message
@@ -84,11 +65,12 @@ const NewUser = () => {
   const checkPassword = (event) => {
     const form = document.getElementById('user_registration_form');
     form.addEventListener('submit', (event) => {
-        event.preventDefault(); // prevent the form from being submitted
+      event.stopPropagation();  // prevent the form from being submitted
 
     if (password !== confirmPassword) {
         // display error message
         alert('Passwords do not match');
+        return;
     } else {
         // submit the form
         form.submit();
@@ -96,9 +78,6 @@ const NewUser = () => {
     });
   }
   
-
-    
-
     return (
       <>
         <NavBar />
@@ -117,7 +96,8 @@ const NewUser = () => {
                         <input
                         type="text"
                         name="first_name"
-                        // value= {first_name}
+                        value= {first_name}
+                        onChange={e => setFirst_name(e.target.value)}
                         placeholder="First Name"
                         />
                     </label><br />
@@ -126,7 +106,8 @@ const NewUser = () => {
                         <input
                         type="text"
                         name="last_name"
-                        // value= {last_name}
+                        value= {last_name}
+                         onChange={e => setLast_name(e.target.value)}
                         placeholder="Last Name"
                         />
                     </label><br />
@@ -168,7 +149,8 @@ const NewUser = () => {
                         <input
                         type="tel"
                         name="tel"
-                        // value= {tel}
+                        value= {tel}
+                        onChange={e => setTel(e.target.value)}
                         />
                     </label><br />
 

@@ -129,7 +129,10 @@ def create_app(test_config=None):
         custom_token = auth.create_custom_token(user_id, role=user_role)
 
         # Return the custom token to the client
-        return jsonify({"token": custom_token})
+        return jsonify({
+            "success": True,
+            "token": custom_token
+            })
 
     '''
     Google-Sign-up 
@@ -474,6 +477,12 @@ def create_app(test_config=None):
 
                 newUser.insert()
                 users = User.query.order_by(User.id).all()
+
+                return jsonify({
+                    'sucess':True,
+                    'created':user.uid,
+                    'total_users':len(users)
+                })
             except:
                 abort(422)
         if signup_type == 'google':

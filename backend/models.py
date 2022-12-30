@@ -79,13 +79,15 @@ class Agent(db.Model):
     agent_call_number = db.Column(db.String())
     whatsapp = db.Column(db.String())
     business_web = db.Column(db.String())
+    user_role = db.Column(db.String())
     is_Admin = db.Column(db.Boolean, default=False, nullable=False)
     properties= db.relationship('PropertyList', backref = 'list', lazy=True)
 
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
             {self.business_name} {self.e_mail} {self.pword} {self.tel}\
-                {self.agent_call_number} {self.whatsapp} {self.business_web} {self.is_Admin}>' 
+                {self.agent_call_number} {self.whatsapp} {self.business_web} {self.user_role} \
+                    {self.is_Admin}>' 
 
     def insert(self):
         db.session.add(self)
@@ -106,7 +108,9 @@ class Agent(db.Model):
             'tel':self.tel,
             'agent_call_number':self.agent_call_number,
             'whatsapp':self.whatsapp,
-            'business_web':self.business_web
+            'business_web':self.business_web,
+            'user_role':self.user_role,
+            'is_Admin':self.is_Admin
         }
 
 class User(db.Model):
@@ -126,5 +130,16 @@ class User(db.Model):
     def insert(self):
         db.session.add(self)
         db.session.commit()
+
+    def format(self):
+        return {
+            'id':self.id,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'email':self.email,
+            'pword':self.pword,
+            'tel':self.tel,
+            'user_role':self.user_role
+        }
     # ......................Models end...........
 

@@ -40,7 +40,7 @@ const NewUser = () => {
     }
   
     // Send a POST request to the server with the signup type, access token (if present), and user role
-    axios.post('/users', {
+    axios.post('http://127.0.0.1:5000/users', {
       signup_type: "email",
       access_token:user_access_token,
       user_role:u_user_role,
@@ -70,10 +70,11 @@ const NewUser = () => {
     if (password !== confirmPassword) {
         // display error message
         alert('Passwords do not match');
+        event.stopPropagation();
         return;
     } else {
         // submit the form
-        form.submit();
+        handleSignUp();
     }
     });
   }

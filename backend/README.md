@@ -494,7 +494,7 @@ sale.",
 - General:
     - It creates a new user. 
     - Returns the id of the created user, success value, total users.
-- Sample: (windows) $ curl http://127.0.0.1:5000/users -X POST -H "Content-Type:application/json" -d "{\"first_name\":\"John\", \"last_name\":\"Ackerty\", \"email\":\"myemail@email.com\", \"pword\":\"mypassword\", \"tel\":\"+2348190907787\"}"
+- Sample: (windows) $ curl http://127.0.0.1:5000/users -X POST -H "Content-Type:application/json" -d "{\"first_name\":\"John\", \"last_name\":\"Ackerty\", \"email\":\"araoyefarms@email.com\", \"pword\":\"mypassword\", \"tel\":\"+2348190907787\", \"user_role\":\"user\", \"signup_type\":\"email\"}"
 
 {
  "created": 2,

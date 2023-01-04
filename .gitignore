@@ -1,5 +1,6 @@
 # my ignored files
 fbAdminConfig.json
+re_fb-admin-sdk.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

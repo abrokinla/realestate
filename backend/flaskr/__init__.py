@@ -3,6 +3,7 @@ from google.oauth2.credentials import Credentials
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 import json
 import firebase_admin
 import pyrebase
@@ -14,6 +15,7 @@ from models import db, setup_db, PropertyList, Agent, User
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    jwt = JWTManager(app)
     setup_db(app)    
     bcrypt = Bcrypt(app)
 
@@ -25,7 +27,8 @@ def create_app(test_config=None):
         "storageBucket": "real-estate-e45dd.appspot.com",
         "messagingSenderId": "799389364325",
         "appId": "1:799389364325:web:9fa1f13cabd5471e9ed68c",
-        "measurementId": "G-0Z72D2ZCD6"
+        "measurementId": "G-0Z72D2ZCD6",  
+        "databaseURL":"https://real-estate-e45dd-default-rtdb.firebaseio.com"  
     };
     # CORS HEADERS
     CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -52,10 +55,10 @@ def create_app(test_config=None):
                 # If the header is not present, return an error
                 return jsonify({
                     "error": "Authorization header is required"
-                    }), 401
+                }), 401
 
             # Get the token from the header
-            token = auth_header.split(" ")[1]
+            token = auth_header.split("Bearer ")[1]
 
             # Verify the token with Firebase
             try:
@@ -66,7 +69,7 @@ def create_app(test_config=None):
 
             # If the token is valid, extract the user's ID and role from the payload
             user_id = decoded_token["uid"]
-            user_role = decoded_token.get("role", "user")
+            user_role = decoded_token.get("role", user_role)
 
             # Pass the user's ID and role to the route function
             kwargs["user_id"] = user_id
@@ -74,6 +77,7 @@ def create_app(test_config=None):
 
             return f(*args, **kwargs)
         return decorated
+
 
     """
     PAGINATION
@@ -94,7 +98,9 @@ def create_app(test_config=None):
     
 
 #--------------------------------ROUTES START-------------------
-    
+    # Initialize a Firebase app using the Firebase configuration
+    firebase = pyrebase.initialize_app(firebaseConfig)
+    auth = firebase.auth()
 
     """
     Login
@@ -108,11 +114,6 @@ def create_app(test_config=None):
 
         # Try to sign in with Firebase
         try:
-            # Create a Pyrebase client using the Firebase configuration
-            firebase = pyrebase.initialize_app(firebaseConfig)
-            auth = firebase.auth()
-
-            # Sign in with the email and password
             user = auth.sign_in_with_email_and_password(email, password)
         except:
             # If there was an error signing in, return an error
@@ -120,73 +121,12 @@ def create_app(test_config=None):
                 "error": "Invalid email or password"
                 }), 401
 
-        # If the sign in was successful, get the user's ID and role from the decoded token
-        decoded_token = auth.get_account_info(user['idToken'])
-        user_id = decoded_token["users"][0]["localId"]
-        user_role = decoded_token["users"][0].get("role", "user")
-
-        # Create a custom token with the user's ID and role as custom claims
-        custom_token = auth.create_custom_token(user_id, role=user_role)
-
-        # Return the custom token to the client
+        # If the sign in was successful, return the ID token to the client
         return jsonify({
             "success": True,
-            "token": custom_token
+            "token": user['idToken']
             })
 
-    '''
-    Google-Sign-up 
-    '''
-    # @app.route('/google-sign-up', methods=['POST'])
-    # def google_sign_up():
-    #     # Get the Google access token from the request
-    #     access_token = request.json.get('access_token')
-    #     user_role = request.json.get('user_role')
-    #     if access_token is None:
-    #         return jsonify({
-    #             "error": "Access token is required"
-    #             }), 400
-
-    #     if user_role is None:
-    #         return jsonify({
-    #             "error": "User role is required"
-    #             }), 400
-
-    #     # Verify the token with Google
-    #     try:
-    #         # Convert the token to a credentials object
-    #         credentials = google.oauth2.credentials.Credentials.from_authorized_user_info(info=access_token)
-    #     except Exception as e:
-    #         return jsonify({
-    #             "error": "Invalid token"
-    #             }), 401
-
-    #     # Get the user's profile information
-    #     user_info = credentials.get_user_info()
-    #     email = user_info['email']
-    #     display_name = user_info['name']
-
-    #     # Check if the user already exists in Firebase
-    #     user = auth.get_user_by_email(email)
-    #     if user is not None:
-    #         # If the user already exists, return an error
-    #         return jsonify({
-    #             "error": "User already exists"
-    #             }), 401
-
-    #     # If the user does not exist, create a new user in Firebase
-    #     user = auth.create_user(
-    #         email=email,
-    #         email_verified=True,
-    #         display_name=display_name,
-    #         custom_claims={'role': user_role}
-    #     )
-
-    #     id_token = auth.create_custom_token(user.uid, custom_claims={'role': user_role})
-        
-    #     return jsonify({
-    #         'id_token': id_token
-    #         })
 
             
     
@@ -446,7 +386,7 @@ def create_app(test_config=None):
         first_name = body.get('first_name', None)
         last_name = body.get('last_name', None)
         email = body.get('email', None)
-        pword = body.get('pword', None)
+        pword = body.get('password', None)
         tel = body.get('tel', None)
         user_role = ('user_role', 'user')
         signup_type = body.get('signup_type', None)

@@ -5,14 +5,26 @@ import "../../styles/login.css";
 
 
 const LoginForm = () => {
+    if (localStorage.getItem('idToken')) {
+        window.location.href = '/user/dashboard';
+        return null;
+    };
+
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
     const[error, setError] = useState('')
 
     const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('/login', { email, password })
+    const user_email=email
+    const user_password = password
+    axios.post('http://127.0.0.1:5000/login', { 
+        email: user_email,
+        password: user_password 
+    })
       .then(response => {
+        // Save the idToken to localStorage
+        localStorage.setItem('idToken', response.data.token);
         window.location.href = '/user/dashboard';
         
         // Redirect to dashboard
@@ -25,7 +37,7 @@ const LoginForm = () => {
   
     return (
         <>
-            <form onSubmit={handleSubmit} id="login-form">
+            <form id="login-form">
                 {error && <p className="error">{error}</p>}
                 <h2>User Login</h2>
                 <label>
@@ -49,7 +61,7 @@ const LoginForm = () => {
                 </label>
 
                 <section>
-                    <button type="submit">Login</button>
+                    <input type="submit" value="Login" onClick={handleSubmit} />
                     <button>Cancel</button>                    
                     
                 </section>

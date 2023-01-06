@@ -52,12 +52,19 @@ class NavBar extends Component {
                         <ul className="login-submenu">
                             <li onClick={() => {
                                 this.navTo('/login');
-                        }}
-                            ><a>Agent</a>  </li>
-                            <li onClick={() => {
-                                this.navTo('/login');
-                        }}
-                            ><a>User</a></li>
+                            }}
+                            ><a>Login</a>  </li>
+                            <li className="login"><a>Sign Up</a>
+                            <ul className="login-submenu">
+                                <li onClick={() => {
+                                    this.navTo('/user-form');
+                                }}
+                                ><a>User</a></li>
+                                <li onClick={() => {
+                                    this.navTo('/agent-form');
+                                }}
+                                ><a>Agent</a></li>
+                                </ul></li>
                         </ul>
                     </li>
                     

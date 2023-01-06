@@ -26,7 +26,7 @@ const NewUser = () => {
     const u_user_role = "user";
 
     if(password == confirmPassword) {
-      axios.post('/users', {
+      axios.post('http://localhost:5000/users', {
         signup_type : "email",
         user_role  : u_user_role,
         email : user_email,

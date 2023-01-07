@@ -11,10 +11,11 @@ const LoginForm = () => {
             const idToken = localStorage.getItem('idToken');
             const decodedToken = jwtDecode(idToken);
             const { user_role } = decodedToken.user_role;
-            if (user_role === 'user') {
-              window.location.href = '/user/dashboard';
-            } else if (user_role === 'agent') {
-              window.location.href = '/agent/dashboard';
+            const { is_admin } = decodedToken.is_admin;
+            if (user_role === 'agent' && is_admin == true) {
+              window.location.href = '/admin/dashboard';
+            } else {
+                alert('Unauthorized');
             }
             return null;
           }

@@ -18,7 +18,6 @@ const NewAgent = () => {
   const [access_token, setAccess_token] = useState("");
 
   const handleSignup = (event) => {
-        // Prevent default form submission
     event.preventDefault();
     // Get the values of the form inputs
     const agent_email = email;

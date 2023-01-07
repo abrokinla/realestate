@@ -80,14 +80,14 @@ class Agent(db.Model):
     whatsapp = db.Column(db.String())
     business_web = db.Column(db.String())
     user_role = db.Column(db.String())
-    is_Admin = db.Column(db.Boolean, default=False, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
     properties= db.relationship('PropertyList', backref = 'list', lazy=True)
 
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
             {self.business_name} {self.e_mail} {self.pword} {self.tel}\
                 {self.agent_call_number} {self.whatsapp} {self.business_web} {self.user_role} \
-                    {self.is_Admin}>' 
+                    {self.is_admin}>' 
 
     def insert(self):
         db.session.add(self)
@@ -110,7 +110,7 @@ class Agent(db.Model):
             'whatsapp':self.whatsapp,
             'business_web':self.business_web,
             'user_role':self.user_role,
-            'is_Admin':self.is_Admin
+            'is_admin':self.is_admin
         }
 
 class User(db.Model):

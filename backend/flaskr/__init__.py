@@ -3,7 +3,6 @@ from google.oauth2.credentials import Credentials
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
 import json
 import firebase_admin
 import pyrebase
@@ -15,7 +14,6 @@ from models import db, setup_db, PropertyList, Agent, User
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    jwt = JWTManager(app)
     setup_db(app)    
     bcrypt = Bcrypt(app)
 
@@ -100,7 +98,7 @@ def create_app(test_config=None):
 #--------------------------------ROUTES START-------------------
     # Initialize a Firebase app using the Firebase configuration
     firebase = pyrebase.initialize_app(firebaseConfig)
-    auth = firebase.auth()
+    auth2 = firebase.auth()
 
     """
     Login
@@ -114,7 +112,7 @@ def create_app(test_config=None):
 
         # Try to sign in with Firebase
         try:
-            user = auth.sign_in_with_email_and_password(email, password)
+            user = auth2.sign_in_with_email_and_password(email, password)
         except:
             # If there was an error signing in, return an error
             return jsonify({
@@ -264,20 +262,21 @@ def create_app(test_config=None):
     """
     Create new agent
     """
-    @app.route('/agents', methods =['POST', 'GET'])
+    @app.route('/agents', methods =['POST'])
     def new_agent():
         body = request.get_json()
         first_name = body.get('first_name', None)
         last_name = body.get('last_name', None)
         business_name = body.get('business_name', None)
         email = body.get('email', None)
-        pword = body.get('pword', None)
+        pword = body.get('password', None)
         tel = body.get('tel', None)
         agent_call_number = body.get('agent_call_number', None)
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
-        user_role = ('user_role', 'agent')
-        signup_type = body.get('signup_type', None)
+        user_role = 'agent'
+        signup_type = body.get('signup_type', 'email')
+        is_admin = False
         google_token = body.get('google_token', None)
 
         if signup_type is None:
@@ -299,58 +298,25 @@ def create_app(test_config=None):
                 email=email,
                 password=pword
                 )
-                auth.update_user(user.uid, custom_claims={'user_role': 'agent'})
+                auth.update_user(user.uid, custom_claims={
+                    'user_role': 'agent',
+                    'is_admin': is_admin})
 
                 newAgent = Agent(first_name=first_name, last_name=last_name, business_name=business_name,\
                     email=email, pword=hashed_password, tel=tel, agent_call_number=agent_call_number,\
-                        whatsapp=whatsapp, business_web=business_web, user_role=user_role)
+                        whatsapp=whatsapp, business_web=business_web, user_role=user_role, is_admin=is_admin)
                 
                 newAgent.insert()
 
                 agents = Agent.query.order_by(Agent.id).all()
-                # current_agents = paginate_properties(request, agents)
+                return jsonify({
+                    'sucess':True,
+                    'created':user.uid,
+                    'total_users':len(agents)
+                })
             except:
                 abort(422)
-        if signup_type == 'google':
-            if google_token is not None:
-                # Handle Google sign up
-                try:
-                    # Verify the Google OAuth2 token with Google
-                    credentials = Credentials.from_authorized_user_info(info=google_token)
-                    # Extract the user's email and name from the token payload
-                    google_email = credentials.id_token['email']
-                    google_name = credentials.id_token['name']
-                    # Check if the user with this email already exists
-                    user_exists = User.query.filter_by(email=google_email).first() is not None
-                    if user_exists:
-                        abort(409)  # Conflict: user already exists
-                    # Create the user in Firebase Auth
-                    user = auth.create_user(
-                        email=google_email,
-                        email_verified=True,
-                        display_name=google_name
-                    )
-                    # Set the custom claims for the user's role
-                    auth.set_custom_user_claims(user.uid, {'user_role': user_role})
-                    # Create the user in the database
-                    new_user = User(
-                        first_name=first_name,
-                        last_name=last_name,
-                        email=google_email,
-                        tel=tel,  agent_call_number=agent_call_number,\
-                        whatsapp=whatsapp, business_web=business_web, user_role=user_role 
-                    )
-                    new_user.insert()
-                    users = User.query.order_by(User.id).all()
-                except:
-                    abort(422)
-
-            return jsonify({
-                'sucess':True,
-                'created':user.uid,
-                'total_agents':len(agents)
-            })
-        
+            
 
     '''
     Fetch properties by agent
@@ -388,7 +354,7 @@ def create_app(test_config=None):
         email = body.get('email', None)
         pword = body.get('password', None)
         tel = body.get('tel', None)
-        user_role = ('user_role', 'user')
+        user_role = 'user'
         signup_type = body.get('signup_type', None)
         google_token = body.get('google_token', None)
 
@@ -399,70 +365,33 @@ def create_app(test_config=None):
             if email is None or pword is None:
                 abort(400)
 
-            try:
-                user_exists = User.query.filter_by(email=email).first() is not None
+        try:
+            user_exists = User.query.filter_by(email=email).first() is not None
 
-                if user_exists:
-                    abort(409)
+            if user_exists:
+                abort(409)
 
-                hashed_password = bcrypt.generate_password_hash(pword)
-                
-                user = auth.create_user(
-                email=email,
-                password=pword
-                )
-                auth.update_user(user.uid, custom_claims={'user_role': 'user'})
-                newUser = User(first_name=first_name, last_name=last_name, \
-                    email=email, pword=hashed_password, tel=tel)
+            hashed_password = bcrypt.generate_password_hash(pword)
+            
+            user = auth.create_user(
+            email=email,
+            password=pword
+            )
+            auth.update_user(user.uid, custom_claims={'user_role': 'user'})
+            newUser = User(first_name=first_name, last_name=last_name, \
+                email=email, pword=hashed_password, tel=tel, user_role=user_role)
 
-                newUser.insert()
-                users = User.query.order_by(User.id).all()
-
-                return jsonify({
-                    'sucess':True,
-                    'created':user.uid,
-                    'total_users':len(users)
-                })
-            except:
-                abort(422)
-        if signup_type == 'google':
-            if google_token is not None:
-                # Handle Google sign up
-                try:
-                    # Verify the Google OAuth2 token with Google
-                    credentials = Credentials.from_authorized_user_info(info=google_token)
-                    # Extract the user's email and name from the token payload
-                    google_email = credentials.id_token['email']
-                    google_name = credentials.id_token['name']
-                    # Check if the user with this email already exists
-                    user_exists = User.query.filter_by(email=google_email).first() is not None
-                    if user_exists:
-                        abort(409)  # Conflict: user already exists
-                    # Create the user in Firebase Auth
-                    user = auth.create_user(
-                        email=google_email,
-                        email_verified=True,
-                        display_name=google_name
-                    )
-                    # Set the custom claims for the user's role
-                    auth.set_custom_user_claims(user.uid, {'user_role': user_role})
-                    # Create the user in the database
-                    new_user = User(
-                        first_name=first_name,
-                        last_name=last_name,
-                        email=google_email,
-                        tel=tel
-                    )
-                    new_user.insert()
-                    users = User.query.order_by(User.id).all()
-                except:
-                    abort(422)
+            newUser.insert()
+            users = User.query.order_by(User.id).all()
 
             return jsonify({
                 'sucess':True,
                 'created':user.uid,
                 'total_users':len(users)
             })
+        except:
+            abort(422)
+        
         
     @app.route('/search', methods=['POST'])
     def search_term():

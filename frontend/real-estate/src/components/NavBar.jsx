@@ -1,6 +1,6 @@
 import React from "react"
 import { Component } from "react"
-import image from "./images/logo.png"
+import image from "./logo.png"
 
 class NavBar extends Component {
     navTo(uri) {

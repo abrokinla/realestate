@@ -1,6 +1,7 @@
 import react, { useState } from "React";
 import axios from 'axios';
 import NavBar from "../NavBar";
+import Footer from "../Footer";
 import { Link } from 'react-router-dom'
 import "../../styles/newuser.css";
 
@@ -52,72 +53,103 @@ const NewUser = () => {
   }
 
     return (
-      <section id="form-container">
-        <form>
-          <label> First Name: <br />
-            <input
-              type="text"
-              required
-              value={first_name}
-              onChange={e => setFirst_name(e.target.value)}
-              name="first_name"
-              placeholder="First Name"/>
-          </label> <br />
-          
-          <label> Last Name: <br />
-            <input
-              type="text"
-              required
-              value={last_name}
-              onChange={e => setLast_name(e.target.value)}
-              name="last_name"
-              placeholder="Last Name"/>
-          </label> <br />
+      <section id="user-form-container">
+        <NavBar />          
+        <section id="main-f-contr">
+          <section id ="beside-frm">
+            <section id="s-m-container">
+                <span id="linkedin">                        
+                          <i className="fab fa-linkedin" aria-hidden="true"></i>
+                </span>
+                <span id="twitter">                        
+                          <i className="fab fa-twitter" aria-hidden="true"></i>
+                </span>
+                <span id="facebook">                        
+                          <i className="fab fa-facebook" aria-hidden="true"></i>
+                </span>
+            </section>
+            <section  id="core-values">
+              <h3>Your real estate plug!</h3>
+              <article>
+                You are welcome back to <em>Araoye Homes</em>. We would love to help you find your next home.
+              </article>
+            </section>
+          </section> 
+          <section id="form-contr">
+          <h1>Sign Up As User</h1>
+              <form>
+                <label> First Name: <br />
+                  <input
+                    id="in-text"
+                    type="text"
+                    required
+                    value={first_name}
+                    onChange={e => setFirst_name(e.target.value)}
+                    name="first_name"
+                    placeholder="First Name"/>
+                </label> <br />
+                
+                <label> Last Name: <br />
+                  <input
+                    id="in-text"
+                    type="text"
+                    required
+                    value={last_name}
+                    onChange={e => setLast_name(e.target.value)}
+                    name="last_name"
+                    placeholder="Last Name"/>
+                </label> <br />
 
-          <label> Email Address: <br />
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              name="email"
-              palceholder="Email Address"/>
-          </label> <br />          
+                <label> Email Address: <br />
+                  <input              
+                    id="in-text"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    name="email"
+                    placeholder="Email Address"/>
+                </label> <br />          
 
-          <label> Password: <br />
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              name="pword"
-              palceholder="Password"/>
-          </label> <br />          
+                <label> Password: <br />
+                  <input
+                    id="in-text"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    name="pword"
+                    placeholder="Password"/>
+                </label> <br />          
 
-          <label> Confirm Password: <br />
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              name="confirmPassword"
-              palceholder="Confirm Password"/>
-          </label> <br />
+                <label> Confirm Password: <br />
+                  <input              
+                    id="in-text"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    name="confirmPassword"
+                    placeholder="Confirm Password"/>
+                </label> <br />
 
-          <label> Mobile Number: <br />
-            <input
-              type="text"
-              required
-              value={tel}
-              onChange={e => setTel(e.target.value)}
-              name="tel"
-              palceholder="Mobile Number"/>
-          </label> <br />
+                <label> Mobile Number: <br />
+                  <input
+                    id="in-text"
+                    type="text"
+                    required
+                    value={tel}
+                    onChange={e => setTel(e.target.value)}
+                    name="tel"
+                    placeholder="Mobile Number"/>
+                </label> <br />
 
-         <input type="submit" value="Register" onClick={handleSignup}/>
-         <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
-          
-        </form>
-
+              <input id="register-btn"type="submit" value="Register" onClick={handleSignup}/>
+              <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
+                
+              </form>       
+            </section>
+          </section>
+          <Footer />
       </section>
     )
 }

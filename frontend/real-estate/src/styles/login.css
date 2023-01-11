@@ -3,27 +3,33 @@
     flex-direction: column;
     background-color: #060221;
     width:100%;
-    height:120vh;
+    /* height:120vh;     */
 }
 #main-form-container {
     display:flex;    
     flex-direction: row;  
     justify-content: center;
+    align-items: center;
     height:80vh;
 }
 
-
 #beside-form {
-    background-color: #000;
-    width:50%;
-    height: 80vh;
+    background-color: rgba(255, 153, 1, 0.955);
+    width:40%;
+    height: 60vh;
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
 }
+
 #form-container {
     position:relative;
-    width: 50%;
-    height: 80vh;
+    width: 40%;
+    height: 60vh;
     display:flex;
-    /* border-radius:15px; */
+    background-color: #fff;
+    border-radius:0px;
     align-items:center;
     justify-content:center;
 }
@@ -46,9 +52,9 @@ label{
     font-size:16px;
     width: 90%;
 }
-#email, #password {
+#email-txt, #password-txt {
     display:block;
-    margin:10px 0;
+    margin:5px 0;
     font-size:14px;
     border: 1px solid #ccc;
     padding: 10px;
@@ -58,16 +64,51 @@ label{
 
 #login-btn {
     background-color: #ccc;
-    padding: 5px 10px;
+    padding: 3px 10px;
     border-radius: 8px;
-    margin: 0;
+    margin: 0 0 5px 0;
     font-size: 20px;
 }
   
 #login-btn:hover {
-background-color: #ddd;
-cursor: pointer;
+    background-color: #ddd;
+    cursor: pointer;
 }
+
+#s-m-container {
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
+}
+
+#core-values{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+#core-values h3 {
+    color: #fff;
+    font-size: 24px;   
+}
+
+#core-values article {
+    font-size:14px;
+    width:200px;
+    margin-top: 10px;    
+}
+#linkedin, #twitter, #facebook {
+    border-radius: 50%;
+    padding: 20px;
+    background-color: rgb(39, 37, 37);
+    margin: 5px;
+}
+
+#linkedin i, #twitter i, #facebook i {
+    font-size:35px;
+    color: #fff;
+}
+
 
 @media screen and (max-width:769px) {
     #main-container {
@@ -91,6 +132,7 @@ cursor: pointer;
         align-items:center;
         justify-content:center;
     }
+
     #login-form {
         display: flex;
         flex-direction: column;
@@ -121,7 +163,7 @@ cursor: pointer;
     }
 
     #login-btn {
-        padding:10px;
+        padding:5px;
         border-radius:8px;
         margin: 0;
         font-size:20px;

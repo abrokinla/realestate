@@ -52,7 +52,23 @@ const LoginForm = () => {
           <NavBar />
           <section id="main-form-container">
             <section id="beside-form">
-              <h3>Here I am</h3>
+              <section id="s-m-container">
+                <span id="linkedin">                        
+                          <i className="fab fa-linkedin" aria-hidden="true"></i>
+                </span>
+                <span id="twitter">                        
+                          <i className="fab fa-twitter" aria-hidden="true"></i>
+                </span>
+                <span id="facebook">                        
+                          <i className="fab fa-facebook" aria-hidden="true"></i>
+                </span>
+              </section>
+              <section  id="core-values">
+                <h3>Your real estate plug!</h3>
+                <article>
+                  You are welcome back to <em>Araoye Homes</em>. We would love to help you find your next home.
+                </article>
+              </section>
             </section>
             <section id="form-container">              
               <h2>Sign in to Araoye Homes</h2>
@@ -63,7 +79,7 @@ const LoginForm = () => {
                         <input
                           type="email"
                           placeholder="Enter email"
-                          id="email"
+                          id="email-txt"
                           name="email"
                           value={email}
                           onChange={e => setEmail(e.target.value)} />
@@ -74,7 +90,7 @@ const LoginForm = () => {
                         <input
                           type="password"
                           placeholder="Enter password"
-                          id="password"
+                          id="password-txt"
                           name="password"
                           value={password}
                           onChange={e => setPassword(e.target.value)} />
@@ -88,7 +104,9 @@ const LoginForm = () => {
                 </form> 
               </section>
             </section>
-            <Footer />
+            <section id="footer-container">
+              <Footer />
+            </section>
         </section>
     )
 }

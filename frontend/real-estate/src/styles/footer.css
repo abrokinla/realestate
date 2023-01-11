@@ -58,6 +58,7 @@
     color: #fff;
 }
 
+
 #quick--links ul li a:hover {
     color:aqua;
 }
@@ -79,6 +80,10 @@
 #social--media--container {
     width: 100%;
     font-size: 2vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 #social--media--icons {
     display: flex;
@@ -90,14 +95,22 @@
     cursor: pointer;
     margin-bottom: 10px;
 }
+#newsletter {
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
 #newsletter p {
     font-size:2.5vh;
 }
-#email--section input {
-    width:100%;
+#newsletter input {
+    /* width:100%; */
     border-radius:20px;
     font-size:2vh;
     padding: 10px;
+    display: block;
 }
 
 .second--section {
@@ -117,7 +130,6 @@
     color:#fff;
     width:100%;
 }
-
 
 #footer--link--container ul {
     list-style:none;

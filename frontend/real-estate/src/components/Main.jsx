@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar"
-import Header from "./Header.jsx"
-import CardList from "./CardList.jsx"
+import Header from "./Header"
+import CardList from "./CardList"
 import Search from "./Search"
 import Reason from "./Reason"
 import Testimonial from "./Testimonial"
 import Footer from "./Footer"
 
 
-function Main() {
+const Main = () => {
 
     return (
         <div>

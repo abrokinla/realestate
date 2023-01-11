@@ -1,6 +1,8 @@
 import react, { useState } from "React";
 import axios from 'axios';
+import Footer from '../Footer';
 import NavBar from "../NavBar";
+import "../../styles/newagent.css";
 import { Link } from 'react-router-dom'
 import "../../styles/newuser.css";
 
@@ -62,112 +64,137 @@ const NewAgent = () => {
   }
 
     return (
-      <section id="form-container">
-        <form>
-          <label> First Name: <br />
-            <input
-              type="text"
-              required
-              value={first_name}
-              onChange={e => setFirst_name(e.target.value)}
-              name="first_name"
-              placeholder="First Name"/>
-          </label> <br />
-          
-          <label> Last Name: <br />
-            <input
-              type="text"
-              required
-              value={last_name}
-              onChange={e => setLast_name(e.target.value)}
-              name="last_name"
-              placeholder="Last Name"/>
-          </label> <br />
+      <section id="agent-form-container">
+        <NavBar />
+        <section id="main-a-f-contr">
+          <section id="bsyd-frm">
+            <section id="s-m-container">
+                <span id="linkedin">                        
+                  <i className="fab fa-linkedin" aria-hidden="true"></i>
+                </span>
+                <span id="twitter">                        
+                  <i className="fab fa-twitter" aria-hidden="true"></i>
+                </span>
+                <span id="facebook">                        
+                  <i className="fab fa-facebook" aria-hidden="true"></i>
+                </span>
+              </section>
+              <section  id="core-values">
+                <h3>Your real estate plug!</h3>
+                <article>
+                  You are welcome back to <em>Araoye Homes</em>. We would love to help you find your next home.
+                </article>
+              </section>       
+          </section>
+          <section id="frm-containr">
+             <h1>Sign Up As Agent</h1>
+            <form>
+              <label> First Name: <br />
+                <input
+                  type="text"
+                  required
+                  value={first_name}
+                  onChange={e => setFirst_name(e.target.value)}
+                  name="first_name"
+                  placeholder="First Name"/>
+              </label> <br />
+              
+              <label> Last Name: <br />
+                <input
+                  type="text"
+                  required
+                  value={last_name}
+                  onChange={e => setLast_name(e.target.value)}
+                  name="last_name"
+                  placeholder="Last Name"/>
+              </label> <br />
 
-          <label> Email Address: <br />
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              name="email"
-              palceholder="Email Address"/>
-          </label> <br />          
+              <label> Email Address: <br />
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  name="email"
+                  palceholder="Email Address"/>
+              </label> <br />          
 
-          <label> Password: <br />
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              name="pword"
-              palceholder="Password"/>
-          </label> <br />          
+              <label> Password: <br />
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  name="pword"
+                  palceholder="Password"/>
+              </label> <br />          
 
-          <label> Confirm Password: <br />
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              name="confirmPassword"
-              palceholder="Confirm Password"/>
-          </label> <br />
+              <label> Confirm Password: <br />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  name="confirmPassword"
+                  palceholder="Confirm Password"/>
+              </label> <br />
 
-          <label> Mobile Number: <br />
-            <input
-              type="text"
-              required
-              value={tel}
-              onChange={e => setTel(e.target.value)}
-              name="tel"
-              palceholder="Mobile Number"/>
-          </label> <br />
+              <label> Mobile Number: <br />
+                <input
+                  type="text"
+                  required
+                  value={tel}
+                  onChange={e => setTel(e.target.value)}
+                  name="tel"
+                  palceholder="Mobile Number"/>
+              </label> <br />
 
-          <label> Business Name: <br />
-            <input
-              type="text"
-              required
-              value={business_name}
-              onChange={e => setBusiness_name(e.target.value)}
-              name="business_name"
-              palceholder="Business Name"/>
-          </label> <br />
+              <label> Business Name: <br />
+                <input
+                  type="text"
+                  required
+                  value={business_name}
+                  onChange={e => setBusiness_name(e.target.value)}
+                  name="business_name"
+                  palceholder="Business Name"/>
+              </label> <br />
 
-          <label> Agent Call Number: <br />
-            <input
-              type="tel"
-              required
-              value={agent_call_number}
-              onChange={e => setAgent_call_number(e.target.value)}
-              name="agent_call_number"
-              palceholder="Agent Call Number"/>
-          </label> <br />
+              <label> Agent Call Number: <br />
+                <input
+                  type="tel"
+                  required
+                  value={agent_call_number}
+                  onChange={e => setAgent_call_number(e.target.value)}
+                  name="agent_call_number"
+                  palceholder="Agent Call Number"/>
+              </label> <br />
 
-          <label> Whatsapp Number: <br />
-            <input
-              type="tel"
-              required
-              value={whatsapp}
-              onChange={e => setWhatsapp(e.target.value)}
-              name="whatsapp"
-              palceholder="Whatsapp Number"/>
-          </label> <br />
+              <label> Whatsapp Number: <br />
+                <input
+                  type="tel"
+                  required
+                  value={whatsapp}
+                  onChange={e => setWhatsapp(e.target.value)}
+                  name="whatsapp"
+                  palceholder="Whatsapp Number"/>
+              </label> <br />
 
-          <label> Business Web: <br />
-            <input
-              type="url"
-              required
-              value={business_web}
-              onChange={e => setBusiness_web(e.target.value)}
-              name="business_web"
-              palceholder="Business Website"/>
-          </label> <br />
+              <label> Business Web: <br />
+                <input
+                  type="url"
+                  required
+                  value={business_web}
+                  onChange={e => setBusiness_web(e.target.value)}
+                  name="business_web"
+                  palceholder="Business Website"/>
+              </label> <br />
 
-         <input type="submit" value="Register" onClick={handleSignup}/>
-         <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
-          
-        </form>
-
+            <input id= "Register-button" type="submit" value="Register" onClick={handleSignup}/>
+            <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
+              
+            </form>
+          </section>          
+        </section>
+        <Footer />
       </section>
     )
 }

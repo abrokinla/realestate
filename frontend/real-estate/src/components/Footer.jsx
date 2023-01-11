@@ -30,10 +30,10 @@ export default function Footer() {
                     <p>Contact Us</p>
                     <section id="contact--container">
                         <section id="email">
-                            <p>info@larryrealestate.com</p>
+                            <p>info@araoyehomes.com</p>
                         </section>
                         <section id="address">
-                            <p>20 xyz street, off xyz, Uyo, Aks</p>
+                            <p>20 xyz street, off xyz, Port Harcourt, Rivers State</p>
                         </section>
                         <section id="contact-number">
                             <p>+234 xxx xxx xxxx</p>
@@ -53,12 +53,8 @@ export default function Footer() {
                         </section>
                         <section id="newsletter">
                             <p>Subscribe to our newsletter</p>
-                            <section id="email--section">                                
-                                {/* <label> */}
-                                <input type="email" placeholder="Email Address"></input>
-                                {/* <img src={subButton} id="sub--button"/> */}
-                                {/* </label> */}
-                            </section>                        
+                            <input type="email" placeholder="Email Address" />
+                                                    
                         </section>
                     </section>
                 </section>

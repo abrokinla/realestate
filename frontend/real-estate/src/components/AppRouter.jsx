@@ -7,9 +7,9 @@ import NewUser from "./forms/NewUser";
 import NewAgent from "./forms/NewAgent";
 import Login from "./forms/LoginForm";
 import Admin from "./forms/AdminLogin";
-import UserDashboard from "./UserDashboard";
-import AgentDashboard from "./AgentDashboard";
-import AdminDashboard from "./AdminDashboard";
+import UserDashboard from "./dashboards/UserDashboard";
+import AgentDashboard from "./dashboards/AgentDashboard";
+import AdminDashboard from "./dashboards/AdminDashboard";
 
 class AppRouter extends Component {
     render() {

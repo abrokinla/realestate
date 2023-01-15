@@ -91,6 +91,7 @@ const NewAgent = () => {
             <form>
               <label> First Name: <br />
                 <input
+                  id="in--text"
                   type="text"
                   required
                   value={first_name}
@@ -101,6 +102,7 @@ const NewAgent = () => {
               
               <label> Last Name: <br />
                 <input
+                  id="in--text"
                   type="text"
                   required
                   value={last_name}
@@ -111,6 +113,7 @@ const NewAgent = () => {
 
               <label> Email Address: <br />
                 <input
+                  id="in--text"
                   type="email"
                   required
                   value={email}
@@ -121,6 +124,7 @@ const NewAgent = () => {
 
               <label> Password: <br />
                 <input
+                  id="in--text"
                   type="password"
                   required
                   value={password}
@@ -131,6 +135,7 @@ const NewAgent = () => {
 
               <label> Confirm Password: <br />
                 <input
+                  id="in--text"
                   type="password"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
@@ -140,6 +145,7 @@ const NewAgent = () => {
 
               <label> Mobile Number: <br />
                 <input
+                  id="in--text"
                   type="text"
                   required
                   value={tel}
@@ -150,6 +156,7 @@ const NewAgent = () => {
 
               <label> Business Name: <br />
                 <input
+                  id="in--text"
                   type="text"
                   required
                   value={business_name}
@@ -160,6 +167,7 @@ const NewAgent = () => {
 
               <label> Agent Call Number: <br />
                 <input
+                  id="in--text"
                   type="tel"
                   required
                   value={agent_call_number}
@@ -170,6 +178,7 @@ const NewAgent = () => {
 
               <label> Whatsapp Number: <br />
                 <input
+                  id="in--text"
                   type="tel"
                   required
                   value={whatsapp}
@@ -180,6 +189,7 @@ const NewAgent = () => {
 
               <label> Business Web: <br />
                 <input
+                  id="in--text"
                   type="url"
                   required
                   value={business_web}
@@ -188,7 +198,7 @@ const NewAgent = () => {
                   palceholder="Business Website"/>
               </label> <br />
 
-            <input id= "Register-button" type="submit" value="Register" onClick={handleSignup}/>
+            <input id= "register-button" type="submit" value="Register" onClick={handleSignup}/>
             <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
               
             </form>

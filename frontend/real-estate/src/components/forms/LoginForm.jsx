@@ -46,6 +46,13 @@ const LoginForm = () => {
       });
     };
 
+    const goToRegisterUser = (e) => {
+      e.preventDefault();
+      // navigate to user-form component
+      return <Link to='/user-form'/>
+   }
+   
+
   
     return (
         <section id="main-container">
@@ -71,32 +78,38 @@ const LoginForm = () => {
               </section>
             </section>
             <section id="form-container">              
-              <h2>Sign in to Araoye Homes</h2>
+              <h1>Sign in to Araoye Homes</h1>
                 <form id="login-form">
-                    {error && <p className="error">{error}</p>}                    
-                    <label>
-                        <strong>Email:</strong>
-                        <input
-                          type="email"
-                          placeholder="Enter email"
-                          id="email-txt"
-                          name="email"
-                          value={email}
-                          onChange={e => setEmail(e.target.value)} />
-                    </label><br/>
-
-                    <label>
-                        <strong>Password:</strong>
-                        <input
-                          type="password"
-                          placeholder="Enter password"
-                          id="password-txt"
-                          name="password"
-                          value={password}
-                          onChange={e => setPassword(e.target.value)} />
-                    </label><br/>
+                    {error && <p className="error">{error}</p>}  
+                    <div className="input-field">                  
+                      <label>
+                          <strong>Email:</strong>
+                          <input
+                            type="email"
+                            placeholder="Enter email"
+                            id="email-txt"
+                            name="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)} />
+                      </label><br/>
+                    </div>
                     
-                    <input id ="login-btn"type="submit" value="Login" onClick={handleSubmit} />                        
+                    <div className="input-field">
+                      <label>
+                          <strong>Password:</strong>
+                          <input
+                            type="password"
+                            placeholder="Enter password"
+                            id="password-txt"
+                            name="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)} />
+                      </label><br/>
+                    </div>
+                    <div className="action">
+                      <input id ="login-btn"type="submit" value="Register" onClick={goToRegisterUser} />
+                      <input id ="login-btn"type="submit" value="Login" onClick={handleSubmit} />                      
+                    </div>
                  
                     <section>
                         <p>Do not have an account? sign-up <Link to="/user-form">here</Link></p>

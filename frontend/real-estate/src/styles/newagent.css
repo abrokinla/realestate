@@ -19,7 +19,7 @@
 #bsyd-frm {
     background-color: rgba(255, 153, 1, 0.955);
     width:50%;
-    height: 110vh;
+    height: 160vh;
     display:flex;
     flex-direction: column;
     justify-content:center;
@@ -65,7 +65,7 @@
     display: flex;
     flex-direction: column;
     width:50%;
-    height:110vh;
+    height:160vh;
     align-items: center;
     justify-content: center;
     background-color: #fff;
@@ -81,7 +81,7 @@
     color: #000;
 }
 
-#in-text {
+#in--text {
     display: block;
     width:50px;
     margin:5px 0;
@@ -138,7 +138,7 @@
         color: #000;
     }
 
-    #in-text {
+    #in--text {
         display: block;
         width:50px;
         margin:5px 0;

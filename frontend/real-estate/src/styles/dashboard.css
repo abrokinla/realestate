@@ -1,0 +1,13 @@
+#dashboard-casing {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 20%; 
+}
+
+.right-pane {
+    flex: 1; 
+}
+  

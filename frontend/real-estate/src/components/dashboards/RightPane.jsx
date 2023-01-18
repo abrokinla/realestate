@@ -1,12 +1,17 @@
 import React from "react";
 import "../../styles/rightpane.css"
+import { connect } from 'react-redux';
 
-const RightPane = () => {
-
-    return (
-        <section id="right-pane-casing">
-            <h1>This is the right pane</h1>
-        </section>
-    )
+const RightPane = ({ rightPane }) => {
+  return (  
+    <div>
+        {rightPane}
+    </div>
+  );
 }
-export default RightPane;
+
+const mapStateToProps = state => {
+    return { rightPane: state.rightPane };
+};
+
+export default connect(mapStateToProps)(RightPane);

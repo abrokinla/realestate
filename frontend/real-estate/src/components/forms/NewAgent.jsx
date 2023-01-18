@@ -89,117 +89,145 @@ const NewAgent = () => {
           <section id="frm-containr">
              <h1>Sign Up As Agent</h1>
             <form>
-              <label> First Name: <br />
-                <input
-                  id="in--text"
-                  type="text"
-                  required
-                  value={first_name}
-                  onChange={e => setFirst_name(e.target.value)}
-                  name="first_name"
-                  placeholder="First Name"/>
-              </label> <br />
+              <section id="form-group">
+                <div className="input-field">
+                  <label> First Name: <br />
+                    <input
+                      id="in--text"
+                      type="text"
+                      required
+                      value={first_name}
+                      onChange={e => setFirst_name(e.target.value)}
+                      name="first_name"
+                      placeholder="First Name"/>
+                  </label> <br />
+                </div>              
               
-              <label> Last Name: <br />
-                <input
-                  id="in--text"
-                  type="text"
-                  required
-                  value={last_name}
-                  onChange={e => setLast_name(e.target.value)}
-                  name="last_name"
-                  placeholder="Last Name"/>
-              </label> <br />
+                <div className="input-field">                
+                  <label> Last Name: <br />
+                    <input
+                      id="in--text"
+                      type="text"
+                      required
+                      value={last_name}
+                      onChange={e => setLast_name(e.target.value)}
+                      name="last_name"
+                      placeholder="Last Name"/>
+                  </label> <br />
+                </div>
+              </section>
 
-              <label> Email Address: <br />
-                <input
-                  id="in--text"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  name="email"
-                  palceholder="Email Address"/>
-              </label> <br />          
+              <div className="input-field">
+                <label> Email Address: <br />
+                  <input
+                    id="in--text"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    name="email"
+                    palceholder="Email Address"/>
+                </label> <br />
+              </div>
 
-              <label> Password: <br />
-                <input
-                  id="in--text"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  name="pword"
-                  palceholder="Password"/>
-              </label> <br />          
+              <div className="input-field">
+                <label> Password: <br />
+                  <input
+                    id="in--text"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    name="pword"
+                    palceholder="Password"/>
+                </label> <br />
+              </div>
 
-              <label> Confirm Password: <br />
-                <input
-                  id="in--text"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  name="confirmPassword"
-                  palceholder="Confirm Password"/>
-              </label> <br />
+              <div className="input-field">
+                <label> Confirm Password: <br />
+                  <input
+                    id="in--text"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    name="confirmPassword"
+                    palceholder="Confirm Password"/>
+                </label> <br />
+              </div>
 
-              <label> Mobile Number: <br />
-                <input
-                  id="in--text"
-                  type="text"
-                  required
-                  value={tel}
-                  onChange={e => setTel(e.target.value)}
-                  name="tel"
-                  palceholder="Mobile Number"/>
-              </label> <br />
+              <div className="input-field">
+                <label> Mobile Number: <br />
+                  <input
+                    id="in--text"
+                    type="text"
+                    required
+                    value={tel}
+                    onChange={e => setTel(e.target.value)}
+                    name="tel"
+                    palceholder="Mobile Number"/>
+                </label> <br />
+              </div>
 
-              <label> Business Name: <br />
-                <input
-                  id="in--text"
-                  type="text"
-                  required
-                  value={business_name}
-                  onChange={e => setBusiness_name(e.target.value)}
-                  name="business_name"
-                  palceholder="Business Name"/>
-              </label> <br />
+              <section id="form-group"              >
+                <div className="input-field">
+                  <label> Agent Call Number: <br />
+                    <input
+                      id="in--text"
+                      type="tel"
+                      required
+                      value={agent_call_number}
+                      onChange={e => setAgent_call_number(e.target.value)}
+                      name="agent_call_number"
+                      palceholder="Agent Call Number"/>
+                  </label> <br />
+                </div>
+                
+                <div className="input-field">
+                  <label> Whatsapp Number: <br />
+                    <input
+                      id="in--text"
+                      type="tel"
+                      required
+                      value={whatsapp}
+                      onChange={e => setWhatsapp(e.target.value)}
+                      name="whatsapp"
+                      palceholder="Whatsapp Number"/>
+                  </label> <br />
+                </div>
+              </section>
 
-              <label> Agent Call Number: <br />
-                <input
-                  id="in--text"
-                  type="tel"
-                  required
-                  value={agent_call_number}
-                  onChange={e => setAgent_call_number(e.target.value)}
-                  name="agent_call_number"
-                  palceholder="Agent Call Number"/>
-              </label> <br />
-
-              <label> Whatsapp Number: <br />
-                <input
-                  id="in--text"
-                  type="tel"
-                  required
-                  value={whatsapp}
-                  onChange={e => setWhatsapp(e.target.value)}
-                  name="whatsapp"
-                  palceholder="Whatsapp Number"/>
-              </label> <br />
-
-              <label> Business Web: <br />
-                <input
-                  id="in--text"
-                  type="url"
-                  required
-                  value={business_web}
-                  onChange={e => setBusiness_web(e.target.value)}
-                  name="business_web"
-                  palceholder="Business Website"/>
-              </label> <br />
-
-            <input id= "register-button" type="submit" value="Register" onClick={handleSignup}/>
-            <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
+              <section id="form-group">
+                <div className="input-field">
+                  <label> Business Name: <br />
+                    <input
+                      id="in--text"
+                      type="text"
+                      required
+                      value={business_name}
+                      onChange={e => setBusiness_name(e.target.value)}
+                      name="business_name"
+                      palceholder="Business Name"/>
+                  </label> <br />
+                </div>
+                
+                <div className="input-field">
+                  <label> Business Web: <br />
+                    <input
+                      id="in--text"
+                      type="url"
+                      required
+                      value={business_web}
+                      onChange={e => setBusiness_web(e.target.value)}
+                      name="business_web"
+                      palceholder="Business Website"/>
+                  </label> <br />
+                </div>
+              </section>
+              
+              <div className="action">
+                <input id= "register-button" type="submit" value="Register" onClick={handleSignup}/>
+              </div>
+              <p>Already have an account? Click <Link to="/login">here</Link> to login.</p>
               
             </form>
           </section>          

@@ -46,14 +46,7 @@ const LoginForm = () => {
       });
     };
 
-    const goToRegisterUser = (e) => {
-      e.preventDefault();
-      // navigate to user-form component
-      return <Link to='/user-form'/>
-   }
-   
-
-  
+    
     return (
         <section id="main-container">
           <NavBar />
@@ -61,13 +54,13 @@ const LoginForm = () => {
             <section id="beside-form">
               <section id="s-m-container">
                 <span id="linkedin">                        
-                          <i className="fab fa-linkedin" aria-hidden="true"></i>
+                    <i className="fab fa-linkedin" aria-hidden="true"></i>
                 </span>
                 <span id="twitter">                        
-                          <i className="fab fa-twitter" aria-hidden="true"></i>
+                    <i className="fab fa-twitter" aria-hidden="true"></i>
                 </span>
                 <span id="facebook">                        
-                          <i className="fab fa-facebook" aria-hidden="true"></i>
+                    <i className="fab fa-facebook" aria-hidden="true"></i>
                 </span>
               </section>
               <section  id="core-values">
@@ -107,7 +100,7 @@ const LoginForm = () => {
                       </label><br/>
                     </div>
                     <div className="action">
-                      <input id ="login-btn"type="submit" value="Register" onClick={goToRegisterUser} />
+                      {/* <input id ="login-btn"type="submit" value="Register" onClick={goToRegisterUser} /> */}
                       <input id ="login-btn"type="submit" value="Login" onClick={handleSubmit} />                      
                     </div>
                  

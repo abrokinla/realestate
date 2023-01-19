@@ -3,7 +3,7 @@ import SideBar from "./SideBar"
 import RightPane from "./RightPane"
 import "../../styles/dashboard.css"
 import { connect } from 'react-redux';
-import { updateRightPane } from './actions/index';
+// import { updateRightPane } from './actions/index';
 
 const AdminDashbord = () => {
     return (

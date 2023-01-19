@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { updateRightPane } from './actions/index';
+// import { updateRightPane } from './actions/index';
 import RightPane from './RightPane';
 
 const Sidebar = () => {

@@ -93,7 +93,6 @@ const NewAgent = () => {
                 <div className="input-field">
                   <label> First Name: <br />
                     <input
-                      id="in--text"
                       type="text"
                       required
                       value={first_name}
@@ -106,7 +105,6 @@ const NewAgent = () => {
                 <div className="input-field">                
                   <label> Last Name: <br />
                     <input
-                      id="in--text"
                       type="text"
                       required
                       value={last_name}
@@ -120,7 +118,6 @@ const NewAgent = () => {
               <div className="input-field">
                 <label> Email Address: <br />
                   <input
-                    id="in--text"
                     type="email"
                     required
                     value={email}
@@ -133,7 +130,6 @@ const NewAgent = () => {
               <div className="input-field">
                 <label> Password: <br />
                   <input
-                    id="in--text"
                     type="password"
                     required
                     value={password}
@@ -146,7 +142,6 @@ const NewAgent = () => {
               <div className="input-field">
                 <label> Confirm Password: <br />
                   <input
-                    id="in--text"
                     type="password"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
@@ -158,7 +153,6 @@ const NewAgent = () => {
               <div className="input-field">
                 <label> Mobile Number: <br />
                   <input
-                    id="in--text"
                     type="text"
                     required
                     value={tel}
@@ -172,7 +166,6 @@ const NewAgent = () => {
                 <div className="input-field">
                   <label> Agent Call Number: <br />
                     <input
-                      id="in--text"
                       type="tel"
                       required
                       value={agent_call_number}
@@ -185,7 +178,6 @@ const NewAgent = () => {
                 <div className="input-field">
                   <label> Whatsapp Number: <br />
                     <input
-                      id="in--text"
                       type="tel"
                       required
                       value={whatsapp}
@@ -200,7 +192,6 @@ const NewAgent = () => {
                 <div className="input-field">
                   <label> Business Name: <br />
                     <input
-                      id="in--text"
                       type="text"
                       required
                       value={business_name}
@@ -213,7 +204,6 @@ const NewAgent = () => {
                 <div className="input-field">
                   <label> Business Web: <br />
                     <input
-                      id="in--text"
                       type="url"
                       required
                       value={business_web}

@@ -18,10 +18,10 @@ class AppRouter extends Component {
                 <Routes>
                     <Route path='/' element={ <Main /> } />
                     <Route path="/properties" element={<PropertyList />} />                    
-                    <Route path='/login' element={ <Login /> } />
+                    {/* <Route path='/login' element={ <Login /> } />
                     <Route path='/admin/login' element={ <Admin /> } />
                     <Route path='/user-form' element={ <NewUser /> } />
-                    <Route path='/agent-form' element={ <NewAgent /> } />
+                    <Route path='/agent-form' element={ <NewAgent /> } /> */}
                     <Route path='/user/dashboard' element={ <UserDashboard /> } />
                     <Route path='/agent/dashboard' element={ <AgentDashboard /> } />
                     <Route path='/admin/dashboard' element={ <AdminDashboard /> } />

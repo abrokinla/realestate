@@ -1,26 +1,28 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-// import { updateRightPane } from './actions/index';
-import RightPane from './RightPane';
+import React, { useState } from "react";
+import RightPane from "./RightPane";
+import "../../styles/sidebar.css";
 
-const Sidebar = () => {
-  const dispatch = useDispatch();
+const SideBar = () => {
+    const [rightPane, setRightPane] = useState('');
 
-  const handleAddProperty = () => {
-    dispatch(updateRightPane('Add new property'));
-  };
+    const handleAddProperty = () => {
+        setRightPane('Add new property');
+    }
 
-  const handleViewProperties = () => {
-    dispatch(updateRightPane('View properties'));
-  };
+    const handleViewProperty = () => {
+        setRightPane('View property');
+    }
 
-  return (
-    <section id="side-bar">
-      <input type="submit" onClick={handleAddProperty} value="Add New Property" />
-      <input type="submit" onClick={handleViewProperties} value="View Properties" />
-      <RightPane />
-    </section>
-  );
+    return (
+        <section clasName="main-container">
+            <section id="side-bar">
+                <input type="submit" onClick={handleAddProperty} value="Add New Property" />            
+                <input type="submit" onClick={handleViewProperty} value="View Properties" />            
+            </section>
+            <section id="rightPane">
+                <RightPane rightPane={rightPane} />
+            </section>
+        </section>
+    )
 }
-
-export default Sidebar;
+export default SideBar;

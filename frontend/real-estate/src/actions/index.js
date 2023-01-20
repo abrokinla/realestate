@@ -1,1 +1,0 @@
-export { updateRightPane } from './updateRightPane';

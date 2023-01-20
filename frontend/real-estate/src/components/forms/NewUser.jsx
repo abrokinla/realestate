@@ -1,4 +1,4 @@
-import react, { useState } from "React";
+import React, { useState } from "react";
 import axios from 'axios';
 import NavBar from "../NavBar";
 import Footer from "../Footer";
@@ -82,7 +82,6 @@ const NewUser = () => {
                   <div className="input-field">
                     <label> First Name: <br />
                       <input
-                        id="in-text"
                         type="text"
                         required
                         value={first_name}
@@ -108,8 +107,7 @@ const NewUser = () => {
 
                 <div className="input-field">
                   <label> Email Address: <br />
-                    <input              
-                      id="in-text"
+                    <input 
                       type="email"
                       required
                       value={email}
@@ -122,7 +120,6 @@ const NewUser = () => {
                 <div className="input-field">
                   <label> Password: <br />
                     <input
-                      id="in-text"
                       type="password"
                       required
                       value={password}
@@ -134,8 +131,7 @@ const NewUser = () => {
 
                 <div className="input-field">
                   <label> Confirm Password: <br />
-                    <input              
-                      id="in-text"
+                    <input 
                       type="password"
                       value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
@@ -147,7 +143,6 @@ const NewUser = () => {
                 <div className="input-field">
                   <label> Mobile Number: <br />
                     <input
-                      id="in-text"
                       type="text"
                       required
                       value={tel}

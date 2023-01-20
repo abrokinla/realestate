@@ -1,4 +1,4 @@
-import react, { useState } from "React";
+import React, { useState } from "react";
 
 const NewProperty = () => {
     const [inputs, setInputs] = useState({});

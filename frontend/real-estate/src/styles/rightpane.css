@@ -1,7 +1,3 @@
-#right-pane-casing {
-    display:flex;
-}
-
-#right-pane-casing  h1 {
-    color:#fff;
+#rightpane-container, h1 {
+    color: #fff;
 }

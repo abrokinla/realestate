@@ -1,17 +1,12 @@
-import React from "react";
+import React from 'react';
 import "../../styles/rightpane.css"
-import { connect } from 'react-redux';
 
 const RightPane = ({ rightPane }) => {
-  return (  
-    <div>
-        {rightPane}
+  return (
+    <div id="rightpane-container">
+      <h1>{rightPane}</h1>
     </div>
   );
 }
 
-const mapStateToProps = state => {
-    return { rightPane: state.rightPane };
-};
-
-export default connect(mapStateToProps)(RightPane);
+export default RightPane;

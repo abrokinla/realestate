@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import RightPane from "./RightPane";
+import NewProperty from "../forms/NewProperty";
 import "../../styles/sidebar.css";
 
 const SideBar = () => {
     const [rightPane, setRightPane] = useState('');
 
     const handleAddProperty = () => {
-        setRightPane('Add new property');
+        setRightPane(<NewProperty />);
     }
 
     const handleViewProperty = () => {

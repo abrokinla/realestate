@@ -1,66 +1,114 @@
 import React, { useState } from "react";
+import "../../styles/newproperty.css"
 
 const NewProperty = () => {
-    const [inputs, setInputs] = useState({});
-    const [status, setStatus] = useState("");
+    const [inputs, setInputs] = useState({
+        description: "",
+        amount: "",
+        location: "",
+        bed: "",
+        bath: "",
+        toilet: "",
+        action: "choose option",
+        status: "",
+      });
+    
+      const handleChange = (event) => {
+        setInputs({
+          ...inputs,
+          [event.target.name]: event.target.value,
+        });
+      };
 
-    const handleChange = (event) => {        
-        setStatus(event.target.value)
-    }
+      const handleDragStart = (e) => {
+        e.dataTransfer.setData("text/plain", e.target.id);
+      }
+      
+      const handleDragOver = (e) => {
+        e.preventDefault();
+      }
+      
+      const handleFileInputChange = (e) => {
+        // handle file input changes here
+      }
+      
+      const handleBrowseClick = () => {
+        document.getElementById("file-input").click();
+      }
+      
 
     return (
         <>
             <form>
+                <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver}>
+                    <span>Drag files here</span>
+                </div>
+                    <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
+                <div className="browse-container">
+                    <div className="browse-item" onClick={handleBrowseClick}>
+                        <span>or click to browse</span>
+                    </div>
+                </div>
                 <label> Description:
                     <textarea maxlength="120"
-                    name="description"
-                    value= {inputs.description ||""}>
-
-                    </textarea>
+                        name="description"
+                        defaultValue={inputs.description}
+                        onChange={handleChange}
+                    />
                 </label>
                 
                 <label>Amount:
                     <input
-                    type="number"
-                    name="amount"
-                    value= {inputs.amount || ""}
+                        type="number"
+                        name="amount"
+                        defaultValue={inputs.amount}
+                        onChange={handleChange}
                     />
                 </label>
                 
                 <label>Location:
                     <input
-                    type="text"
-                    name="location"
-                    value= {inputs.location || ""}
+                        type="text"
+                        name="location"
+                        defaultValue={inputs.location}
+                        onChange={handleChange}
                     />
                 </label>
                 
-                <label>Number of bedroom:
-                    <input
-                    type="text"
-                    name="bed"
-                    value= {inputs.bed || ""}
-                    />
+                <label>Number of bedrooms:
+                    <select name="bed" 
+                        value={inputs.bed || ""} 
+                        onChange={handleChange}>
+                            {Array.from(Array(10).keys()).map((value) => (
+                            <option key={value} value={value + 1}>{value + 1}</option>
+                            ))}
+                    </select>
                 </label>
 
+
                 <label>Number of bathroom:
-                    <input
-                    type="text"
-                    name="bath"
-                    value= {inputs.bath || ""}
-                    />
+                    <select name="bath" 
+                        value={inputs.bath || ""} 
+                        onChange={handleChange}>
+                            {Array.from(Array(10).keys()).map((value) => (
+                            <option key={value} value={value + 1}>{value + 1}</option>
+                            ))}
+                    </select>
                 </label>
 
                 <label>Number of toilet:
-                    <input
-                    type="text"
-                    name="toilet"
-                    value= {inputs.toilet || ""}
-                    />
+                    <select name="toilet" 
+                        value={inputs.toilet || ""} 
+                        onChange={handleChange}>
+                            {Array.from(Array(10).keys()).map((value) => (
+                            <option key={value} value={value + 1}>{value + 1}</option>
+                            ))}
+                    </select>                    
                 </label>
 
                 <label>Property for:
-                    <select name = "action" value="choose option" onChange = {handleChange}>
+                    <select name="action" onChange={handleChange}>
+                        <option value="">Choose option</option>
                         <option value="Rent">Rent</option>
                         <option value="Sale">Sale</option>
                         <option value="Rent/Sale">Rent/Sale</option>
@@ -69,19 +117,21 @@ const NewProperty = () => {
 
                 <label>Status of property:
                     <input 
-                    type="radio" 
-                    name="status" 
-                    value="New"
+                        type="radio" 
+                        id="status-new"
+                        name="status" 
+                        value="New"
                     />
-                    <label for="new">New</label>
-                    
+                    <label for="status-new">New</label>
                     <input 
-                    type="radio" 
-                    name="status" 
-                    value="Renovated"
+                        type="radio" 
+                        id="status-renovated"
+                        name="status" 
+                        value="Renovated"
                     />
-                    <label for="renovated">Renovated</label>                    
+                    <label for="status-renovated">Renovated</label>                    
                 </label>
+
             </form>
         </>
     )

@@ -7,6 +7,7 @@ import NewUser from "./forms/NewUser";
 import NewAgent from "./forms/NewAgent";
 import Login from "./forms/LoginForm";
 import Admin from "./forms/AdminLogin";
+import NewProperty from "./forms/NewProperty";
 import UserDashboard from "./dashboards/UserDashboard";
 import AgentDashboard from "./dashboards/AgentDashboard";
 import AdminDashboard from "./dashboards/AdminDashboard";
@@ -22,6 +23,7 @@ class AppRouter extends Component {
                     <Route path='/admin/login' element={ <Admin /> } />
                     <Route path='/user-form' element={ <NewUser /> } />
                     <Route path='/agent-form' element={ <NewAgent /> } />
+                    <Route path='/new-property-form' element={ <NewProperty /> } />
                     <Route path='/user/dashboard' element={ <UserDashboard /> } />
                     <Route path='/agent/dashboard' element={ <AgentDashboard /> } />
                     <Route path='/admin/dashboard' element={ <AdminDashboard /> } />

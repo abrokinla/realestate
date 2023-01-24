@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../NavBar";
+import axios from "axios";
 import "../../styles/newproperty.css"
 
 const NewProperty = () => {
@@ -12,6 +12,39 @@ const NewProperty = () => {
     const [action, setAction] = useState("");
     const [status, setStatus] = useState("");
     const [agentId, setAgentId] = useState("");
+
+    const handleNewProperty = (e) => {
+        e.preventDefault();
+        const desc = description;
+        const amt = amount;
+        const loca = location;
+        const numBed = bed;
+        const numBath = bath;
+        const numToilet = toilet;
+        const act= action;
+        const stat = status;
+        const agtId = agentId;
+
+        axios.post("http://loacalhost:5000/properties", {
+            description : desc,
+            amount : amt,
+            location : loca,
+            bed : numBed,
+            bath : numBath,
+            toilet : numToilet,
+            action: act,
+            status : stat,
+            rating : "1",
+            agentId:  agtId,
+        })
+        .then(res => {
+            alert('New Property Added')
+        })
+        .catch(error => {
+        // If there is an error, display the error message
+        console.error(error.response.data.error);
+        });
+    }
     
     
     //   const handleChange = (event) => {
@@ -40,11 +73,11 @@ const NewProperty = () => {
 
     return (
         <section id="main-container">
-            <NavBar />
             <section id="main-form-container">
                 <section id="form-container">
-                    <form id="new-property-form">
-                        {/* {error && <p className="error">{error}</p>}    */}
+                    <h1>Add New Property</h1>
+                    <form id="new-property-form">                        
+                        {error && <p className="error">{error}</p>}   
                         <div className="input-field">
                             <label> Description:
                                 <textarea maxlength="120"
@@ -117,7 +150,7 @@ const NewProperty = () => {
 
                         <div className="input-field">
                             <label>Property for:
-                                <select name="action" onChange={e => setAction(e.target.value)}>
+                                <select name="action" id="action" onChange={e => setAction(e.target.value)}>
                                     <option value="">Choose option</option>
                                     <option value="Rent">Rent</option>
                                     <option value="Sale">Sale</option>
@@ -129,36 +162,40 @@ const NewProperty = () => {
                         <section id="form-group">
                             <div className="input-field">
                                 <label>Status of property:
-                                    <input 
-                                        type="radio" 
-                                        id="status-new"
-                                        name="status" 
-                                        value="New"
-                                    />
-                                    <label for="status-new" onChange={e => setStatus(e.target.value)}>New</label>
-                                    <input 
-                                        type="radio" 
-                                        id="status-renovated"
-                                        name="status" 
-                                        value="Renovated"
-                                    />
-                                    <label for="status-renovated" onChange={e => setStatus(e.target.value)}>Renovated</label>                    
+                                    <div id="status-cont">
+                                        <input 
+                                            type="radio" 
+                                            id="status-new"
+                                            name="status" 
+                                            value="New"
+                                        />
+                                        <label for="status-new" onChange={e => setStatus(e.target.value)}>New</label>
+                                        <input 
+                                            type="radio" 
+                                            id="status-renovated"
+                                            name="status" 
+                                            value="Renovated"
+                                        />
+                                        <label for="status-renovated" onChange={e => setStatus(e.target.value)}>Renovated</label>                    
+                                    </div>
                                 </label>
                             </div>                        
                         </section>
-
-                        <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver}>
+                        <p>Add images</p>
+                        <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver} onClick={handleBrowseClick}>
                             <span>Drag files here</span>
-                        </div>
-                            <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
-                        <div className="browse-container">
+
                             <div className="browse-item" onClick={handleBrowseClick}>
-                                <span>or click to browse</span>
+                                <span><em>or click to browse</em></span>
                             </div>
                         </div>
+                            <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
+                        {/* <div className="browse-container">
+                            
+                        </div> */}
 
                         <div className="action">
-                            <input type="submit" value="Submit" id="add-new-property" />
+                            <input type="submit" value="Submit" id="add-new-property" onClick={handleNewProperty} />
                         </div>
 
                     </form>

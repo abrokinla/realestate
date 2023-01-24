@@ -3,6 +3,7 @@
     width: 20%; 
     display:flex;
     flex-direction:column;
+    border-right:2px solid rgb(73, 71, 71);
 }
 
 #rightPane {
@@ -11,6 +12,24 @@
 }
 
 #side-bar input {
-    margin-bottom: 20px;
+    margin: 20px 0;
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #060221;
+    color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    letter-spacing: 0.2px;
+    outline: 0;
+    transition: all .3s;
     /* color:#fff; */
+}
+
+#side-bar input:hover {
+    background: #d8d8d8;
+    color:#2d3b55;
 }

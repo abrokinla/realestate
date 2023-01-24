@@ -15,7 +15,7 @@
 
 #form-container {
   background: #fff;
-  width: 40%;
+  width: 70%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -23,23 +23,30 @@
   box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
   align-items:center;
   justify-content:center;
-  margin: 50px 0;
+  margin: 50px 0;  
 }
 
 #new-property-form {
   margin:50px;
 }
 
-h1 {
-  padding: 35px 35px 0 35px;
-  font-weight: 300;
+#form-container h1 {
+  color: #000;
+  font-size:32px;
+  font-weight:400;
+  margin:0;
 }
+/* h1 {
+  padding: 35px 35px 0 35px;
+  font-weight: 700;
+  font-size:50px;
+} */
 
 .input-field {
   padding: 12px 5px;
 }
 
-.input-field input, textarea {
+.input-field input, textarea, #action {
   font-size: 16px;
   display: block;
   font-family: 'Rubik', sans-serif;
@@ -63,6 +70,15 @@ label{
   width: 90%;
 }
 
+#status-cont {
+  display:flex;
+  margin: 10px;
+}
+
+#status-cont label {
+  margin:0 20px 0 5px;
+}
+
 .action {
   display: flex;
   flex-direction: row;
@@ -84,6 +100,7 @@ label{
 }
 .action #add-new-property:hover {
   background: #d8d8d8;
+  color:#2d3b55;
 }
 
 p {
@@ -91,9 +108,16 @@ p {
 }
 
 .draggable-item {
-    border: 1px solid #ccc;
+    border: 1px solid rgb(79, 75, 75);
+    /* border: 1px solid red; */
     padding: 10px;
     cursor: move;
+    height: 120px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 20px 0;
   }
   
   #file-input {

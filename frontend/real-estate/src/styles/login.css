@@ -10,13 +10,14 @@
     flex-direction: row;  
     justify-content: center;
     align-items: center;
-    height:80vh;
+    height:auto;
+    margin: 20px 50px;
 }
 
 #beside-form {
     background-color: rgba(255, 153, 1, 0.955);
     width:40%;
-    height: 70vh;
+    height: 65vh;
     display:flex;
     flex-direction: column;
     justify-content:center;
@@ -26,7 +27,7 @@
 #form-container {
     background: #fff;
     width: 40%;
-    height: 70vh;
+    height: 65vh;
     display: flex;
     flex-direction: column;
     border-radius: 4px;
@@ -35,8 +36,8 @@
     justify-content:center;
 }
 
-h1 {
-    padding: 35px 35px 0 35px;
+#form-container h2 {
+    margin-bottom: 10px;
     font-weight: 300;
   }
 
@@ -55,13 +56,14 @@ h1 {
     outline: none;
     transition: all .2s;
 }
+
 .input-field input::placeholder {
     text-transform: uppercase;
 }
+
 .input-field input:focus {
     border-color: #222;
 }
-
 
 label{
     display:block;
@@ -92,8 +94,10 @@ label{
     background: #d8d8d8;
 }
 
-p {
+#signup_link {
     margin:10px 0;
+    color: #000;
+    font-size: 16px;
 }
 
 
@@ -138,7 +142,7 @@ p {
         flex-direction: column;
         background-color: #060221;
         width:100%;
-        height:120vh;
+        height:auto;
     }
     #main-form-container {
         display:flex;        
@@ -148,6 +152,7 @@ p {
 
     #form-container {
         position:relative;
+        height: auto;
         width: 70%;
         display:flex;
         border-radius:15px;
@@ -155,9 +160,10 @@ p {
         justify-content:center;
     }
 
-    h1 {
+    #form-container h2 {
         color: #000;
         font-weight: 700;
+        margin:20px 0;
     }
 
     .input-field {
@@ -185,13 +191,14 @@ p {
 
     label{
         display:block;
-        font-size:16px;
+        font-size:111px;
         width: 90%;
     }   
     .action {
         display: flex;
         flex-direction: row;
     }
+
     .action #login-btn {
         width: 100%;
         border: none;

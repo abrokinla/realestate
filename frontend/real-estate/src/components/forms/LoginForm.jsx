@@ -38,9 +38,10 @@ const LoginForm = () => {
           })
         .then(response => {
           // Save the idToken to localStorage
-          localStorage.setI
-          tem('idToken', response.data.token);
-          checkToken();
+          alert('login successful');
+          localStorage.setItem('idToken', response.data.token);
+          // window.location.href = '/admin/dashboard';
+          // checkToken();
         })
         .catch(error => {
           setError('Invalid email or password');
@@ -72,7 +73,7 @@ const LoginForm = () => {
               </section>
             </section>
             <section id="form-container">              
-              <h1>Sign in to Araoye Homes</h1>
+              <h2>Sign in to Araoye Homes</h2>
                 <form id="login-form">
                     {error && <p className="error">{error}</p>}  
                     <div className="input-field">                  
@@ -106,7 +107,7 @@ const LoginForm = () => {
                     </div>
                  
                     <section>
-                        <p>Do not have an account? sign-up <Link to="/user-form">here</Link></p>
+                        <p id="signup_link">Do not have an account? sign-up <Link to="/user-form">here</Link></p>
                     </section>
                 </form> 
               </section>

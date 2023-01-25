@@ -5,7 +5,7 @@
     width:100%;
 }
 
-p {
+#main-dashboard-container p {
     color:#fff;
     font-size:32px;
     font-weight:300;
@@ -15,6 +15,8 @@ p {
 #dashboard-casing {
     display: flex;
     width: 100%;
+    background-color: #fff;
+    opacity:50%;
 }
 
 .sidebar {

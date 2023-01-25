@@ -1,6 +1,7 @@
 import React from "react";
 import SideBar from "./SideBar"
 import NavBar from "../NavBar"
+import Footer from "../Footer"
 import "../../styles/dashboard.css"
 const AdminDashbord = () => {
     return (
@@ -12,6 +13,7 @@ const AdminDashbord = () => {
                     <SideBar />
                 </section>
             </section>
+            < Footer />
         </section>
     )
 }

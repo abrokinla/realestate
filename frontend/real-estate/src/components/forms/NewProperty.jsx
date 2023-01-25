@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import jwtDecode from 'jwt-decode';
 import axios from "axios";
 import "../../styles/newproperty.css"
 
@@ -15,6 +16,14 @@ const NewProperty = () => {
     const [imgUrl, setImgUrl] = useState("");
     const [agent_id, setAgent_Id] = useState("");
 
+    const getAgentId = () => {
+        const idToken =localStorage.getItem('idToken')
+        const decodedToken = jwtDecode(idToken);
+        const { user_id } = decodedToken.user_id;
+        setAgent_Id(user_id);
+    }
+
+    getAgentId();
     const handleNewProperty = (e) => {
         e.preventDefault();
         const desc = description;
@@ -25,10 +34,9 @@ const NewProperty = () => {
         const numToilet = toilet;
         const act= action;
         const stat = status;
-        const agtId = "1";
+        const agtId = agent_id;
         const propertyRating = "3";
-        const imgurl = imgUrl;
-        // console.log(desc, amt, loca, numBed, numBath, numToilet, act, stat, agtId, propertyRating);
+        const imgurl = imgUrl;        
 
         axios.post("http://localhost:5000/properties", {
             description : desc,
@@ -46,68 +54,70 @@ const NewProperty = () => {
         })
         .then(res => { 
             alert('New Property Added')
-            setState({
-                description: '',
-                amount: '',
-                location: '',
-                bed: '',
-                bath: '',
-                toilet: '',
-                action: '',
-                status: '',
-                agent_id: '',
-                rating: '',
-                imgUrl:''
-            });
+            setDescription('');
+            setAmount('');
+            setLocation('');
+            setBed('');
+            setBath('');
+            setToilet('');
+            setAction('');
+            setStatus('');
+            setAgent_Id('');
+            setRating('');
+            setImgUrl('');
         })
         .catch(error => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
-        }
+    }
     
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
     }
-      
+    
     const handleDragOver = (e) => {
         e.preventDefault();
     }      
-      
+    
     const handleBrowseClick = () => {
         document.getElementById("file-input").click();
     }
 
+    const handleFileInputChange = (e) => {
+        handleImageUpload(e.target.files);
+    }    
+
     const API_KEY = 'cbd0670f0bbc63b089a95022fae08816';
 
-    const handleImageUpload = (file) => {                
-        const formData = new FormData();
-        formData.append('image', file);
-
-        fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
-            method: 'POST',
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            const imageUrl = data.data.url;
-            console.log(imageUrl);
-            setImgUrl(imageUrl);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-      
-
+    const handleImageUpload = (files) => {
+        Array.from(files).forEach(file => {
+            const formData = new FormData();
+            formData.append('image', file);
+    
+            fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                const imageUrl = data.data.url;
+                // console.log(imageUrl);
+                setImgUrl(imageUrl);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });       
+        
+    }
+ 
     return (
         <section id="main-container">
             <section id="main-form-container">
-                <section id="form-container">
+                <section id="form-contana">
                     <h1>Add New Property</h1>
-                    <form id="new-property-form">                        
-                        {/* {error && <p className="error">{error}</p>}    */}
+                    <form id="new-property-form">        
                         <div className="input-field">
                             <label> Description:
                                 <textarea maxLength="120"
@@ -221,7 +231,7 @@ const NewProperty = () => {
                                 <span><em>or click to browse</em></span>
                             </div>
                         </div>
-                            <input type="file" id="file-input" accept="image/*" onChange={(e) => handleImageUpload(e.target.files[0])} multiple />
+                            <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
                         {/* <div className="browse-container">
                             
                         </div> */}

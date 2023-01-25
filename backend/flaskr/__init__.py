@@ -152,9 +152,15 @@ def create_app(test_config=None):
         
     """
     Create new property
-    """
-    @app.route('/properties', methods =['POST'])    
-    def new_property():    
+    """    
+    @app.route('/properties', methods =['POST']) 
+    @requires_auth   
+    def new_property(user_id, user_role): 
+        if user_role != "agent":
+            return jsonify({
+                "error": "Unauthorized"
+                }), 401
+            
         body = request.get_json()
         description = body.get('description', None)
         amount = body.get('amount', None)
@@ -298,15 +304,17 @@ def create_app(test_config=None):
                 email=email,
                 password=pword
                 )
-                auth.update_user(user.uid, custom_claims={
-                    'user_role': 'agent',
-                    'is_admin': is_admin})
-
+                
                 newAgent = Agent(first_name=first_name, last_name=last_name, business_name=business_name,\
                     email=email, pword=hashed_password, tel=tel, agent_call_number=agent_call_number,\
                         whatsapp=whatsapp, business_web=business_web, user_role=user_role, is_admin=is_admin)
                 
                 newAgent.insert()
+
+                auth.update_user(user.uid, custom_claims={
+                    'user_role': 'agent',
+                    'is_admin': is_admin,
+                    'user_id':newAgent.id})
 
                 agents = Agent.query.order_by(Agent.id).all()
                 return jsonify({

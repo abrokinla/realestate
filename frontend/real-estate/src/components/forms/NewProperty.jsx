@@ -11,7 +11,9 @@ const NewProperty = () => {
     const [toilet, setToilet] = useState("");
     const [action, setAction] = useState("");
     const [status, setStatus] = useState("");
-    const [agentId, setAgentId] = useState("");
+    const [rating, setRating] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
+    const [agent_id, setAgent_Id] = useState("");
 
     const handleNewProperty = (e) => {
         e.preventDefault();
@@ -23,9 +25,12 @@ const NewProperty = () => {
         const numToilet = toilet;
         const act= action;
         const stat = status;
-        const agtId = agentId;
+        const agtId = "1";
+        const propertyRating = "3";
+        const imgurl = imgUrl;
+        // console.log(desc, amt, loca, numBed, numBath, numToilet, act, stat, agtId, propertyRating);
 
-        axios.post("http://loacalhost:5000/properties", {
+        axios.post("http://localhost:5000/properties", {
             description : desc,
             amount : amt,
             location : loca,
@@ -34,41 +39,66 @@ const NewProperty = () => {
             toilet : numToilet,
             action: act,
             status : stat,
-            rating : "1",
-            agentId:  agtId,
+            agent_id:  agtId,
+            rating: propertyRating,
+            img_url : imgurl,
+            
         })
-        .then(res => {
+        .then(res => { 
             alert('New Property Added')
+            setState({
+                description: '',
+                amount: '',
+                location: '',
+                bed: '',
+                bath: '',
+                toilet: '',
+                action: '',
+                status: '',
+                agent_id: '',
+                rating: '',
+                imgUrl:''
+            });
         })
         .catch(error => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
-    }
+        }
     
-    
-    //   const handleChange = (event) => {
-    //     setInputs({
-    //       ...inputs,
-    //       [event.target.name]: event.target.value,
-    //     });
-    //   };
-
-      const handleDragStart = (e) => {
+    const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
-      }
+    }
       
-      const handleDragOver = (e) => {
+    const handleDragOver = (e) => {
         e.preventDefault();
-      }
+    }      
       
-      const handleFileInputChange = (e) => {
-        // handle file input changes here
-      }
-      
-      const handleBrowseClick = () => {
+    const handleBrowseClick = () => {
         document.getElementById("file-input").click();
-      }
+    }
+
+    const API_KEY = 'cbd0670f0bbc63b089a95022fae08816';
+
+    const handleImageUpload = (file) => {                
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            const imageUrl = data.data.url;
+            console.log(imageUrl);
+            setImgUrl(imageUrl);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
       
 
     return (
@@ -77,10 +107,10 @@ const NewProperty = () => {
                 <section id="form-container">
                     <h1>Add New Property</h1>
                     <form id="new-property-form">                        
-                        {error && <p className="error">{error}</p>}   
+                        {/* {error && <p className="error">{error}</p>}    */}
                         <div className="input-field">
                             <label> Description:
-                                <textarea maxlength="120"
+                                <textarea maxLength="120"
                                     name="description"
                                     value={description}
                                     onChange={e => setDescription(e.target.value)}
@@ -168,15 +198,17 @@ const NewProperty = () => {
                                             id="status-new"
                                             name="status" 
                                             value="New"
+                                            onChange={e => setStatus(e.target.value)}
                                         />
-                                        <label for="status-new" onChange={e => setStatus(e.target.value)}>New</label>
+                                        <label htmlFor="status-new" >New</label>
                                         <input 
                                             type="radio" 
                                             id="status-renovated"
                                             name="status" 
                                             value="Renovated"
+                                            onChange={e => setStatus(e.target.value)}
                                         />
-                                        <label for="status-renovated" onChange={e => setStatus(e.target.value)}>Renovated</label>                    
+                                        <label htmlFor="status-renovated" >Renovated</label>                    
                                     </div>
                                 </label>
                             </div>                        
@@ -189,7 +221,7 @@ const NewProperty = () => {
                                 <span><em>or click to browse</em></span>
                             </div>
                         </div>
-                            <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
+                            <input type="file" id="file-input" accept="image/*" onChange={(e) => handleImageUpload(e.target.files[0])} multiple />
                         {/* <div className="browse-container">
                             
                         </div> */}

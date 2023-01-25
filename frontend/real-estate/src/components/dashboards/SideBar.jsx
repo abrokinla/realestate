@@ -15,7 +15,7 @@ const SideBar = () => {
     }
 
     return (
-        <section clasName="main-container">
+        <section className="main-container">
             <section id="side-bar">
                 <input type="submit" onClick={handleAddProperty} value="Add New Property" />            
                 <input type="submit" onClick={handleViewProperty} value="View Properties" />            

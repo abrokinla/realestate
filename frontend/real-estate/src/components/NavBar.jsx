@@ -21,7 +21,7 @@ class NavBar extends Component {
             </section>
             <section>
                 <ul id="navitems" className=
-                {this.state.clicked ? "#navitems active" : "#navitems"}>
+                {this.state.clicked ? "navitems active" : "navitems"}>
                     <li onClick={() => {
                             this.navTo('');
                         }}

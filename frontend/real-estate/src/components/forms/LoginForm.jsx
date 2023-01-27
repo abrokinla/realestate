@@ -13,9 +13,11 @@ const LoginForm = () => {
             const idToken = localStorage.getItem('idToken');
             const decodedToken = jwtDecode(idToken);
             const { user_role } = decodedToken.user_role;
+            const { agentId } = decodedToken.user_id;
+            localstorage.setItem(agentId, user_id)
             if (user_role === 'user') {
               window.location.href = '/user/dashboard';
-            } else if (user_role === 'agent') {
+            } else {
               window.location.href = '/agent/dashboard';
             }
             return null;
@@ -40,8 +42,7 @@ const LoginForm = () => {
           // Save the idToken to localStorage
           alert('login successful');
           localStorage.setItem('idToken', response.data.token);
-          // window.location.href = '/admin/dashboard';
-          // checkToken();
+          checkToken();
         })
         .catch(error => {
           setError('Invalid email or password');

@@ -7,7 +7,7 @@ const AdminDashbord = () => {
     return (
         <section id="main-dashboard-container">
             <NavBar />   
-                 <p>Admin Dashboard</p>
+                 <p id="admin-label">Admin Dashboard</p>
             <section id="dashboard-casing">            
                 <section className="sidebar">
                     <SideBar />

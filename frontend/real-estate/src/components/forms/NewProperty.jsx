@@ -23,7 +23,7 @@ const NewProperty = () => {
         setAgent_Id(user_id);
     }
 
-    getAgentId();
+    
     const handleNewProperty = (e) => {
         e.preventDefault();
         const desc = description;
@@ -34,7 +34,7 @@ const NewProperty = () => {
         const numToilet = toilet;
         const act= action;
         const stat = status;
-        const agtId = agent_id;
+        const agtId = getAgentId();
         const propertyRating = "3";
         const imgurl = imgUrl;        
 
@@ -223,7 +223,7 @@ const NewProperty = () => {
                                 </label>
                             </div>                        
                         </section>
-                        <p>Add images</p>
+                        <p id="images-label">Add images</p>
                         <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver} onClick={handleBrowseClick}>
                             <span>Drag files here</span>
 
@@ -237,7 +237,7 @@ const NewProperty = () => {
                         </div> */}
 
                         <div className="action">
-                            <input type="submit" value="Submit" id="add-new-property" onClick={handleNewProperty} />
+                            <input type="submit" value="Submit" id="add-new-property" onClick={ handleNewProperty} />
                         </div>
 
                     </form>

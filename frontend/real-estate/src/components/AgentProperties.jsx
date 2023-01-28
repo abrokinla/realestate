@@ -1,19 +1,23 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const AgentProperties = ({ agentId }) => {
+const AgentProperties = ({ agent_Id }) => {
   const [properties, setProperties] = useState([]);
-//   const agentId = localStorage.getItem("agentId");
+  agent_Id = localStorage.getItem("agentId");
+  // let agent_Id ="1";
 
+  if(!agent_Id) {
+    alert('Agent does not exist');
+  }
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`/agents/${agentId}/properties`);
+      const response = await fetch(`/agents/${agent_Id}/properties`);
       const data = await response.json();
       const propertylist = data.properties;
       console.log(propertylist);
       setProperties(propertylist);
     }
     fetchData();
-  }, [agentId]);
+  }, [agent_Id]);
 
   return (
     <div>

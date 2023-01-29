@@ -19,6 +19,7 @@ const NewProperty = () => {
     const getAgentId = () => {
         const idToken =localStorage.getItem('idToken')
         const decodedToken = jwtDecode(idToken);
+        console.log(idToken);
         const { user_id } = decodedToken.user_id;
         setAgent_Id(user_id);
     }
@@ -37,6 +38,7 @@ const NewProperty = () => {
         const agtId = getAgentId();
         const propertyRating = "3";
         const imgurl = imgUrl;        
+        console.log(agtId);
 
         axios.post("http://localhost:5000/properties", {
             description : desc,

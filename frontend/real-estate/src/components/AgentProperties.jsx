@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const AgentProperties = ({ agent_Id }) => {
   const [properties, setProperties] = useState([]);
-  agent_Id = localStorage.getItem("agentId");
-  // let agent_Id ="1";
+  const decodeAgentId = () => {
+        if (localStorage.getItem('idToken')) {
+            const idToken = localStorage.getItem('idToken');
+            const decodedToken = jwtDecode(idToken);
+            const { user_id } = decodedToken;
+            agent_Id == user_id;
+        }
+      }
 
-  if(!agent_Id) {
-    alert('Agent does not exist');
-  }
+  decodeAgentId();
+
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(`/agents/${agent_Id}/properties`);

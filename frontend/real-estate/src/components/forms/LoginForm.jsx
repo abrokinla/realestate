@@ -11,6 +11,7 @@ const LoginForm = () => {
     const checkToken = () => {
         if (localStorage.getItem('idToken')) {
             const idToken = localStorage.getItem('idToken');
+            console.log(idToken);
             const decodedToken = jwtDecode(idToken);
             const { user_role } = decodedToken;
             const { user_id } = decodedToken;

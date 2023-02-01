@@ -17,7 +17,7 @@ const NewProperty = () => {
     const [agent_id, setAgent_Id] = useState("");
 
     const getAgentId = () => {
-        const idToken =localStorage.getItem('idToken')
+        const idToken = localStorage.getItem('idToken')
         const decodedToken = jwtDecode(idToken);
         console.log(idToken);
         const { user_id } = decodedToken.user_id;
@@ -41,6 +41,9 @@ const NewProperty = () => {
         console.log(agtId);
 
         axios.post("http://localhost:5000/properties", {
+            headers: {
+                'Authorization': 'Bearer ' + idToken
+              },
             description : desc,
             amount : amt,
             location : loca,
@@ -72,8 +75,8 @@ const NewProperty = () => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
-    }
-    
+    }    
+   
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
     }
@@ -110,8 +113,11 @@ const NewProperty = () => {
             .catch(error => {
                 console.error(error);
             });
-        });       
-        
+        });        
+    }
+
+    const logOut = () => {
+        localStorage.removeItem('idToken');
     }
  
     return (
@@ -239,7 +245,7 @@ const NewProperty = () => {
                         </div> */}
 
                         <div className="action">
-                            <input type="submit" value="Submit" id="add-new-property" onClick={ handleNewProperty} />
+                            <input type="submit" value="Submit" id="add-new-property" onClick={handleNewProperty} />                            
                         </div>
 
                     </form>

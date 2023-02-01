@@ -54,25 +54,20 @@ def create_app(test_config=None):
                 return jsonify({
                     "error": "Authorization header is required"
                 }), 401
-
             # Get the token from the header
             token = auth_header.split("Bearer ")[1]
-
             # Verify the token with Firebase
             try:
                 decoded_token = auth.verify_id_token(token)
             except:
                 # If the token is invalid, return an error
                 return jsonify({"error": "Invalid token"}), 401
-
             # If the token is valid, extract the user's ID and role from the payload
             user_id = decoded_token["uid"]
             user_role = decoded_token.get("role", user_role)
-
             # Pass the user's ID and role to the route function
             kwargs["user_id"] = user_id
             kwargs["user_role"] = user_role
-
             return f(*args, **kwargs)
         return decorated
 
@@ -122,7 +117,7 @@ def create_app(test_config=None):
         # If the sign in was successful, return the ID token to the client
         return jsonify({
             "success": True,
-            "token": user['idToken']
+            "token":"Bearer " + user['idToken']
             })
 
 

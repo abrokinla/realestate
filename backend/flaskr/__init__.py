@@ -64,6 +64,7 @@ def create_app(test_config=None):
                 return jsonify({"error": "Invalid token"}), 401
             # If the token is valid, extract the user's ID and role from the payload
             user_id = decoded_token["uid"]
+            user_role = "user"
             user_role = decoded_token.get("role", user_role)
             # Pass the user's ID and role to the route function
             kwargs["user_id"] = user_id

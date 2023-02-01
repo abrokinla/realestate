@@ -37,13 +37,11 @@ const NewProperty = () => {
         const stat = status;
         const agtId = getAgentId();
         const propertyRating = "3";
-        const imgurl = imgUrl;        
+        // const imgurl = imgUrl;        
         console.log(agtId);
 
         axios.post("http://localhost:5000/properties", {
-            headers: {
-                'Authorization': 'Bearer ' + idToken
-              },
+            
             description : desc,
             amount : amt,
             location : loca,
@@ -54,8 +52,13 @@ const NewProperty = () => {
             status : stat,
             agent_id:  agtId,
             rating: propertyRating,
-            img_url : imgurl,
+            // img_url : imgurl,
             
+        }, 
+        {
+            headers: {
+                Authorization: localStorage.getItem('idToken')
+            }
         })
         .then(res => { 
             alert('New Property Added')
@@ -69,7 +72,7 @@ const NewProperty = () => {
             setStatus('');
             setAgent_Id('');
             setRating('');
-            setImgUrl('');
+            // setImgUrl('');
         })
         .catch(error => {
         // If there is an error, display the error message

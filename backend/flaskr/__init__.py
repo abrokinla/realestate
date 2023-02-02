@@ -63,11 +63,10 @@ def create_app(test_config=None):
                 # If the token is invalid, return an error
                 return jsonify({"error": "Invalid token"}), 401
             # If the token is valid, extract the user's ID and role from the payload
-            user_id = decoded_token["uid"]
-            user_role = "user"
-            user_role = decoded_token.get("role", user_role)
+            agent_id = decoded_token["agent_id"]
+            user_role = decoded_token.get("user_role")
             # Pass the user's ID and role to the route function
-            kwargs["user_id"] = user_id
+            kwargs["agent_id"] = agent_id
             kwargs["user_role"] = user_role
             return f(*args, **kwargs)
         return decorated
@@ -151,7 +150,7 @@ def create_app(test_config=None):
     """    
     @app.route('/properties', methods =['POST']) 
     @requires_auth   
-    def new_property(user_id, user_role): 
+    def new_property(agent_id, user_role): 
         if user_role != "agent":
             return jsonify({
                 "error": "Unauthorized"
@@ -170,24 +169,24 @@ def create_app(test_config=None):
         img_url = body.get('img_url', None)
         agent_id = body.get('agent_id', None)
 
-        try:
-            newProperty = PropertyList(description= description, amount = amount, \
-                location = location, bed = bed, bath = bath, toilet = toilet,\
-                    action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
-            newProperty.insert()
+        # try:
+        newProperty = PropertyList(description= description, amount = amount, \
+            location = location, bed = bed, bath = bath, toilet = toilet,\
+                action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
+        newProperty.insert()
 
-            # return properties ordered by id
-            properties = PropertyList.query.order_by(PropertyList.id).all()
-            current_properties = paginate_properties(request, properties)
+        # return properties ordered by id
+        properties = PropertyList.query.order_by(PropertyList.id).all()
+        current_properties = paginate_properties(request, properties)
 
-            return jsonify({
-                "success":True,
-                "created":newProperty.id,
-                "properties":current_properties,
-                "total_properties":len(properties)
-            })
-        except:
-            abort(422)
+        return jsonify({
+            "success":True,
+            "created":newProperty.id,
+            "properties":current_properties,
+            "total_properties":len(properties)
+        })
+        # except:
+        #     abort(422)
 
     '''
     Edit Properties
@@ -310,7 +309,7 @@ def create_app(test_config=None):
                 auth.update_user(user.uid, custom_claims={
                     'user_role': 'agent',
                     'is_admin': is_admin,
-                    'user_id':newAgent.id})
+                    'agent_id':newAgent.id})
 
                 agents = Agent.query.order_by(Agent.id).all()
                 return jsonify({

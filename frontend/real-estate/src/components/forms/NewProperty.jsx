@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import jwtDecode from 'jwt-decode';
 import axios from "axios";
+import firebase from "../services/firebase";
 import "../../styles/newproperty.css"
 
 const NewProperty = () => {
@@ -18,10 +19,9 @@ const NewProperty = () => {
 
     const getAgentId = () => {
         const idToken = localStorage.getItem('idToken')
-        const decodedToken = jwtDecode(idToken);
-        console.log(idToken);
-        const { user_id } = decodedToken.user_id;
-        setAgent_Id(user_id);
+        const decodedToken = jwtDecode(idToken);        
+        const { agent_id } = decodedToken;
+        return agent_id;
     }
 
     
@@ -37,8 +37,7 @@ const NewProperty = () => {
         const stat = status;
         const agtId = getAgentId();
         const propertyRating = "3";
-        // const imgurl = imgUrl;        
-        console.log(agtId);
+        const imgurl = imgUrl;
 
         axios.post("http://localhost:5000/properties", {
             
@@ -52,7 +51,7 @@ const NewProperty = () => {
             status : stat,
             agent_id:  agtId,
             rating: propertyRating,
-            // img_url : imgurl,
+            img_url : imgurl,
             
         }, 
         {
@@ -72,7 +71,7 @@ const NewProperty = () => {
             setStatus('');
             setAgent_Id('');
             setRating('');
-            // setImgUrl('');
+            setImgUrl('');
         })
         .catch(error => {
         // If there is an error, display the error message
@@ -96,33 +95,28 @@ const NewProperty = () => {
         handleImageUpload(e.target.files);
     }    
 
-    const API_KEY = 'cbd0670f0bbc63b089a95022fae08816';
-
     const handleImageUpload = (files) => {
-        Array.from(files).forEach(file => {
-            const formData = new FormData();
-            formData.append('image', file);
-    
-            fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                const imageUrl = data.data.url;
-                // console.log(imageUrl);
-                setImgUrl(imageUrl);
-            })
-            .catch(error => {
-                console.error(error);
+        const storageRef = firebase.storage().ref();
+        const file = files[0];
+        const fileName = file.name;
+        const uploadTask = storageRef.child(`images/${fileName}`).put(file);
+      
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            console.log(snapshot);
+          },
+          (error) => {
+            console.error(error);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              setImgUrl(downloadURL);
             });
-        });        
-    }
+          }
+        );
+        };
 
-    const logOut = () => {
-        localStorage.removeItem('idToken');
-    }
- 
     return (
         <section id="main-container">
             <section id="main-form-container">

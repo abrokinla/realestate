@@ -13,8 +13,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const storage = firebase.storage();
+const storageRef = firebase.storage().ref();
 
 export {
-  storage, firebase as default
+    storageRef, firebase as default
 }

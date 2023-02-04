@@ -4,12 +4,22 @@
     align-items: center;
     width:100%;
 }
+.check {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+    border: 2px solid red;
+    width: 100%;
+    height:auto;
+}
 
 #admin-label {
     color:#fff;
     font-size:32px;
     font-weight:300;
     margin-top:20px;
+    border: 2px solid red;
 }
 
 #dashboard-casing {
@@ -32,6 +42,12 @@
     color:#000;
 }
 
+#logout-btn {
+    color:#000;
+    background-color: #fff;
+    border: 2px solid red;
+}
+
 @media screen and (max-width:769px) {
     #dashboard-casing {
         width: 100%;
@@ -47,6 +63,12 @@
         font-size:25px;
         cursor: pointer;
         margin: 20px;
+    }
+
+    #logout-btn {
+        color:#000;
+        background-color: #fff;
+        border: 2px solid red;
     }
 
 

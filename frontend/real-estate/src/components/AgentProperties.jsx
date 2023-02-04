@@ -1,19 +1,29 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 
-const AgentProperties = ({ agentId }) => {
+const AgentProperties = ({ agent_Id }) => {
   const [properties, setProperties] = useState([]);
-//   const agentId = localStorage.getItem("agentId");
+  const decodeAgentId = () => {
+        if (localStorage.getItem('idToken')) {
+            const idToken = localStorage.getItem('idToken');
+            const decodedToken = jwtDecode(idToken);
+            const { user_id } = decodedToken;
+            agent_Id == user_id;
+        }
+      }
+
+  decodeAgentId();
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`/agents/${agentId}/properties`);
+      const response = await fetch(`/agents/${agent_Id}/properties`);
       const data = await response.json();
       const propertylist = data.properties;
       console.log(propertylist);
       setProperties(propertylist);
     }
     fetchData();
-  }, [agentId]);
+  }, [agent_Id]);
 
   return (
     <div>

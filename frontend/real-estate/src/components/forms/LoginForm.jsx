@@ -11,10 +11,11 @@ const LoginForm = () => {
     const checkToken = () => {
         if (localStorage.getItem('idToken')) {
             const idToken = localStorage.getItem('idToken');
+            console.log(idToken);
             const decodedToken = jwtDecode(idToken);
-            const { user_role } = decodedToken.user_role;
-            const { agentId } = decodedToken.user_id;
-            localstorage.setItem(agentId, user_id)
+            const { user_role } = decodedToken;
+            const { user_id } = decodedToken;
+            localStorage.setItem("agentId", user_id)
             if (user_role === 'user') {
               window.location.href = '/user/dashboard';
             } else {

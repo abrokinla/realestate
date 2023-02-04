@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import jwtDecode from 'jwt-decode';
 import axios from "axios";
+import firebase from "../services/firebase";
 import "../../styles/newproperty.css"
 
 const NewProperty = () => {
@@ -17,10 +18,10 @@ const NewProperty = () => {
     const [agent_id, setAgent_Id] = useState("");
 
     const getAgentId = () => {
-        const idToken =localStorage.getItem('idToken')
-        const decodedToken = jwtDecode(idToken);
-        const { user_id } = decodedToken.user_id;
-        setAgent_Id(user_id);
+        const idToken = localStorage.getItem('idToken')
+        const decodedToken = jwtDecode(idToken);        
+        const { agent_id } = decodedToken;
+        return agent_id;
     }
 
     
@@ -36,9 +37,10 @@ const NewProperty = () => {
         const stat = status;
         const agtId = getAgentId();
         const propertyRating = "3";
-        const imgurl = imgUrl;        
+        const imgurl = imgUrl;
 
         axios.post("http://localhost:5000/properties", {
+            
             description : desc,
             amount : amt,
             location : loca,
@@ -51,6 +53,11 @@ const NewProperty = () => {
             rating: propertyRating,
             img_url : imgurl,
             
+        }, 
+        {
+            headers: {
+                Authorization: localStorage.getItem('idToken')
+            }
         })
         .then(res => { 
             alert('New Property Added')
@@ -70,8 +77,8 @@ const NewProperty = () => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
-    }
-    
+    }    
+   
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
     }
@@ -88,30 +95,28 @@ const NewProperty = () => {
         handleImageUpload(e.target.files);
     }    
 
-    const API_KEY = 'cbd0670f0bbc63b089a95022fae08816';
-
     const handleImageUpload = (files) => {
-        Array.from(files).forEach(file => {
-            const formData = new FormData();
-            formData.append('image', file);
-    
-            fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                const imageUrl = data.data.url;
-                // console.log(imageUrl);
-                setImgUrl(imageUrl);
-            })
-            .catch(error => {
-                console.error(error);
+        const storageRef = firebase.storage().ref();
+        const file = files[0];
+        const fileName = file.name;
+        const uploadTask = storageRef.child(`images/${fileName}`).put(file);
+      
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            console.log(snapshot);
+          },
+          (error) => {
+            console.error(error);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              setImgUrl(downloadURL);
             });
-        });       
-        
-    }
- 
+          }
+        );
+        };
+
     return (
         <section id="main-container">
             <section id="main-form-container">
@@ -237,7 +242,7 @@ const NewProperty = () => {
                         </div> */}
 
                         <div className="action">
-                            <input type="submit" value="Submit" id="add-new-property" onClick={ handleNewProperty} />
+                            <input type="submit" value="Submit" id="add-new-property" onClick={handleNewProperty} />                            
                         </div>
 
                     </form>

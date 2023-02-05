@@ -5,16 +5,18 @@ import Footer from "../Footer"
 import "../../styles/dashboard.css"
 
 
-const AdminDashbord = () => {
-
+const AdminDashboard = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    
     const logOut = () => {
-        localStorage.removeItem("idToken");
-        window.location.replace("/login");
+        localStorage.removeItem('idToken')
+        window.location.href = "/login";
+        setIsLoggedIn(false);
     }
 
     return (
         <section id="main-dashboard-container">
-            <NavBar />   
+            <NavBar isLoggedIn={isLoggedIn} />   
             <section  className="check">
                  <p id="admin-label">Admin Dashboard</p>
                  <button id="logout-btn" onClick={logOut}>Logout </button>
@@ -29,4 +31,4 @@ const AdminDashbord = () => {
     )
 }
 
-export default AdminDashbord;
+export default AdminDashboard;

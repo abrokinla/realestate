@@ -2,7 +2,7 @@ import React from "react"
 import { Component } from "react"
 import image from "./logo.png"
 
-class NavBar extends Component {
+class NavBar extends Component {    
     navTo(uri) {
         window.location.href = window.location.origin + uri;
       }
@@ -14,6 +14,12 @@ class NavBar extends Component {
         })
     }
     render() {
+        const { isLoggedIn } = this.props;
+        const logOut = () => {
+            localStorage.removeItem('idToken');
+            setIsLoggedIn(false);
+            window.location.href = "/login";
+        }
     return (        
         <nav>
             <section className="logo">
@@ -48,7 +54,13 @@ class NavBar extends Component {
                         {this.state.clicked ? "active": ""}>Property</a></li>
                     
                     <li className="login">
-                        <a>Login/Sign Up</a>
+                    {
+                            isLoggedIn ? 
+                                <a onClick={() => {
+                                    logOut()
+                                }}>Logout</a> :
+                                <a>Login/Sign Up</a>
+                        }
                         <ul className="login-submenu">
                             <li onClick={() => {
                                 this.navTo('/login');

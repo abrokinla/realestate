@@ -19,13 +19,13 @@
     font-size:32px;
     font-weight:300;
     margin-top:20px;
-    border: 2px solid red;
 }
 
 #dashboard-casing {
     display: flex;
     width: 90%;
-    background-color: #fff;
+    border: 2px solid #fff;
+    /* background-color: #fff; */
     opacity:50%;
     box-shadow:#fff;
     margin-bottom:10px;

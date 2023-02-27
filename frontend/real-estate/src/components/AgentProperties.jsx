@@ -1,40 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
+import "../styles/agentproperties.css";
 
-const AgentProperties = ({ agent_Id }) => {
+const AgentProperties = ({ agentId }) => {
   const [properties, setProperties] = useState([]);
-  const decodeAgentId = () => {
-        if (localStorage.getItem('idToken')) {
-            const idToken = localStorage.getItem('idToken');
-            const decodedToken = jwtDecode(idToken);
-            const { user_id } = decodedToken;
-            agent_Id == user_id;
-        }
-      }
+  const [loading, setLoading] = useState(false);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
 
-  decodeAgentId();
+  const handleSelectAll = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAllChecked(isChecked);
+
+    // Update the checked property of all checkboxes in the table
+    const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = isChecked;
+    });
+  };
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`/agents/${agent_Id}/properties`);
+      setLoading(true);
+
+      // Get the user_id from the decoded token
+      const idToken = localStorage.getItem('idToken');
+      const decodedToken = jwtDecode(idToken);
+      const { agent_id } = decodedToken;
+
+      // Fetch the properties for the given agent
+      const response = await fetch(`http://localhost:5000/agents/${agentId}/properties`, {
+        headers: {
+          Authorization: `${idToken}`
+        }
+      });
       const data = await response.json();
       const propertylist = data.properties;
-      console.log(propertylist);
+      
       setProperties(propertylist);
+      setLoading(false);
     }
     fetchData();
-  }, [agent_Id]);
+  }, [agentId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!properties || properties.length === 0) {
+    return <div>No properties found.</div>;
+  }
 
   return (
-    <div>
-      {properties.map((property) => (
-        <label key={property.id}>
-          <input type="checkbox" name={property.name} value={property.id} />
-          {property.name}
-        </label>
-      ))}
-    </div>
+      <section id="table-contana">
+        <section id="table-controls">
+          <label>
+          <input type="checkbox" checked={selectAllChecked} onChange={handleSelectAll} />
+            Select All
+          </label>
+          <p>View Selected</p>          
+          <p>Delete Selected</p>
+          <p>Edit Selected</p>
+        </section>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Location</th>
+              <th>Number of Bed Space</th>
+              <th>Number of Bathrooms</th>
+              <th>Number of Toilet</th>
+              <th>Property for</th>
+              <th>Property Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {properties.map((property) => (
+              <tr key={property.id}>
+                <td>{property.description}</td>
+                <td>{property.amount}</td>
+                <td>{property.location}</td>
+                <td>{property.bed}</td>
+                <td>{property.bath}</td>
+                <td>{property.toilet}</td>
+                <td>{property.action}</td>
+                <td>{property.status}</td>
+                <td>
+                  <label>
+                    <input type="checkbox" name={property.description} value={property.id} />
+                    
+                  </label>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
   );
-}
+};
 
 export default AgentProperties;

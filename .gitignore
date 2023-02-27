@@ -294,5 +294,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-curl.txt/
-
+firebase.js

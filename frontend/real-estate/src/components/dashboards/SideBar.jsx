@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import RightPane from "./RightPane";
+import jwtDecode from 'jwt-decode';
 import NewProperty from "../forms/NewProperty";
 import AgentProperties from "../AgentProperties";
 import "../../styles/sidebar.css";
@@ -18,7 +19,10 @@ const SideBar = () => {
     }
 
     const handleViewProperty = () => {
-        setRightPane(<AgentProperties agentId={agentId}/>)
+        const idToken = localStorage.getItem('idToken');
+        const decodedToken = jwtDecode(idToken);
+        const { agent_id } = decodedToken;
+        setRightPane(<AgentProperties agentId={agent_id}/>)
         setIsSidebarVisible(false);
     }
 

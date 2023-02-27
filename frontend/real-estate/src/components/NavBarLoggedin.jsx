@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import image from "./logo.png";
 
-class NavBar extends Component {
+class NavBarLoggedin extends Component {
   navTo(uri) {
     window.location.href = window.location.origin + uri;
   }
@@ -53,36 +53,8 @@ class NavBar extends Component {
               <a className={this.state.clicked ? "active" : ""}>Property</a>
             </li>
 
-            <li className="login" style={{ position: "relative" }}>
-              <a>Login/Sign Up</a>
-              <ul className="login-submenu" style={{ zIndex: 1 }}>
-                <li
-                  onClick={() => {
-                    this.navTo("/login");
-                  }}
-                >
-                  <a>Login</a>
-                </li>
-                <li className="login">
-                  <a>Sign Up</a>
-                  <ul className="login-submenu" style={{ left: "50%", top: 0 }}>
-                    <li
-                      onClick={() => {
-                        this.navTo("/user-form");
-                      }}
-                    >
-                      <a>User</a>
-                    </li>
-                    <li
-                      onClick={() => {
-                        this.navTo("/agent-form");
-                      }}
-                    >
-                      <a>Agent</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+            <li className="login">
+              <a>Logout</a>              
             </li>
           </ul>
         </section>
@@ -99,4 +71,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default NavBarLoggedin;

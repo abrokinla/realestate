@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import jwtDecode from 'jwt-decode';
 import axios from "axios";
-import firebase from "../services/firebase";
 import "../../styles/newproperty.css"
+import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../components/services/firebase.js';
+
+
 
 const NewProperty = () => {
     const [description, setDescription] = useState("");
@@ -16,6 +18,8 @@ const NewProperty = () => {
     const [rating, setRating] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const [agent_id, setAgent_Id] = useState("");
+    const [selectedFiles, setSelectedFiles] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(null);
 
     const getAgentId = () => {
         const idToken = localStorage.getItem('idToken')
@@ -24,7 +28,6 @@ const NewProperty = () => {
         return agent_id;
     }
 
-    
     const handleNewProperty = (e) => {
         e.preventDefault();
         const desc = description;
@@ -92,31 +95,49 @@ const NewProperty = () => {
     }
 
     const handleFileInputChange = (e) => {
-        handleImageUpload(e.target.files);
-    }    
+        setSelectedFiles(e.target.files);
+    };
 
-    const handleImageUpload = (files) => {
-        const storageRef = firebase.storage().ref();
-        const file = files[0];
-        const fileName = file.name;
-        const uploadTask = storageRef.child(`images/${fileName}`).put(file);
+    const handleUpload = async (e) => {
+        e.preventDefault();
+        const downloadURLs = []; // array to store download URLs
       
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            console.log(snapshot);
-          },
-          (error) => {
+        // iterate over each selected file
+        for (const file of selectedFiles) {
+          // create a reference to the file in Firebase Storage
+          const fileRef = ref(storage, `images/${file.name}`);
+      
+          try {
+            // upload the file to Firebase Storage
+            const uploadTask = uploadBytesResumable(fileRef, file);
+            const snapshot = await uploadTask;
+            console.log('File uploaded successfully:', fileRef.fullPath);
+      
+            // get the download URL of the uploaded file
+            const url = await getDownloadURL(fileRef);
+            console.log('File download URL:', url);
+      
+            // add the download URL to the array
+            downloadURLs.push(url);
+          } catch (error) {
+            // handle error
             console.error(error);
-          },
-          () => {
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              setImgUrl(downloadURL);
-            });
           }
-        );
-        };
-
+        }
+      
+        // join the download URLs with a comma separator
+        const urls = downloadURLs.join(',');
+        setImgUrl(urls);
+      
+        // disable the upload button
+        const uploadButton = document.getElementById('upload-button');
+        uploadButton.disabled = true;
+      
+        // store the download URL(s) in your database for the corresponding property
+        // and update the UI to show the uploaded image(s)
+        // ...
+      };
+      
     return (
         <section id="main-container">
             <section id="main-form-container">
@@ -228,18 +249,24 @@ const NewProperty = () => {
                                 </label>
                             </div>                        
                         </section>
-                        <p id="images-label">Add images</p>
-                        <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver} onClick={handleBrowseClick}>
-                            <span>Drag files here</span>
-
-                            <div className="browse-item" onClick={handleBrowseClick}>
+                            <p id="images-label">Add images</p>
+                            <div className="draggable-item" draggable={true} onDragStart={handleDragStart} onDragOver={handleDragOver} onClick={handleBrowseClick}>
+                                <span>Drag files here</span>
+                                <div className="browse-item" onClick={handleBrowseClick}>
                                 <span><em>or click to browse</em></span>
+                                </div>
+                                <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
                             </div>
-                        </div>
-                            <input type="file" id="file-input" accept="image/*" onChange={handleFileInputChange} multiple />
-                        {/* <div className="browse-container">
-                            
-                        </div> */}
+                            {selectedFiles && (
+                                <div>
+                                {Array.from(selectedFiles).map((file) => (
+                                    <div key={file.name} style={{ fontSize: '10px' }}>
+                                    {file.name} ({uploadProgress || '0'}%)
+                                    </div>
+                                ))}
+                                <button id="upload-button" onClick={(e) => handleUpload(e)}>Upload</button>
+                                </div>
+                            )}                     
 
                         <div className="action">
                             <input type="submit" value="Submit" id="add-new-property" onClick={handleNewProperty} />                            

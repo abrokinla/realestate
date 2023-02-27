@@ -1,40 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 
-const AgentProperties = ({ agent_Id }) => {
+const AgentProperties = ({ agentId }) => {
   const [properties, setProperties] = useState([]);
-  const decodeAgentId = () => {
-        if (localStorage.getItem('idToken')) {
-            const idToken = localStorage.getItem('idToken');
-            const decodedToken = jwtDecode(idToken);
-            const { user_id } = decodedToken;
-            agent_Id == user_id;
-        }
-      }
-
-  decodeAgentId();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`/agents/${agent_Id}/properties`);
+      setLoading(true);
+
+      // Get the user_id from the decoded token
+      const idToken = localStorage.getItem('idToken');
+      const decodedToken = jwtDecode(idToken);
+      const { user_id } = decodedToken;
+
+      // Fetch the properties for the given agent
+      const response = await fetch(`/agents/${agentId}/properties`);
       const data = await response.json();
       const propertylist = data.properties;
-      console.log(propertylist);
-      setProperties(propertylist);
+
+      // Filter the properties for the current user
+      const userProperties = propertylist.filter((property) => property.agent_id === user_id);
+
+      setProperties(userProperties);
+      setLoading(false);
     }
     fetchData();
-  }, [agent_Id]);
+  }, [agentId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!properties || properties.length === 0) {
+    return <div>No properties found.</div>;
+  }
 
   return (
-    <div>
-      {properties.map((property) => (
-        <label key={property.id}>
-          <input type="checkbox" name={property.name} value={property.id} />
-          {property.name}
-        </label>
-      ))}
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Location</th>
+          <th>Number of Bed Space</th>
+          <th>Number of Bathrooms</th>
+          <th>Number of Toilet</th>
+          <th>Property for</th>
+          <th>Property Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {properties.map((property) => (
+          <tr key={property.id}>
+            <td>{property.description}</td>
+            <td>{property.amount}</td>
+            <td>{property.location}</td>
+            <td>{property.bed}</td>
+            <td>{property.bath}</td>
+            <td>{property.toilet}</td>
+            <td>{property.action}</td>
+            <td>{property.status}</td>
+            <td>
+              <label>
+                <input type="checkbox" name={property.description} value={property.id} />
+                Select
+              </label>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
-}
+};
 
 export default AgentProperties;

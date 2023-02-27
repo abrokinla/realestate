@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import Footer from '../Footer';
-import NavBar from "../NavBar";
+import AuthNavBar from "../AuthNavBar";
 import "../../styles/newagent.css";
 import { Link } from 'react-router-dom'
 import "../../styles/newuser.css";
@@ -65,7 +65,7 @@ const NewAgent = () => {
 
     return (
       <section id="agent-form-container">
-        <NavBar />
+        <AuthNavBar />
         <section id="main-a-f-contr">
           <section id="bsyd-frm">
             <section id="s-m-container">

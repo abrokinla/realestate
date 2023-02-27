@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "./NavBar"
+import AuthNavBar from "./AuthNavBar"
 import Header from "./Header"
 import CardList from "./CardList"
 import Search from "./Search"
@@ -13,7 +13,7 @@ const Main = () => {
     return (
         <div>
             <main>
-                <NavBar />
+                <AuthNavBar />
                 <Header />
                 <div id="subtitle">
                     <p> Featured Properties </p>                    

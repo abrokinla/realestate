@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import jwtDecode from 'jwt-decode';
 import { Link } from "react-router-dom";
 import axios from "axios";
-import NavBar from "../NavBar"
+import AuthNavBar from "../AuthNavBar"
 import Footer from "../Footer"
 import "../../styles/login.css";
 
@@ -71,7 +71,7 @@ const LoginForm = () => {
     
     return (
         <section id="main-container">
-          <NavBar />
+          <AuthNavBar />
           <section id="main-form-container">
             <section id="beside-form">
               <section id="s-m-container">

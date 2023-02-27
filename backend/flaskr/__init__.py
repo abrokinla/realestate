@@ -120,9 +120,32 @@ def create_app(test_config=None):
             "token":"Bearer " + user['idToken']
             })
 
+    """
+    Verify Token
+    """ 
+    @app.route('/verify-token', methods=['POST'])
+    def verify_token():
+        # Get the token from the Authorization header
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return jsonify({'error': 'Authorization header is required'}), 401
+        token = auth_header.split(' ')[1]
 
-            
-    
+        # Verify the token with Firebase
+        try:
+            decoded_token = auth.verify_id_token(token)
+        except:
+            return jsonify({'error': 'Invalid token'}), 401
+
+        # Get the user's ID and role from the token
+        agent_id = decoded_token.get('agent_id')
+        user_role = decoded_token.get('user_role')
+
+        return jsonify({
+            'agent_id': agent_id, 
+            'user_role': user_role
+            }), 200
+
     """
     Fetch properties
     """ 
@@ -325,8 +348,12 @@ def create_app(test_config=None):
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
-    # @check_token
-    def get_agent_properties(agent_id):
+    @requires_auth
+    def get_agent_properties(agent_id, user_role):
+        if user_role != "agent":
+            return jsonify({
+                "error": "Unauthorized"
+                }), 401
         agents = Agent.query.filter_by(id=agent_id).one_or_none()
 
         try:

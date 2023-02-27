@@ -8,22 +8,40 @@ import "../../styles/login.css";
 
 
 const LoginForm = () => {
-    const checkToken = () => {
-        if (localStorage.getItem('idToken')) {
-            const idToken = localStorage.getItem('idToken');
-            console.log(idToken);
-            const decodedToken = jwtDecode(idToken);
-            const { user_role } = decodedToken;
-            const { user_id } = decodedToken;
-            localStorage.setItem("agentId", user_id)
-            if (user_role === 'user') {
-              window.location.href = '/user/dashboard';
-            } else {
-              window.location.href = '/agent/dashboard';
-            }
-            return null;
-          }
+  const checkToken = () => {
+    if (localStorage.getItem('idToken')) {
+      const idToken = localStorage.getItem('idToken');
+      console.log(idToken);
+      fetch('http://localhost:5000/verify-token', {
+        method: 'POST',
+        headers: {
+          'Authorization': idToken
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Token verification failed');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const { user_role } = data;
+        const { user_id } = data;
+        localStorage.setItem("agentId", user_id)
+        if (user_role === 'user') {
+          window.location.href = '/user/dashboard';
+        } else {
+          window.location.href = '/agent/dashboard';
+        }
+        return null;
+      })
+      .catch(error => {
+        console.error(error);
+        localStorage.removeItem('idToken');
+        // handle error
+      });
     }
+  }
 
     checkToken();   
 

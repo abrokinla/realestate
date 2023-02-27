@@ -21,8 +21,8 @@ const SideBar = () => {
     const handleViewProperty = () => {
         const idToken = localStorage.getItem('idToken');
         const decodedToken = jwtDecode(idToken);
-        const { user_id } = decodedToken;
-        setRightPane(<AgentProperties agentId={user_id}/>)
+        const { agent_id } = decodedToken;
+        setRightPane(<AgentProperties agentId={agent_id}/>)
         setIsSidebarVisible(false);
     }
 

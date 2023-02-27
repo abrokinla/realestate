@@ -101,42 +101,64 @@ const NewProperty = () => {
     const handleUpload = async (e) => {
         e.preventDefault();
         const downloadURLs = []; // array to store download URLs
+        let overallProgress = 0;
       
-        // iterate over each selected file
-        for (const file of selectedFiles) {
+        // create an array of promises for each file upload
+        const uploadPromises = Array.from(selectedFiles).map(async (file) => {
           // create a reference to the file in Firebase Storage
           const fileRef = ref(storage, `images/${file.name}`);
       
-          try {
-            // upload the file to Firebase Storage
-            const uploadTask = uploadBytesResumable(fileRef, file);
-            const snapshot = await uploadTask;
-            console.log('File uploaded successfully:', fileRef.fullPath);
+          // upload the file to Firebase Storage
+          const uploadTask = uploadBytesResumable(fileRef, file);
       
-            // get the download URL of the uploaded file
-            const url = await getDownloadURL(fileRef);
-            console.log('File download URL:', url);
+          // attach a progress listener to the upload task
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+                // update the progress
+                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                overallProgress += progress / selectedFiles.length;
+                overallProgress = Math.min(overallProgress, 100); 
+                setUploadProgress(overallProgress);
+            },
+            (error) => {
+              // handle error
+              console.error(error);
+            },
+            async () => {
+              // get the download URL of the uploaded file
+              const url = await getDownloadURL(fileRef);
+              console.log('File download URL:', url);
       
-            // add the download URL to the array
-            downloadURLs.push(url);
-          } catch (error) {
-            // handle error
-            console.error(error);
-          }
+              // add the download URL to the array
+              downloadURLs.push(url);
+      
+            }
+          );
+      
+          // return a promise that resolves when the upload is complete
+          return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed', resolve, reject);
+          });
+        });
+      
+        try {
+          // wait for all upload tasks to complete
+          await Promise.all(uploadPromises);
+      
+          // join the download URLs with a comma separator
+          const urls = downloadURLs.join(',');
+          setImgUrl(urls);
+      
+          // disable the upload button
+          const uploadButton = document.getElementById('upload-button');
+          uploadButton.disabled = true;
+          
+        } catch (error) {
+          // handle error
+          console.error(error);
         }
-      
-        // join the download URLs with a comma separator
-        const urls = downloadURLs.join(',');
-        setImgUrl(urls);
-      
-        // disable the upload button
-        const uploadButton = document.getElementById('upload-button');
-        uploadButton.disabled = true;
-      
-        // store the download URL(s) in your database for the corresponding property
-        // and update the UI to show the uploaded image(s)
-        // ...
       };
+      
       
     return (
         <section id="main-container">

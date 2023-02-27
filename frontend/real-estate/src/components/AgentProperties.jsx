@@ -12,15 +12,15 @@ const AgentProperties = ({ agentId }) => {
       // Get the user_id from the decoded token
       const idToken = localStorage.getItem('idToken');
       const decodedToken = jwtDecode(idToken);
-      const { user_id } = decodedToken;
+      const { agent_id } = decodedToken;
 
       // Fetch the properties for the given agent
-      const response = await fetch(`/agents/${agentId}/properties`);
+      const response = await fetch(`http://localhost:5000/agents/${agentId}/properties`);
       const data = await response.json();
       const propertylist = data.properties;
 
       // Filter the properties for the current user
-      const userProperties = propertylist.filter((property) => property.agent_id === user_id);
+      // const userProperties = propertylist.filter((property) => property.agent_id === agent_id);
 
       setProperties(userProperties);
       setLoading(false);

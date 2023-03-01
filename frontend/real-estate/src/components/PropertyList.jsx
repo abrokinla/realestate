@@ -4,7 +4,7 @@ import Header from "./Header.jsx";
 import CardLists from "./CardLists.jsx";
 import Footer from "./Footer";
 
-function PropertyList() {
+const PropertyList = () => {
   
 
     return (

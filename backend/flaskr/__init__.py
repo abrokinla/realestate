@@ -424,25 +424,36 @@ def create_app(test_config=None):
         
         
     @app.route('/search', methods=['POST'])
-    def search_term():
-
+    def search_properties():
         try:
             body = request.get_json()
-            searchTerm = body.get('search_Term', None)
+            description = body.get('description', None)
+            location = body.get('location', None)
+            amount = body.get('amount', None)
 
-            propertylist = PropertyList.query.filter(PropertyList.location.ilike('%'+searchTerm+'%')).all()
-            
-            if propertylist:
-                current_properties = paginate_properties(request, propertylist)
+            query = PropertyList.query
+
+            if description:
+                query = query.filter(PropertyList.description.ilike('%'+description+'%'))
+            if location:
+                query = query.filter(PropertyList.location.ilike('%'+location+'%'))
+            if amount:
+                query = query.filter(PropertyList.amount >= amount)
+
+            property_list = query.all()
+
+            if property_list:
+                current_properties = paginate_properties(request, property_list)
                 return jsonify({
-                    'success':True,
-                    'properties':current_properties,
-                    'total_properties':len(propertylist)
+                    'success': True,
+                    'properties': current_properties,
+                    'total_properties': len(property_list)
                 })
             else:
                 abort(404)
         except:
             abort(404)
+
 
        
     #ERROR HANDLERS

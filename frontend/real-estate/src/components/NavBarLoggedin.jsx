@@ -54,6 +54,10 @@ class NavBarLoggedin extends Component {
             </li>
 
             <li className="login">
+              <a>Dashboard</a>              
+            </li>
+
+            <li className="login">
               <a>Logout</a>              
             </li>
           </ul>

@@ -6,14 +6,7 @@ import "../../styles/dashboard.css"
 
 
 const AdminDashboard = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
     
-    const logOut = () => {
-        localStorage.removeItem('idToken')
-        window.location.href = "/login";
-        setIsLoggedIn(false);
-    }
-
     return (
         <section id="main-dashboard-container">
             <AuthNavBar />   

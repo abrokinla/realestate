@@ -90,11 +90,14 @@
     align-items: center;
     justify-content: center;
 }
-#social--media--icons img {
-    margin:0 10px;
-    cursor: pointer;
-    margin-bottom: 10px;
+.social-media-link {
+    text-decoration: none;
 }
+
+.social-media-link i {
+    font-size: 24px;
+}
+  
 #newsletter {
     display:flex;
     justify-content: space-between;
@@ -225,23 +228,48 @@
         margin-bottom:5px;
     }
 
+    #social--media {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
     #social--media--container {
-        width: 100%;
-        font-size: 1.5vh;
+        width: 90%;
+        font-size: 1.3vh;
     }
     #social--media--icons {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
     }
-    #social--media--icons img {
-        width: 25px;
-        height:25px;        
-        margin:0 7px;
-        cursor: pointer;
+    .social-media-link {
+        text-decoration: none;
     }
+      
+    .social-media-link i {
+        font-size: 24px;
+        color: #fff;
+        margin-right:15px;
+    }
+      
+    #newsletter {  
+        display: flex;
+        justify-content:center;
+        align-items:center;
+    }
+    
     #newsletter p {
-        font-size:2vh;
+        font-size:1.3vh;
+        text-align: center;
+    }
+
+    #newsletter input {
+        width:90%;
+        border-radius:20px;
+        font-size:1.3vh;
+        padding: 5px;
+        display: block;
     }
     #email--section input {
         width:100%;
@@ -255,6 +283,7 @@
         flex-direction: row;
         justify-content: space-between;
         height: 70px;
+        width:100%;
         background:rgb(30, 30, 30);
         font-size: 1.5vh;
     }

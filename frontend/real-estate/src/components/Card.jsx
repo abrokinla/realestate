@@ -21,7 +21,7 @@ const Card = (props) => {
                 </section>
 
                 <section className="card--image">
-                    <img src={props.img_url} className="houseimages" alt="image of house for sale/rent" />
+                    <img src={props.img_url} className="houseimages" alt={props.description} />
                 </section>
                 <section className="card--status">
                     <p className="status">{props.status}</p>                           

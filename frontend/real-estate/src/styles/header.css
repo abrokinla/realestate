@@ -55,9 +55,10 @@
     flex-direction: row;
     justify-content:center;
     align-items: center;
+    margin:0;
 }
 
-#search-text {
+.search-text {
     /* font-size:1.2vw; */
     margin-right:10px;
     padding:15px;
@@ -72,10 +73,10 @@
     border-radius:20px;
     padding:5px 25px;
     margin-top:5px;
-    margin-left: 20px;
+    margin-left: 10px;
     background:red;
     box-shadow: 0 5px 15px rgba(0,0,0.03);
-    cursor: pointer;
+    cursor: pointer;;
 }
 
 #search-btn i {
@@ -146,7 +147,7 @@
         align-items: center;
         width:100%;
     }
-    #search-text {
+    .search-text {
         font-size:1.2vw;
         margin-right:5px;
         padding:5px;

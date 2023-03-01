@@ -27,10 +27,13 @@ const LoginForm = () => {
       .then(data => {
         const { user_role } = data;
         const { user_id } = data;
+        const { isAdmin } = data;
         localStorage.setItem("agentId", user_id)
         if (user_role === 'user') {
           window.location.href = '/user/dashboard';
-        } else {
+        } else if (user_role === "agent"  && isAdmin === true){
+          window.location.href = '/admin/dashboard';
+        } else if (user_role === "agent"  && isAdmin === false) {
           window.location.href = '/agent/dashboard';
         }
         return null;

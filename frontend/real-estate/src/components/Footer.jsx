@@ -46,11 +46,13 @@ export default function Footer() {
                     <p>Follow Us on Social Media</p>
 
                     <section id="social--media--container">
-                        <section id="social--media--icons">
-                            <img src={facebook} />
-                            <img src={instagram} />
-                            <img src={twitter} />
-                        </section>
+                    <section id="social--media--icons">
+                        <a href="#" className="social-media-link"><span><i className="fab fa-facebook-f"></i></span></a>
+                        <a href="#" className="social-media-link"><span><i className="fab fa-instagram"></i></span></a>
+                        <a href="#" className="social-media-link"><span><i className="fab fa-twitter"></i></span></a>
+                    </section>
+
+
                         <section id="newsletter">
                             <p>Subscribe to our newsletter</p>
                             <input type="email" placeholder="Email Address" />

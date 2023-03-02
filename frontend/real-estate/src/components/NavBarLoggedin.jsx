@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import image from "./logo.png";
 
 class NavBarLoggedin extends Component {
+  // logout
+  handleLogout() {
+    localStorage.removeItem(idToken);
+    window.location.href = window.location.origin + '/login';
+  }
   navTo(uri) {
     window.location.href = window.location.origin + uri;
   }
@@ -57,8 +62,26 @@ class NavBarLoggedin extends Component {
               <a>Dashboard</a>              
             </li>
 
-            <li className="login">
-              <a>Logout</a>              
+            <li className="welcome">
+              <a>
+                Welcome {this.props.first_name} <i className="fa fa-caret-down"></i>
+              </a>
+              <ul className="dropdown">
+                <section id="welcome-container">
+                  <li>
+                    View Profile
+                    {/* <a onClick={() => this.navTo('/profile')}>
+                      View Profile
+                    </a> */}
+                  </li>
+                  <li className="divider"></li>
+                  <li>
+                    <a onClick={this.handleLogout}>
+                      Logout
+                    </a>
+                  </li>
+                </section>
+              </ul>
             </li>
           </ul>
         </section>

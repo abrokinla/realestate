@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "build/**",
+        "use": "@vercel/static"
+      },
+      {
+        "src": ".env/**",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+        { "src": "/static/(.*)", "dest": "build/static/$1" },
+        { "src": "/(.*)", "dest": "flaskr/__init__.py" }
+    ]
+  
+  }
+  

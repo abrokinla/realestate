@@ -64,6 +64,7 @@ const LoginForm = () => {
           // Save the idToken to localStorage
           alert('login successful');
           localStorage.setItem('idToken', response.data.token);
+          localStorage.setItem('user', response.data.user);
           checkToken();
         })
         .catch(error => {

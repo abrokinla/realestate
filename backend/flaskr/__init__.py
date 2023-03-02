@@ -105,9 +105,12 @@ def create_app(test_config=None):
         email = body.get("email")
         password = body.get("password")
 
+        user_details= None
+
         # Try to sign in with Firebase
         try:
             user = auth2.sign_in_with_email_and_password(email, password)
+            user_details = User.query.filter_by(email=email).first()
         except:
             # If there was an error signing in, return an error
             return jsonify({
@@ -117,6 +120,10 @@ def create_app(test_config=None):
         # If the sign in was successful, return the ID token to the client
         return jsonify({
             "success": True,
+            "user": {
+                "first_name":user_details.first_name,
+                "last_name": user_details.first_name
+            },
             "token":"Bearer " + user['idToken']
             })
 

@@ -159,6 +159,32 @@ li.login:hover > ul.login-submenu {
     flex-direction:column;
 }
 
+.dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown li {
+    padding: 10px;
+  }
+  
+  .dropdown li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .welcome:hover .dropdown {
+    display: block;
+  }
+  
+  .divider {
+    border-top: 1px solid #ccc;
+    margin: 5px 0;
+  }
+
 @media screen and (max-width:769px) {
     #navitems {
         display: flex;
@@ -202,8 +228,15 @@ li.login:hover > ul.login-submenu {
         background: #000;
         width: 100%;
     }
-
-    
-    
-    
+   
+    .welcome-container {
+        display: block !important;
+    }
+    .navitems {
+        display: none;
+    }
+    .navitems.active {
+        display: block;
+    }
+      
 }

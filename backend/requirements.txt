@@ -15,3 +15,4 @@ Werkzeug==0.15.5
 firebase-admin
 Flask-Bcrypt
 flask-migrate
+python-dotenv

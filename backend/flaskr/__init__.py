@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from google.oauth2.credentials import Credentials
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
@@ -16,18 +17,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)    
     bcrypt = Bcrypt(app)
-
     
-    firebaseConfig = {
-        "apiKey": "AIzaSyC1Fynp1Af2o2PPterFCWvyWWsdG1O51J4",
-        "authDomain": "real-estate-e45dd.firebaseapp.com",
-        "projectId": "real-estate-e45dd",
-        "storageBucket": "real-estate-e45dd.appspot.com",
-        "messagingSenderId": "799389364325",
-        "appId": "1:799389364325:web:9fa1f13cabd5471e9ed68c",
-        "measurementId": "G-0Z72D2ZCD6",  
-        "databaseURL":"https://real-estate-e45dd-default-rtdb.firebaseio.com"  
-    };
     # CORS HEADERS
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     # AFTER_REQUEST HEADERS
@@ -39,7 +29,12 @@ def create_app(test_config=None):
 
         return response
 
-    cred = credentials.Certificate(r"C:/re-fb-adminsdk.json")
+    load_dotenv()
+    cred_path = os.environ.get("REAL_ESTATE_FIREBASE_CRED_PATH")
+    print(cred_path)
+    if not cred_path:
+        raise ValueError("Missing FIREBASE_CRED_PATH environment variable")
+    cred = credentials.Certificate(cred_path)
     firebase_admin.initialize_app(cred) 
 
 
@@ -92,6 +87,16 @@ def create_app(test_config=None):
 
 #--------------------------------ROUTES START-------------------
     # Initialize a Firebase app using the Firebase configuration
+    firebaseConfig = {
+        "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
+        "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
+        "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
+        "storageBucket": os.environ.get("REAL_ESTATE_FIREBASE_STORAGE_BUCKET"),
+        "messagingSenderId": os.environ.get("REAL_ESTATE_FIREBASE_MESSAGING_SENDER_ID"),
+        "appId": os.environ.get("REAL_ESTATE_FIREBASE_APP_ID"),
+        "measurementId": os.environ.get("REAL_ESTATE_FIREBASE_MEASUREMENT_ID"),
+        "databaseURL": os.environ.get("REAL_ESTATE_FIREBASE_DATABASE_URL")
+    }
     firebase = pyrebase.initialize_app(firebaseConfig)
     auth2 = firebase.auth()
 

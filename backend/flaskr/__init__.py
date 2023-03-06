@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     load_dotenv()
     cred_path = os.environ.get("REAL_ESTATE_FIREBASE_CRED_PATH")
-    print(cred_path)
+    
     if not cred_path:
         raise ValueError("Missing FIREBASE_CRED_PATH environment variable")
     cred = credentials.Certificate(cred_path)

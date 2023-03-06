@@ -8,12 +8,14 @@
     {
       "src": "flaskr/**",
       "use": "@vercel/python",
-      "build": {
-        "env": {
-          "PIP_TARGET": "./python_packages",
-          "PIP_EXTRA_INDEX_URL": "https://real-estate.vercel.app/python-packages/simple"
-        },
-        "command": "pip install -r requirements.txt -t ./python_packages"
+      "config": {
+        "build": {
+          "env": {
+            "PIP_TARGET": "./python_packages",
+            "PIP_EXTRA_INDEX_URL": "https://real-estate.vercel.app/python-packages/simple"
+          },
+          "command": "pip install -r requirements.txt -t ./python_packages"
+        }
       }
     }
   ],

@@ -304,7 +304,7 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
         user_role = 'agent'
-        signup_type = 'email' #body.get('signup_type', None)
+        signup_type = "email"
         is_admin = True
 
         if signup_type is None:

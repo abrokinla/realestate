@@ -88,22 +88,22 @@ def create_app(test_config=None):
 #--------------------------------ROUTES START-------------------
     # Initialize a Firebase app using the Firebase configuration
     firebaseConfig = {
-        # "apiKey": "AIzaSyBcXcnumuP4ZG9GxvX4lwp6ZtdCtlrxCtY",
-        # "authDomain": "araoyehomes.firebaseapp.com",
-        # "projectId": "araoyehomes",
-        # "storageBucket": "araoyehomes.appspot.com",
-        # "messagingSenderId": "501473479167",
-        # "appId": "1:501473479167:web:13cda758a728c752cfbfca",
-        # "measurementId": "G-F5ZN65S883",
-        # "databaseURL": "https://araoyehomes-default-rtdb.firebaseio.com/"
-        "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
-        "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
-        "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
-        "storageBucket": os.environ.get("REAL_ESTATE_FIREBASE_STORAGE_BUCKET"),
-        "messagingSenderId": os.environ.get("REAL_ESTATE_FIREBASE_MESSAGING_SENDER_ID"),
-        "appId": os.environ.get("REAL_ESTATE_FIREBASE_APP_ID"),
-        "measurementId": os.environ.get("REAL_ESTATE_FIREBASE_MEASUREMENT_ID"),
-        "databaseURL": os.environ.get("REAL_ESTATE_FIREBASE_DATABASE_URL")
+        "apiKey": "AIzaSyBcXcnumuP4ZG9GxvX4lwp6ZtdCtlrxCtY",
+        "authDomain": "araoyehomes.firebaseapp.com",
+        "projectId": "araoyehomes",
+        "storageBucket": "araoyehomes.appspot.com",
+        "messagingSenderId": "501473479167",
+        "appId": "1:501473479167:web:13cda758a728c752cfbfca",
+        "measurementId": "G-F5ZN65S883",
+        "databaseURL": "https://araoyehomes-default-rtdb.firebaseio.com/"
+        # "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
+        # "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
+        # "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
+        # "storageBucket": os.environ.get("REAL_ESTATE_FIREBASE_STORAGE_BUCKET"),
+        # "messagingSenderId": os.environ.get("REAL_ESTATE_FIREBASE_MESSAGING_SENDER_ID"),
+        # "appId": os.environ.get("REAL_ESTATE_FIREBASE_APP_ID"),
+        # "measurementId": os.environ.get("REAL_ESTATE_FIREBASE_MEASUREMENT_ID"),
+        # "databaseURL": os.environ.get("REAL_ESTATE_FIREBASE_DATABASE_URL")
     }
     firebase = pyrebase.initialize_app(firebaseConfig)
     auth2 = firebase.auth()
@@ -312,7 +312,7 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
         user_role = 'agent'
-        signup_type = body.get('signup_type', None)
+        signup_type = "email"
         is_admin = True
 
         if signup_type is None:

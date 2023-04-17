@@ -29,8 +29,11 @@ class RealEstateTestCase(unittest.TestCase):
                 "tel":"+2348190907787", 
                 "agent_call_number":"+2348190907787", 
                 "whatsapp":"+2348190907787", 
-                "business_web":"ackertyproperties.com"
+                "business_web":"ackertyproperties.com",
+                "user_role": "agent",
+                "signup_type":"email"
                 }
+
             self.new_property = {
                 "description":"sample description of a property",
                 "amount":"20000", 
@@ -42,13 +45,18 @@ class RealEstateTestCase(unittest.TestCase):
                 "status":"renovated", 
                 "agent_id":"1"
                 }
+
             self.new_user = {
                 "first_name":"John",
                 "last_name":"Ackerty",
                 "email":"myemail@email.com", 
                 "pword":"mypassword", 
-                "tel":"+2348190907787"
+                "tel":"+2348190907787",
+                "user_role":"user",
+                "signup_type":"email"
                 }
+
+
         
             # Create tables
             class PropertyList(self.db.Model):
@@ -63,6 +71,8 @@ class RealEstateTestCase(unittest.TestCase):
                 toilet = self.db.Column(self.db.Integer)
                 action = self.db.Column(self.db.String)
                 status = self.db.Column(self.db.String)
+                rating = self.db.Column(self.db.Integer)
+                img_url = self.db.Column(self.db.String())
                 agent_id = self.db.Column(self.db.Integer, self.db.ForeignKey('agent.id'), nullable=False)
 
             class Agent(self.db.Model):
@@ -78,6 +88,8 @@ class RealEstateTestCase(unittest.TestCase):
                 agent_call_number = self.db.Column(self.db.String)
                 whatsapp = self.db.Column(self.db.String)
                 business_web = self.db.Column(self.db.String)
+                is_Admin = self.db.Column(self.db.Boolean, default=False, nullable=False)
+                user_role = self.db.Column(self.db.String)
                 properties = self.db.relationship('PropertyList', backref='list', lazy=True)
 
 
@@ -90,6 +102,7 @@ class RealEstateTestCase(unittest.TestCase):
                 email = self.db.Column(self.db.String)
                 pword = self.db.Column(self.db.String)
                 tel = self.db.Column(self.db.String)
+                user_role = self.db.Column(self.db.String)
 
             # self.db.create_all()
             # print("created relations successfully")
@@ -255,6 +268,7 @@ class RealEstateTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "resource not found")
 
+    
 
 
 if __name__ == "__main__":

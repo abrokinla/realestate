@@ -32,11 +32,13 @@ class PropertyList(db.Model):
     toilet = db.Column(db.Integer)
     action = db.Column(db.String())#For sale or rent
     status = db.Column(db.String())
+    rating = db.Column(db.Integer)
+    img_url = db.Column(db.String())
     agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
 
     def __repr__(self):
         return f'<Property {self.id} {self.description} {self.amount} {self.location} {self.bed} {self.bath} {self.toilet} \
-            {self.action} {self.status}>'
+            {self.action} {self.status} {self.rating} {self.img_url}>'
     
     def insert(self):
         db.session.add(self)
@@ -60,6 +62,8 @@ class PropertyList(db.Model):
             'toilet':self.toilet,
             'action':self.action,
             'status':self.status,
+            'rating':self.rating,
+            'img_url': self.img_url,
         }
         
 
@@ -75,12 +79,15 @@ class Agent(db.Model):
     agent_call_number = db.Column(db.String())
     whatsapp = db.Column(db.String())
     business_web = db.Column(db.String())
+    user_role = db.Column(db.String())
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
     properties= db.relationship('PropertyList', backref = 'list', lazy=True)
 
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
             {self.business_name} {self.e_mail} {self.pword} {self.tel}\
-                {self.agent_call_number} {self.whatsapp} {self.business_web}>' 
+                {self.agent_call_number} {self.whatsapp} {self.business_web} {self.user_role} \
+                    {self.is_admin}>' 
 
     def insert(self):
         db.session.add(self)
@@ -101,7 +108,9 @@ class Agent(db.Model):
             'tel':self.tel,
             'agent_call_number':self.agent_call_number,
             'whatsapp':self.whatsapp,
-            'business_web':self.business_web
+            'business_web':self.business_web,
+            'user_role':self.user_role,
+            'is_admin':self.is_admin
         }
 
 class User(db.Model):
@@ -112,13 +121,25 @@ class User(db.Model):
     email = db.Column(db.String())
     pword = db.Column(db.String())
     tel = db.Column(db.String())
+    user_role = db.Column(db.String())
     
     def __repr__(self):
         return f'<{self.id} {self.first_name} {self.last_name} \
-            {self.e_mail} {self.pword} {self.tel}>' 
+            {self.e_mail} {self.pword} {self.tel} {self.user_role}>' 
     
     def insert(self):
         db.session.add(self)
         db.session.commit()
+
+    def format(self):
+        return {
+            'id':self.id,
+            'first_name':self.first_name,
+            'last_name':self.last_name,
+            'email':self.email,
+            'pword':self.pword,
+            'tel':self.tel,
+            'user_role':self.user_role
+        }
     # ......................Models end...........
 

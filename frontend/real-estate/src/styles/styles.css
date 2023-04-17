@@ -1,0 +1,242 @@
+* {
+    margin:0;
+    padding:0;
+    font-family: Inter, sans-serif;
+    box-sizing: border-box;
+}
+
+#subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:20px;
+    margin:50px;
+    color:#fff;
+}
+
+nav {
+    display: flex;
+    height:200px;
+    width:100%;
+    background: #060221;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 80px;
+    box-shadow: 0 5px 15px rgba(0,0,0.06);
+}
+
+.logo {
+    width:100px;
+}
+
+#navitems {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+}
+
+#navitems li {
+    list-style: none;
+    padding: 0 20px;
+    position:relative;
+}
+
+#navitems li a{
+    color: #ffffff;
+    text-decoration: none;
+    font: size 1.5rem;
+    font-weight: 600;
+    padding:8px 15px;
+    border-radius:5px;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease-in-out;
+}
+
+#navitems li a:hover,
+#navitems li a.active {
+    color: #17cf97;
+}
+
+#navitems li a:hover::after,
+#navitems li a.active::after {
+    content: "";
+    width: 20%;
+    height: 2px;
+    background: #17cf97;
+    position:absolute;
+    bottom: -4px;
+    left: 30px;
+}
+
+.login-submenu {
+    display:none;
+}
+
+li.login:hover > ul.login-submenu {
+    display: block;
+    position: absolute;
+    cursor:pointer;
+    margin:10px;
+}
+
+.login-submenu li {
+    margin-bottom:15px;
+
+}
+.login--link {
+    color: #000000;
+    text-decoration: none;
+    font: size 14px;
+    font-weight: 600;
+    padding:8px 15px;
+    border-radius:5px;
+    letter-spacing: 0.2em;
+}
+
+#mobile {
+    display:none;
+}
+#mobile i {
+    color:#fff;
+}
+
+.container {
+    background:#060221;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#rsn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#testimonial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    width: 100%;
+}
+
+.become--agent {
+    background-color:#5CFFFF;
+    width:100%;
+    height:150px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    margin:0;
+    color:#000000;
+    font-weight:700;
+}
+
+.become--agent > h2,p {
+    margin:0;
+}
+
+.become--agent > button {
+    background-color: red;
+    padding:10px 25px;
+    border-radius: 20px;
+    color:#ffffff;
+    margin-top:20px;
+    border:red;
+    cursor: pointer;
+}
+
+.become--agent > button:hover {
+    border: 2px solid #000;
+}
+
+.foota--container{
+    display:flex;
+    flex-direction:column;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown li {
+    padding: 10px;
+  }
+  
+  .dropdown li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .welcome:hover .dropdown {
+    display: block;
+  }
+  
+  .divider {
+    border-top: 1px solid #ccc;
+    margin: 5px 0;
+  }
+
+@media screen and (max-width:769px) {
+    #navitems {
+        display: flex;
+        flex-direction:column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position:fixed;
+        z-index:+99;
+        top:130px;
+        right:-300px;
+        width:300px;
+        height:50vh;
+        background:#060221;
+        box-shadow: 0 40px 60px rgba(0, 0, 0,0.1);
+        padding: 40px 0 0 10px;
+        transition: 0.3s ease-in-out;
+        border: 2px solid red;
+    }
+
+    #navitems.active {
+        right:0px;
+    }
+
+    #mobile {
+        display:block;
+    }
+
+    #navitems li {
+        margin-bottom:25px; 
+    }
+
+    #mobile i {
+        font-size:25px;
+        cursor: pointer;
+    }
+
+    #testimonial {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        width: 100%;
+    }
+   
+    .welcome-container {
+        display: block !important;
+    }
+    .navitems {
+        display: none;
+    }
+    .navitems.active {
+        display: block;
+    }
+      
+}

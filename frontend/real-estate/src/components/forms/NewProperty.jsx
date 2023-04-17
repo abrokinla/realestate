@@ -37,6 +37,9 @@ const NewProperty = () => {
         const numBath = bath;
         const numToilet = toilet;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 48a3534 (modifications on firebase)
         const act= action;
         const stat = status;
         const agtId = getAgentId();
@@ -64,6 +67,7 @@ const NewProperty = () => {
             }
         })
         .then(res => { 
+<<<<<<< HEAD
 =======
         const act = action;
         const stat = status;
@@ -100,6 +104,8 @@ const NewProperty = () => {
           })
           .then(res => {
 >>>>>>> publish
+=======
+>>>>>>> 48a3534 (modifications on firebase)
             alert('New Property Added')
             setDescription('');
             setAmount('');
@@ -113,12 +119,16 @@ const NewProperty = () => {
             setRating('');
             setImgUrl('');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 48a3534 (modifications on firebase)
         })
         .catch(error => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
     }    
+<<<<<<< HEAD
 =======
           })
           .catch(error => {
@@ -128,6 +138,8 @@ const NewProperty = () => {
       }
       
 >>>>>>> publish
+=======
+>>>>>>> 48a3534 (modifications on firebase)
    
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
@@ -148,6 +160,9 @@ const NewProperty = () => {
     const handleUpload = async (e) => {
         e.preventDefault();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 48a3534 (modifications on firebase)
         const downloadURLs = []; // array to store download URLs
         let overallProgress = 0;
       
@@ -208,6 +223,7 @@ const NewProperty = () => {
       };
       
       
+<<<<<<< HEAD
 =======
         const urls = [];
 
@@ -253,6 +269,8 @@ const NewProperty = () => {
     };
 
 >>>>>>> publish
+=======
+>>>>>>> 48a3534 (modifications on firebase)
     return (
         <section id="main-container">
             <section id="main-form-container">

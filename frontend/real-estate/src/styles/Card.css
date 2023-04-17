@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #card-container {
 =======
 /* #card-container {
 >>>>>>> publish
+=======
+#card-container {
+>>>>>>> 48a3534 (modifications on firebase)
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -174,6 +178,7 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 */
 #card-container {
@@ -290,6 +295,8 @@
 }
 
 >>>>>>> publish
+=======
+>>>>>>> 48a3534 (modifications on firebase)
 .search-house{
     display:block;
     width: 100%;
@@ -303,6 +310,7 @@
     align-items: center;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 .card {
@@ -322,6 +330,8 @@
 
 
 >>>>>>> publish
+=======
+>>>>>>> 48a3534 (modifications on firebase)
 @media screen and (max-width:769px) {
     #card-container {
         justify-content: center;

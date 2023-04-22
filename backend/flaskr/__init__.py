@@ -88,22 +88,15 @@ def create_app(test_config=None):
 #--------------------------------ROUTES START-------------------
     # Initialize a Firebase app using the Firebase configuration
     firebaseConfig = {
-        "apiKey": "AIzaSyBcXcnumuP4ZG9GxvX4lwp6ZtdCtlrxCtY",
-        "authDomain": "araoyehomes.firebaseapp.com",
-        "projectId": "araoyehomes",
-        "storageBucket": "araoyehomes.appspot.com",
-        "messagingSenderId": "501473479167",
-        "appId": "1:501473479167:web:13cda758a728c752cfbfca",
-        "measurementId": "G-F5ZN65S883",
-        "databaseURL": "https://araoyehomes-default-rtdb.firebaseio.com/"
-        # "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
-        # "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
-        # "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
-        # "storageBucket": os.environ.get("REAL_ESTATE_FIREBASE_STORAGE_BUCKET"),
-        # "messagingSenderId": os.environ.get("REAL_ESTATE_FIREBASE_MESSAGING_SENDER_ID"),
-        # "appId": os.environ.get("REAL_ESTATE_FIREBASE_APP_ID"),
-        # "measurementId": os.environ.get("REAL_ESTATE_FIREBASE_MEASUREMENT_ID"),
-        # "databaseURL": os.environ.get("REAL_ESTATE_FIREBASE_DATABASE_URL")
+        
+        "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
+        "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
+        "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
+        "storageBucket": os.environ.get("REAL_ESTATE_FIREBASE_STORAGE_BUCKET"),
+        "messagingSenderId": os.environ.get("REAL_ESTATE_FIREBASE_MESSAGING_SENDER_ID"),
+        "appId": os.environ.get("REAL_ESTATE_FIREBASE_APP_ID"),
+        "measurementId": os.environ.get("REAL_ESTATE_FIREBASE_MEASUREMENT_ID"),
+        "databaseURL": os.environ.get("REAL_ESTATE_FIREBASE_DATABASE_URL")
     }
     firebase = pyrebase.initialize_app(firebaseConfig)
     auth2 = firebase.auth()
@@ -205,24 +198,24 @@ def create_app(test_config=None):
         img_url = body.get('img_url', None)
         agent_id = body.get('agent_id', None)
 
-        # try:
-        newProperty = PropertyList(description= description, amount = amount, \
-            location = location, bed = bed, bath = bath, toilet = toilet,\
-                action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
-        newProperty.insert()
+        try:
+            newProperty = PropertyList(description= description, amount = amount, \
+                location = location, bed = bed, bath = bath, toilet = toilet,\
+                    action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
+            newProperty.insert()
 
-        # return properties ordered by id
-        properties = PropertyList.query.order_by(PropertyList.id).all()
-        current_properties = paginate_properties(request, properties)
+            # return properties ordered by id
+            properties = PropertyList.query.order_by(PropertyList.id).all()
+            current_properties = paginate_properties(request, properties)
 
-        return jsonify({
-            "success":True,
-            "created":newProperty.id,
-            "properties":current_properties,
-            "total_properties":len(properties)
-        })
-        # except:
-        #     abort(422)
+            return jsonify({
+                "success":True,
+                "created":newProperty.id,
+                "properties":current_properties,
+                "total_properties":len(properties)
+            })
+        except:
+            abort(422)
 
     '''
     Edit Properties
@@ -312,14 +305,18 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
         user_role = 'agent'
-        signup_type = "email"
+        signup_type = 'email' #body.get('signup_type', None)
         is_admin = True
 
+       
+
         if signup_type is None:
+            print('No sign up type')
             abort(400)
 
         if signup_type == "email":        
             if email is None or pword is None:
+                print('No email/password')
                 abort(400)
 
         try:
@@ -360,7 +357,7 @@ def create_app(test_config=None):
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
-    @requires_auth
+    # @requires_auth
     def get_agent_properties(agent_id, user_role):
         if user_role != "agent":
             return jsonify({

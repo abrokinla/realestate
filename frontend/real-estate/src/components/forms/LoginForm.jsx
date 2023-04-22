@@ -12,39 +12,48 @@ const LoginForm = () => {
     if (localStorage.getItem('idToken')) {
       const idToken = localStorage.getItem('idToken');
       console.log(idToken);
-      fetch('http://localhost:5000/verify-token', {
-        method: 'POST',
-        headers: {
-          'Authorization': idToken
-        }
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Token verification failed');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const { user_role } = data;
-        const { user_id } = data;
-        const { isAdmin } = data;
-        localStorage.setItem("agentId", user_id)
-        if (user_role === 'user') {
-          window.location.href = '/user/dashboard';
-        } else if (user_role === "agent"  && isAdmin === true){
-          window.location.href = '/admin/dashboard';
-        } else if (user_role === "agent"  && isAdmin === false) {
-          window.location.href = '/agent/dashboard';
-        }
-        return null;
-      })
-      .catch(error => {
+      try {        
+        fetch('http://localhost:5000/verify-token', {
+          method: 'POST',
+          headers: {
+            'Authorization': idToken
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Token verification failed');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const decodedToken = jwtDecode(idToken);
+          const user_role = decodedToken.user_role;
+          const user_id = decodedToken.agent_id;
+          const isAdmin = decodedToken.is_admin;
+          
+          localStorage.setItem("agentId", user_id)
+          if (user_role === 'user') {
+            window.location.href = '/';
+          } else if (user_role === "agent"  && isAdmin === true){
+            window.location.href = '/admin/dashboard';
+          } else if (user_role === "agent"  && isAdmin === false) {
+            window.location.href = '/agent/dashboard';
+          }
+          return null;
+        })
+        .catch(error => {
+          console.error(error);
+          localStorage.removeItem('idToken');
+          // handle error
+        });
+      } catch (error) {
         console.error(error);
         localStorage.removeItem('idToken');
         // handle error
-      });
+      }
     }
   }
+
 
     checkToken();   
 
@@ -55,7 +64,7 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
       event.preventDefault();
       const user_email=email
-      const user_password = password
+      const user_password = password      
       axios.post('http://127.0.0.1:5000/login', {         
           email: user_email,
           password: user_password 

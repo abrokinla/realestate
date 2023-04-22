@@ -36,33 +36,39 @@ const NewProperty = () => {
         const numBed = bed;
         const numBath = bath;
         const numToilet = toilet;
-        const act= action;
+        const act = action;
         const stat = status;
         const agtId = getAgentId();
-        const propertyRating = "3";
+        let propertyRating = "3";
         const imgurl = imgUrl;
-
+      
+        const idToken = localStorage.getItem('idToken');
+        const decodedToken = jwtDecode(idToken);
+        const isAdmin = decodedToken.is_admin;
+      
+        if (isAdmin === true) {
+          propertyRating = "1";
+        }
+      
         axios.post("http://localhost:5000/properties", {
-            
-            description : desc,
-            amount : amt,
-            location : loca,
-            bed : numBed,
-            bath : numBath,
-            toilet : numToilet,
+            description: desc,
+            amount: amt,
+            location: loca,
+            bed: numBed,
+            bath: numBath,
+            toilet: numToilet,
             action: act,
-            status : stat,
-            agent_id:  agtId,
+            status: stat,
+            agent_id: agtId,
             rating: propertyRating,
-            img_url : imgurl,
-            
-        }, 
-        {
+            img_url: imgurl,
+          },
+          {
             headers: {
-                Authorization: localStorage.getItem('idToken')
-            }
-        })
-        .then(res => { 
+              Authorization: idToken,
+            },
+          })
+          .then(res => {
             alert('New Property Added')
             setDescription('');
             setAmount('');
@@ -75,12 +81,13 @@ const NewProperty = () => {
             setAgent_Id('');
             setRating('');
             setImgUrl('');
-        })
-        .catch(error => {
-        // If there is an error, display the error message
-        console.error(error.response.data.error);
-        });
-    }    
+          })
+          .catch(error => {
+            // If there is an error, display the error message
+            console.error(error.response.data.error);
+          });
+      }
+      
    
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);

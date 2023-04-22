@@ -304,14 +304,18 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
         user_role = 'agent'
-        signup_type = "email"
+        signup_type = 'email' #body.get('signup_type', None)
         is_admin = True
 
+       
+
         if signup_type is None:
+            print('No sign up type')
             abort(400)
 
         if signup_type == "email":        
             if email is None or pword is None:
+                print('No email/password')
                 abort(400)
 
         try:
@@ -352,7 +356,7 @@ def create_app(test_config=None):
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
-    @requires_auth
+    # @requires_auth
     def get_agent_properties(agent_id, user_role):
         if user_role != "agent":
             return jsonify({

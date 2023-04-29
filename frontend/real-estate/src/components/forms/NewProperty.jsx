@@ -121,6 +121,7 @@ const NewProperty = () => {
                         const snapshot = await uploadBytesResumable(fileRef, file);
                         const url = await getDownloadURL(fileRef);
                         console.log('File download URL:', url);
+
                         resolve(url);
                     } catch (error) {
                         console.error(error);

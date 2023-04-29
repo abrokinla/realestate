@@ -49,7 +49,8 @@ const NewProperty = () => {
         if (isAdmin === true) {
           propertyRating = "1";
         }
-      
+        
+        console.log("urls", imgurl);
         axios.post("http://localhost:5000/properties", {
             description: desc,
             amount: amt,
@@ -107,66 +108,49 @@ const NewProperty = () => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const downloadURLs = []; // array to store download URLs
-        let overallProgress = 0;
-      
-        // create an array of promises for each file upload
-        const uploadPromises = Array.from(selectedFiles).map(async (file) => {
-          // create a reference to the file in Firebase Storage
-          const fileRef = ref(storage, `images/${file.name}`);
-      
-          // upload the file to Firebase Storage
-          const uploadTask = uploadBytesResumable(fileRef, file);
-      
-          // attach a progress listener to the upload task
-          uploadTask.on('state_changed', 
-            (snapshot) => {
-                // update the progress
-                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                overallProgress += progress / selectedFiles.length;
-                overallProgress = Math.min(overallProgress, 100); 
-                setUploadProgress(overallProgress);
-            },
-            (error) => {
-              // handle error
-              console.error(error);
-            },
-            async () => {
-              // get the download URL of the uploaded file
-              const url = await getDownloadURL(fileRef);
-              console.log('File download URL:', url);
-      
-              // add the download URL to the array
-              downloadURLs.push(url);
-      
-            }
-          );
-      
-          // return a promise that resolves when the upload is complete
-          return new Promise((resolve, reject) => {
-            uploadTask.on('state_changed', resolve, reject);
-          });
-        });
-      
+        const urls = [];
+
         try {
-          // wait for all upload tasks to complete
-          await Promise.all(uploadPromises);
-      
-          // join the download URLs with a comma separator
-          const urls = downloadURLs.join(',');
-          setImgUrl(urls);
-      
-          // disable the upload button
-          const uploadButton = document.getElementById('upload-button');
-          uploadButton.disabled = true;
-          
+            // create an array of promises for each file upload
+            const uploadPromises = Array.from(selectedFiles).map((file) => {
+                // create a reference to the file in Firebase Storage
+                const fileRef = ref(storage, `images/${file.name}`);
+
+                // upload the file to Firebase Storage and return a promise that resolves with the download URL
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        const snapshot = await uploadBytesResumable(fileRef, file);
+                        const url = await getDownloadURL(fileRef);
+                        console.log('File download URL:', url);
+                        urls.push(url);
+                        resolve(url);
+                    } catch (error) {
+                        console.error(error);
+                        reject(error);
+                    }
+                });
+            });
+        
+            // wait for all upload tasks to complete
+            await Promise.all(uploadPromises);
+
+            console.log('All download URLs:', urls);
+            const joinedUrls = urls.join(',');
+            console.log('All URLs:', joinedUrls);
+            setImgUrl(joinedUrls);
+
+            // disable the upload button
+            const uploadButton = document.getElementById('upload-button');
+            uploadButton.disabled = true;
+
+            // return the array of download URLs
+            return urls;
+
         } catch (error) {
-          // handle error
-          console.error(error);
+            console.error(error);
         }
-      };
-      
-      
+    };
+
     return (
         <section id="main-container">
             <section id="main-form-container">

@@ -4,7 +4,10 @@ import image from "./logo.png";
 class NavBarLoggedin extends Component {
   // logout
   handleLogout() {
-    localStorage.removeItem(idToken);
+    const idToken = localStorage.getItem('idToken');
+    if (idToken) {
+      localStorage.removeItem('idToken');
+    }
     window.location.href = window.location.origin + '/login';
   }
   navTo(uri) {
@@ -70,9 +73,9 @@ class NavBarLoggedin extends Component {
                 <section id="welcome-container">
                   <li>
                     View Profile
-                    {/* <a onClick={() => this.navTo('/profile')}>
+                    <a onClick={() => this.navTo('/profile')}>
                       View Profile
-                    </a> */}
+                    </a>
                   </li>
                   <li className="divider"></li>
                   <li>

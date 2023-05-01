@@ -169,18 +169,7 @@
     box-shadow: 0 5px 15px rgb(172, 166, 166);
 }
 
-.search-house{
-    display:block;
-    width: 100%;
-    height:350px;
-}
-
-#search--title {
-    height:50px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-} */
+*/
 #card-container {
     display: flex;
     justify-content: space-between;
@@ -272,6 +261,7 @@
 .facilities {
   display: flex;
   justify-content: space-between;  
+  padding: 0 20px;
 }
 
 .facilities-icon {
@@ -283,6 +273,42 @@
 .bath,
 .toilet {
   margin-left: 16px;
+}
+
+.search--area {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    margin: 0 20px;
+}
+
+.search-house{
+    display:block;
+    width: 100%;
+    height:350px;
+}
+
+#search--title {
+    height:50px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display:flex;
+    justify-content: space-around;
+    flex-direction:column;
+    align-items: center;
+    color: white;
+    font-weight:600;
+    background-color:#1411A8;
+    width: 30%;
+    height:400px;
+    margin-bottom:20px;
+    transition: 0.3s ease;
+    border-radius: 10px;
 }
 
 

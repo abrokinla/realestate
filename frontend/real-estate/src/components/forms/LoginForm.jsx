@@ -41,6 +41,7 @@ export const checkToken = () => {
   }
 };
 
+
 export const divertDashboard = async () => {
   const isTokenValid = await checkToken();
   if (isTokenValid) {
@@ -161,4 +162,5 @@ const LoginForm = () => {
         </section>
     )
 }
+export { checkToken };
 export default LoginForm;

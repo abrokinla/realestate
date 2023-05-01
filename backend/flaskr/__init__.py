@@ -432,8 +432,6 @@ def create_app(test_config=None):
         except:
             abort(422)
         
-        
-
     '''
     Search
     '''
@@ -467,6 +465,33 @@ def create_app(test_config=None):
                 abort(404)
         except:
             abort(404)
+
+    '''
+    Fetch agent details
+    '''
+    @app.route('/agents/<int:agent_id>', methods=['GET'])
+    def get_agent(agent_id):
+        try:
+            agent = Agent.query.filter_by(id=agent_id).one_or_none()
+            if agent is None:
+                abort(404)
+            else:
+                return jsonify({
+                    'success': True,
+                    'agent': {
+                        'id': agent.id,
+                        'first_name': agent.first_name,
+                        'last_name': agent.last_name,
+                        'business_name': agent.business_name,
+                        'email': agent.email,
+                        'tel': agent.tel,
+                        'agent_call_number': agent.agent_call_number,
+                        'whatsapp': agent.whatsapp,
+                        'business_web': agent.business_web
+                    }
+                })
+        except:
+            abort(422)
 
 
     '''

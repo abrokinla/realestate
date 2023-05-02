@@ -7,11 +7,11 @@ import AuthNavBar from "../AuthNavBar"
 import Footer from "../Footer"
 import "../../styles/login.css";
 
-const checkToken = () => {
+export const checkToken = () => {
   const idToken = Cookies.get('idToken');
   if (idToken) {
     try {
-      fetch('http://localhost:5000/verify-token', {
+      return fetch('http://localhost:5000/verify-token', {
         method: 'POST',
         headers: {
           'Authorization': idToken
@@ -24,37 +24,49 @@ const checkToken = () => {
         return response.json();
       })
       .then(data => {
-        const decodedToken = jwtDecode(idToken);
-        const user_role = decodedToken.user_role;
-        const user_id = decodedToken.agent_id;
-        const isAdmin = decodedToken.is_admin;
-        
-        Cookies.set("agentId", user_id);
-        if (user_role === 'user') {
-          window.location.href = '/';
-        } else if (user_role === "agent"  && isAdmin === true){
-          window.location.href = '/admin/dashboard';
-        } else if (user_role === "agent"  && isAdmin === false) {
-          window.location.href = '/agent/dashboard';
-        }
-        return null;
+        return true;
       })
       .catch(error => {
         console.error(error);
         Cookies.remove('idToken');
-        // handle error
+        return false;
       });
     } catch (error) {
       console.error(error);
       Cookies.remove('idToken');
-      // handle error
+      return false;
     }
+  } else {
+    return false;
   }
 };
 
+export const divertDashboard = async () => {
+  const isTokenValid = await checkToken();
+  if (isTokenValid) {
+    const idToken = Cookies.get('idToken');
+    const decodedToken = jwtDecode(idToken);
+    const user_role = decodedToken.user_role;
+    const user_id = decodedToken.agent_id;
+    const isAdmin = decodedToken.is_admin;
+    Cookies.set("agentId", user_id);
+    if (user_role === 'user') {
+      window.location.href = '/';
+    } else if (user_role === "agent"  && isAdmin === true){
+      window.location.href = '/admin/dashboard';
+    } else if (user_role === "agent"  && isAdmin === false) {
+      window.location.href = '/agent/dashboard';
+    }
+  } else {
+    return null;
+    // handle the case where the token is invalid or not present
+  }
+};
+
+
 const LoginForm = () => {
   
-    checkToken();   
+    divertDashboard();
 
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
@@ -72,7 +84,7 @@ const LoginForm = () => {
         // Save the token to a cookie
         Cookies.set('idToken', response.data.token);
         alert('login successful');
-        checkToken();
+        divertDashboard();
       })
       .catch(error => {
         setError('Invalid email or password');
@@ -149,5 +161,4 @@ const LoginForm = () => {
         </section>
     )
 }
-export { checkToken };
 export default LoginForm;

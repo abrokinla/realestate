@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import image from "./logo.png";
+import Cookies from "js-cookie";
+import { checkToken, divertDashboard } from "../components/forms/LoginForm";
 
 class NavBarLoggedin extends Component {
+  //dashboard
+  handleDashboard = async () => {
+    const isAuthorized = await checkToken();
+    if (isAuthorized) {
+      await divertDashboard();
+    } else {
+      // handle the case where the user is not authorized, maybe redirect to login page
+      window.location.href = window.location.origin + "/login";
+    }
+  };
   // logout
   handleLogout() {
-    const idToken = localStorage.getItem('idToken');
+    const idToken = Cookies.get('idToken');
     if (idToken) {
-      localStorage.removeItem('idToken');
+      Cookies.remove('idToken');
     }
     window.location.href = window.location.origin + '/login';
   }
@@ -61,8 +73,11 @@ class NavBarLoggedin extends Component {
               <a className={this.state.clicked ? "active" : ""}>Property</a>
             </li>
 
-            <li className="login">
-              <a>Dashboard</a>              
+            <li 
+              onClick={this.handleDashboard} 
+              className="login"
+            >
+              <a className={this.state.clicked ? "active" : ""}>Dashboard</a>              
             </li>
 
             <li className="welcome">
@@ -71,14 +86,13 @@ class NavBarLoggedin extends Component {
               </a>
               <ul className="dropdown">
                 <section id="welcome-container">
-                  <li>
-                    View Profile
+                  <li className="login">
                     <a onClick={() => this.navTo('/profile')}>
                       View Profile
                     </a>
                   </li>
                   <li className="divider"></li>
-                  <li>
+                  <li className="login">
                     <a onClick={this.handleLogout}>
                       Logout
                     </a>

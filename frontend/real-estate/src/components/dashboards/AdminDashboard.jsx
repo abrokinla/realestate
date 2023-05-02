@@ -1,42 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import SideBar from "./SideBar"
 import AuthNavBar from "../AuthNavBar"
 import Footer from "../Footer"
-import "../../styles/dashboard.css"
+import "../../styles/dashboard.css";
+import { checkToken } from "../forms/LoginForm";
 
 
 const AdminDashboard = () => {
-  //   useEffect(() => {
-  //   const checkToken = async () => {
-  //     if (localStorage.getItem("idToken")) {
-  //       const idToken = localStorage.getItem("idToken");
-  //       try {
-  //         const response = await fetch(
-  //           "http://localhost:5000/verify-token",
-  //           {
-  //             method: "POST",
-  //             headers: {
-  //               Authorization: idToken,
-  //             },
-  //           }
-  //         );
-  //         if (!response.ok) {
-  //           window.location.href = "/login";
-  //         }
-  //       } catch (error) {
-  //         console.error(error);
-  //         window.location.href = "/login";
-  //       }
-  //     } else {
-  //       window.location.href = "/login";
-  //     }
-  //   };
-  //   checkToken();
-  // }, []);
+    const isLoggedIn = checkToken();
     
     return (
         <section id="main-dashboard-container">
-            <AuthNavBar />   
+            <AuthNavBar loggedIn={isLoggedIn}/>   
             <section  className="check">
                  <p id="admin-label">Admin Dashboard</p>
             </section>

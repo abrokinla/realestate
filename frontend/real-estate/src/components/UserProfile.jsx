@@ -1,10 +1,23 @@
 import React from "react";
-import NavBar from "./NavBar"
-import Footer from "./Footer"
-import "../styles/userProfile.css"
+import NavBar from "./NavBar";
+import Footer from "./Footer";
+import "../styles/userProfile.css";
+import { checkToken } from "../components/forms/LoginForm";
 
 const UserProfile = () => {
+    const [agent, setAgent] = useState(null);
 
+    useEffect(() => {
+      const agent_id = checkToken();
+      fetch(`/agents/${agent_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setAgent(data.agent);
+        })
+        .catch((error) => {
+          console.error("Error fetching agent details:", error);
+        });
+    }, []);
     return (
         <section id="main-profile-container">
             <NavBar/>
@@ -18,19 +31,27 @@ const UserProfile = () => {
                 </section>
 
                 <section id="user-info">
-                    <p>whatsapp:</p>
-                    <p>Agent Call Number:</p>
-                    <p>Business web:</p>
-                </section>
-                
+                    
+                    {agent && (
+                        <>
+                          <p>whatsapp: {agent.whatsapp}</p>
+                          <p>Agent Call Number: {agent.agent_call_number}</p>
+                          <p>Business web: {agent.business_web}</p>
+                        </>
+                    )}
+                    
+                </section>                
             </section>
 
             <section id="user-details">
-                <h2>User Details </h2>
-                <p>First Name:</p>
-                <p>Last Name:</p>
-                <p>E-mail Address:</p>
-                <p>Business Name:</p>
+            {agent && (
+              <>
+                <p>First Name: {agent.first_name}</p>
+                <p>Last Name: {agent.last_name}</p>
+                <p>E-mail Address: {agent.email}</p>
+                <p>Business Name: {agent.business_name}</p>
+              </>
+            )}    
             </section>
 
             <Footer/>

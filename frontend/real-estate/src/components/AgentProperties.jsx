@@ -23,7 +23,7 @@ const AgentProperties = ({ agentId }) => {
       setLoading(true);
 
       // Get the user_id from the decoded token
-      const idToken = localStorage.getItem('idToken');
+      const idToken = Cookies.get('idToken');
       const decodedToken = jwtDecode(idToken);
       const { agent_id } = decodedToken;
 

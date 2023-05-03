@@ -1,17 +1,25 @@
-import React from "react";
-import NavBar from "./NavBar";
+import React, { useState, useEffect } from "react";
+import AuthNavBar from "./AuthNavBar";
 import Footer from "./Footer";
 import "../styles/userProfile.css";
+import Cookies from "js-cookie";
+import jwtDecode from 'jwt-decode';
 import { checkToken } from "../components/forms/LoginForm";
 
 const UserProfile = () => {
+  const isLoggedIn = checkToken();
     const [agent, setAgent] = useState(null);
 
+    const idToken = Cookies.get("idToken")
+    const decodeToken = jwtDecode(idToken)
+    const agent_id = decodeToken.agent_id;
+    console.log(agent_id);
+
     useEffect(() => {
-      const agent_id = checkToken();
-      fetch(`/agents/${agent_id}`)
+      fetch(`http://127.0.0.1:5000/agents/${agent_id}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log(data)
           setAgent(data.agent);
         })
         .catch((error) => {
@@ -20,7 +28,7 @@ const UserProfile = () => {
     }, []);
     return (
         <section id="main-profile-container">
-            <NavBar/>
+            <AuthNavBar loggedIn={isLoggedIn}/>
             <h1>User Profile</h1>
             <section id="banner-container">
                 <section id="user-banner">

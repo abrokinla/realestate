@@ -60,7 +60,7 @@
     flex-direction: column;
     color: #fff;
     justify-content: space-between;
-    border: 2px solid red;
+    margin:50px 0;
 }
 
 #user-details p {

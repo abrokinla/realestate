@@ -354,6 +354,26 @@ sale.",
   "total_agents": 4
 }
 
+## GET /agents/{agent_id}
+
+- General:
+    - It fetches agent details with matching agent_id.
+    - Returns agent object, success value.
+
+- Sample: $ curl http://127.0.0.1:5000/agents/5
+{
+  "agent": {
+    "agent_call_number": "08078667654",
+    "business_name": "AraoyeHomes",
+    "business_web": "https://araoyehomes.netlify.app",  
+    "email": "abrokinla@gmail.com",
+    "first_name": "Abraham",    "id": 5,
+    "last_name": "Abiola",  
+    "tel": "08078667654",   
+    "whatsapp": "08078667654"
+  },
+  "success": true
+}
 ## GET /agents/{agent_id}/properties
 
 - General:

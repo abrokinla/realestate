@@ -36,6 +36,7 @@ const NewProperty = () => {
         const numBed = bed;
         const numBath = bath;
         const numToilet = toilet;
+<<<<<<< HEAD
         const act= action;
         const stat = status;
         const agtId = getAgentId();
@@ -63,6 +64,42 @@ const NewProperty = () => {
             }
         })
         .then(res => { 
+=======
+        const act = action;
+        const stat = status;
+        const agtId = getAgentId();
+        let propertyRating = "3";
+        const imgurl = imgUrl;
+      
+        const idToken = localStorage.getItem('idToken');
+        const decodedToken = jwtDecode(idToken);
+        const isAdmin = decodedToken.is_admin;
+      
+        if (isAdmin === true) {
+          propertyRating = "1";
+        }
+        
+        console.log("urls", imgurl);
+        axios.post("http://localhost:5000/properties", {
+            description: desc,
+            amount: amt,
+            location: loca,
+            bed: numBed,
+            bath: numBath,
+            toilet: numToilet,
+            action: act,
+            status: stat,
+            agent_id: agtId,
+            rating: propertyRating,
+            img_url: imgurl,
+          },
+          {
+            headers: {
+              Authorization: idToken,
+            },
+          })
+          .then(res => {
+>>>>>>> publish
             alert('New Property Added')
             setDescription('');
             setAmount('');
@@ -75,12 +112,22 @@ const NewProperty = () => {
             setAgent_Id('');
             setRating('');
             setImgUrl('');
+<<<<<<< HEAD
         })
         .catch(error => {
         // If there is an error, display the error message
         console.error(error.response.data.error);
         });
     }    
+=======
+          })
+          .catch(error => {
+            // If there is an error, display the error message
+            console.error(error.response.data.error);
+          });
+      }
+      
+>>>>>>> publish
    
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
@@ -100,6 +147,7 @@ const NewProperty = () => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         const downloadURLs = []; // array to store download URLs
         let overallProgress = 0;
       
@@ -160,6 +208,51 @@ const NewProperty = () => {
       };
       
       
+=======
+        const urls = [];
+
+        try {
+            // create an array of promises for each file upload
+            const uploadPromises = Array.from(selectedFiles).map((file) => {
+                // create a reference to the file in Firebase Storage
+                const fileRef = ref(storage, `images/${file.name}`);
+
+                // upload the file to Firebase Storage and return a promise that resolves with the download URL
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        const snapshot = await uploadBytesResumable(fileRef, file);
+                        const url = await getDownloadURL(fileRef);
+                        console.log('File download URL:', url);
+                        urls.push(url);
+                        resolve(url);
+                    } catch (error) {
+                        console.error(error);
+                        reject(error);
+                    }
+                });
+            });
+        
+            // wait for all upload tasks to complete
+            await Promise.all(uploadPromises);
+
+            console.log('All download URLs:', urls);
+            const joinedUrls = urls.join(',');
+            console.log('All URLs:', joinedUrls);
+            setImgUrl(joinedUrls);
+
+            // disable the upload button
+            const uploadButton = document.getElementById('upload-button');
+            uploadButton.disabled = true;
+
+            // return the array of download URLs
+            return urls;
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+>>>>>>> publish
     return (
         <section id="main-container">
             <section id="main-form-container">

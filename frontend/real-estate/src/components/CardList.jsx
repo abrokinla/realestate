@@ -31,12 +31,16 @@ const CardList = ({rating}) => {
                 <Card
                 key = {data.id} {...data}/>
                 )}
+<<<<<<< HEAD
 
             {/* <Pagination 
                 totalPages={totalPages} 
                 currentPage={currentPage} 
                 setCurrentPage={setCurrentPage} 
             /> */}
+=======
+            
+>>>>>>> publish
         </>
     )
 }

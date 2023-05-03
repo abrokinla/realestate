@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -7,12 +8,11 @@ import Footer from "../Footer"
 import "../../styles/login.css";
 
 
-const LoginForm = () => {
-  const checkToken = () => {
-    if (localStorage.getItem('idToken')) {
-      const idToken = localStorage.getItem('idToken');
-      console.log(idToken);
-      fetch('http://localhost:5000/verify-token', {
+export const checkToken = () => {
+  const idToken = Cookies.get('idToken');
+  if (idToken) {
+    try {
+      return fetch('http://localhost:5000/verify-token', {
         method: 'POST',
         headers: {
           'Authorization': idToken
@@ -25,28 +25,49 @@ const LoginForm = () => {
         return response.json();
       })
       .then(data => {
-        const { user_role } = data;
-        const { user_id } = data;
-        const { isAdmin } = data;
-        localStorage.setItem("agentId", user_id)
-        if (user_role === 'user') {
-          window.location.href = '/user/dashboard';
-        } else if (user_role === "agent"  && isAdmin === true){
-          window.location.href = '/admin/dashboard';
-        } else if (user_role === "agent"  && isAdmin === false) {
-          window.location.href = '/agent/dashboard';
-        }
-        return null;
+        return true;
       })
       .catch(error => {
         console.error(error);
-        localStorage.removeItem('idToken');
-        // handle error
+        Cookies.remove('idToken');
+        return false;
       });
+    } catch (error) {
+      console.error(error);
+      Cookies.remove('idToken');
+      return false;
     }
+  } else {
+    return false;
   }
+};
 
-    checkToken();   
+export const divertDashboard = async () => {
+  const isTokenValid = await checkToken();
+  if (isTokenValid) {
+    const idToken = Cookies.get('idToken');
+    const decodedToken = jwtDecode(idToken);
+    const user_role = decodedToken.user_role;
+    const user_id = decodedToken.agent_id;
+    const isAdmin = decodedToken.is_admin;
+    Cookies.set("agentId", user_id);
+    if (user_role === 'user') {
+      window.location.href = '/';
+    } else if (user_role === "agent"  && isAdmin === true){
+      window.location.href = '/admin/dashboard';
+    } else if (user_role === "agent"  && isAdmin === false) {
+      window.location.href = '/agent/dashboard';
+    }
+  } else {
+    return null;
+    // handle the case where the token is invalid or not present
+  }
+};
+
+
+const LoginForm = () => {
+  
+    divertDashboard();
 
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
@@ -55,20 +76,20 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
       event.preventDefault();
       const user_email=email
-      const user_password = password
+
+      const user_password = password      
       axios.post('http://127.0.0.1:5000/login', {         
-          email: user_email,
-          password: user_password 
-          })
-        .then(response => {
-          // Save the idToken to localStorage
-          alert('login successful');
-          localStorage.setItem('idToken', response.data.token);
-          localStorage.setItem('user', response.data.user);
-          checkToken();
-        })
-        .catch(error => {
-          setError('Invalid email or password');
+        email: user_email,
+        password: user_password 
+      })
+      .then(response => {
+        // Save the token to a cookie
+        Cookies.set('idToken', response.data.token);
+        alert('login successful');
+        divertDashboard();
+      })
+      .catch(error => {
+        setError('Invalid email or password');
       });
     };
 

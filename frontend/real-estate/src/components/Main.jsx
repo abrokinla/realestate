@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import AuthNavBar from "./AuthNavBar"
+=======
+import AuthNavBar from "./AuthNavBar";
+>>>>>>> publish
 import Header from "./Header"
 import CardList from "./CardList"
 import Search from "./Search"
 import Reason from "./Reason"
 import Testimonial from "./Testimonial"
 import Footer from "./Footer"
+<<<<<<< HEAD
 
 
 const Main = () => {
+=======
+import { checkToken } from "../components/forms/LoginForm";
+
+
+const Main = () => {
+    const isLoggedIn = checkToken();
+>>>>>>> publish
 
     return (
         <div>
             <main>
+<<<<<<< HEAD
                 <AuthNavBar />
+=======
+                <AuthNavBar loggedIn={isLoggedIn}/>
+>>>>>>> publish
                 <Header />
                 <div id="subtitle">
                     <p> Featured Properties </p>                    

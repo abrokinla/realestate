@@ -4,6 +4,10 @@ import jwtDecode from 'jwt-decode';
 import NewProperty from "../forms/NewProperty";
 import AgentProperties from "../AgentProperties";
 import "../../styles/sidebar.css";
+<<<<<<< HEAD
+=======
+import Cookies from 'js-cookie';
+>>>>>>> publish
 
 const SideBar = () => {
     const [rightPane, setRightPane] = useState('');
@@ -19,7 +23,11 @@ const SideBar = () => {
     }
 
     const handleViewProperty = () => {
+<<<<<<< HEAD
         const idToken = localStorage.getItem('idToken');
+=======
+        const idToken = Cookies.get('idToken');
+>>>>>>> publish
         const decodedToken = jwtDecode(idToken);
         const { agent_id } = decodedToken;
         setRightPane(<AgentProperties agentId={agent_id}/>)

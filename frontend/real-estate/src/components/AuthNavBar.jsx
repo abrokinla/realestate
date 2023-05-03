@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import NavBarLoggedIn from "./NavBarLoggedIn";
@@ -36,6 +37,14 @@ const AuthNavBar = () => {
       {isLoggedIn ? <NavBarLoggedIn /> : <NavBar />}
     </div>
   );
+=======
+import React from "react";
+import NavBar from "./NavBar";
+import NavBarLoggedIn from "./NavBarLoggedIn";
+
+const AuthNavBar = ({ loggedIn }) => {
+  return <div>{loggedIn ? <NavBarLoggedIn /> : <NavBar />}</div>;
+>>>>>>> publish
 };
 
 export default AuthNavBar;

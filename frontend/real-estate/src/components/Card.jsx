@@ -17,7 +17,11 @@ const Card = (props) => {
             <section>
                 <section id="card--action--amount">
                     <p className="card--action">{props.action}</p>
+<<<<<<< HEAD
                     <p className="card--amount"> NGN {props.amount}/yr </p>                            
+=======
+                    <p className="card--amount"> NGN {props.amount.toLocaleString()} </p>                            
+>>>>>>> publish
                 </section>
 
                 <section className="card--image">

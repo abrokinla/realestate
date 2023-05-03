@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import jwtDecode from 'jwt-decode';
 import axios from "axios";
 import "../../styles/newproperty.css"
@@ -22,7 +23,7 @@ const NewProperty = () => {
     const [uploadProgress, setUploadProgress] = useState(null);
 
     const getAgentId = () => {
-        const idToken = localStorage.getItem('idToken')
+        const idToken = Cookies.get('idToken')
         const decodedToken = jwtDecode(idToken);        
         const { agent_id } = decodedToken;
         return agent_id;
@@ -42,7 +43,7 @@ const NewProperty = () => {
         let propertyRating = "3";
         const imgurl = imgUrl;
       
-        const idToken = localStorage.getItem('idToken');
+        const idToken = Cookies.get('idToken');
         const decodedToken = jwtDecode(idToken);
         const isAdmin = decodedToken.is_admin;
       
@@ -108,7 +109,7 @@ const NewProperty = () => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const urls = [];
+        // const urls = [];
 
         try {
             // create an array of promises for each file upload
@@ -122,7 +123,7 @@ const NewProperty = () => {
                         const snapshot = await uploadBytesResumable(fileRef, file);
                         const url = await getDownloadURL(fileRef);
                         console.log('File download URL:', url);
-                        urls.push(url);
+                        // urls.push(url);
                         resolve(url);
                     } catch (error) {
                         console.error(error);
@@ -132,7 +133,7 @@ const NewProperty = () => {
             });
         
             // wait for all upload tasks to complete
-            await Promise.all(uploadPromises);
+            const urls= await Promise.all(uploadPromises);
 
             console.log('All download URLs:', urls);
             const joinedUrls = urls.join(',');

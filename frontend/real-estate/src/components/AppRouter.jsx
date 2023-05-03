@@ -25,7 +25,7 @@ class AppRouter extends Component {
                     <Route path='/admin/login' element={ <Admin /> } />
                     <Route path='/user-form' element={ <NewUser /> } />
                     <Route path='/agent-form' element={ <NewAgent /> } />
-                    <Route path='/userprofile' element={ <UserProfile /> } />
+                    <Route path='/profile' element={ <UserProfile /> } />
                     <Route path='/new-property-form' element={ <NewProperty /> } />                    
                     <Route path='/agent/dashboard' element={ <AgentDashboard /> } />
                     <Route path='/admin/dashboard' element={ <AdminDashboard /> } />

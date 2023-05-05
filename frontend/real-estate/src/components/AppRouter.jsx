@@ -11,10 +11,7 @@ import Admin from "./forms/AdminLogin";
 import NewProperty from "./forms/NewProperty";
 import AgentDashboard from "./dashboards/AgentDashboard";
 import AdminDashboard from "./dashboards/AdminDashboard";
-<<<<<<< HEAD
-=======
 import UserProfile from "./UserProfile";
->>>>>>> publish
 
 class AppRouter extends Component {
     render() {
@@ -28,10 +25,7 @@ class AppRouter extends Component {
                     <Route path='/admin/login' element={ <Admin /> } />
                     <Route path='/user-form' element={ <NewUser /> } />
                     <Route path='/agent-form' element={ <NewAgent /> } />
-<<<<<<< HEAD
-=======
-                    <Route path='/userprofile' element={ <UserProfile /> } />
->>>>>>> publish
+                    <Route path='/profile' element={ <UserProfile /> } />
                     <Route path='/new-property-form' element={ <NewProperty /> } />                    
                     <Route path='/agent/dashboard' element={ <AgentDashboard /> } />
                     <Route path='/admin/dashboard' element={ <AdminDashboard /> } />

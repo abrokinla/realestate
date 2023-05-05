@@ -20,9 +20,6 @@ export default function Testimonial() {
         
     )
 
-<<<<<<< HEAD
-}
-=======
 }
 // import React from "react";
 // import "../styles/rsn_testi.css";
@@ -76,4 +73,3 @@ export default function Testimonial() {
 //     </section>
 //   );
 // }
->>>>>>> publish

@@ -7,7 +7,6 @@ import AuthNavBar from "../AuthNavBar"
 import Footer from "../Footer"
 import "../../styles/login.css";
 
-
 export const checkToken = () => {
   const idToken = Cookies.get('idToken');
   if (idToken) {
@@ -42,6 +41,10 @@ export const checkToken = () => {
   }
 };
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> c7d84d4 (UserProfile, dashboard, Nava=bAr coderef actor)
 export const divertDashboard = async () => {
   const isTokenValid = await checkToken();
   if (isTokenValid) {
@@ -76,7 +79,6 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
       event.preventDefault();
       const user_email=email
-
       const user_password = password      
       axios.post('http://127.0.0.1:5000/login', {         
         email: user_email,

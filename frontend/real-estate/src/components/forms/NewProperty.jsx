@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import jwtDecode from 'jwt-decode';
 import axios from "axios";
 import "../../styles/newproperty.css"
@@ -22,7 +23,7 @@ const NewProperty = () => {
     const [uploadProgress, setUploadProgress] = useState(null);
 
     const getAgentId = () => {
-        const idToken = localStorage.getItem('idToken')
+        const idToken = Cookies.get('idToken')
         const decodedToken = jwtDecode(idToken);        
         const { agent_id } = decodedToken;
         return agent_id;
@@ -36,42 +37,13 @@ const NewProperty = () => {
         const numBed = bed;
         const numBath = bath;
         const numToilet = toilet;
-<<<<<<< HEAD
-        const act= action;
-        const stat = status;
-        const agtId = getAgentId();
-        const propertyRating = "3";
-        const imgurl = imgUrl;
-
-        axios.post("http://localhost:5000/properties", {
-            
-            description : desc,
-            amount : amt,
-            location : loca,
-            bed : numBed,
-            bath : numBath,
-            toilet : numToilet,
-            action: act,
-            status : stat,
-            agent_id:  agtId,
-            rating: propertyRating,
-            img_url : imgurl,
-            
-        }, 
-        {
-            headers: {
-                Authorization: localStorage.getItem('idToken')
-            }
-        })
-        .then(res => { 
-=======
         const act = action;
         const stat = status;
         const agtId = getAgentId();
         let propertyRating = "3";
         const imgurl = imgUrl;
       
-        const idToken = localStorage.getItem('idToken');
+        const idToken = Cookies.get('idToken');
         const decodedToken = jwtDecode(idToken);
         const isAdmin = decodedToken.is_admin;
       
@@ -99,7 +71,6 @@ const NewProperty = () => {
             },
           })
           .then(res => {
->>>>>>> publish
             alert('New Property Added')
             setDescription('');
             setAmount('');
@@ -112,14 +83,6 @@ const NewProperty = () => {
             setAgent_Id('');
             setRating('');
             setImgUrl('');
-<<<<<<< HEAD
-        })
-        .catch(error => {
-        // If there is an error, display the error message
-        console.error(error.response.data.error);
-        });
-    }    
-=======
           })
           .catch(error => {
             // If there is an error, display the error message
@@ -127,7 +90,6 @@ const NewProperty = () => {
           });
       }
       
->>>>>>> publish
    
     const handleDragStart = (e) => {
         e.dataTransfer.setData("text/plain", e.target.id);
@@ -147,69 +109,6 @@ const NewProperty = () => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-<<<<<<< HEAD
-        const downloadURLs = []; // array to store download URLs
-        let overallProgress = 0;
-      
-        // create an array of promises for each file upload
-        const uploadPromises = Array.from(selectedFiles).map(async (file) => {
-          // create a reference to the file in Firebase Storage
-          const fileRef = ref(storage, `images/${file.name}`);
-      
-          // upload the file to Firebase Storage
-          const uploadTask = uploadBytesResumable(fileRef, file);
-      
-          // attach a progress listener to the upload task
-          uploadTask.on('state_changed', 
-            (snapshot) => {
-                // update the progress
-                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                overallProgress += progress / selectedFiles.length;
-                overallProgress = Math.min(overallProgress, 100); 
-                setUploadProgress(overallProgress);
-            },
-            (error) => {
-              // handle error
-              console.error(error);
-            },
-            async () => {
-              // get the download URL of the uploaded file
-              const url = await getDownloadURL(fileRef);
-              console.log('File download URL:', url);
-      
-              // add the download URL to the array
-              downloadURLs.push(url);
-      
-            }
-          );
-      
-          // return a promise that resolves when the upload is complete
-          return new Promise((resolve, reject) => {
-            uploadTask.on('state_changed', resolve, reject);
-          });
-        });
-      
-        try {
-          // wait for all upload tasks to complete
-          await Promise.all(uploadPromises);
-      
-          // join the download URLs with a comma separator
-          const urls = downloadURLs.join(',');
-          setImgUrl(urls);
-      
-          // disable the upload button
-          const uploadButton = document.getElementById('upload-button');
-          uploadButton.disabled = true;
-          
-        } catch (error) {
-          // handle error
-          console.error(error);
-        }
-      };
-      
-      
-=======
-        const urls = [];
 
         try {
             // create an array of promises for each file upload
@@ -223,7 +122,6 @@ const NewProperty = () => {
                         const snapshot = await uploadBytesResumable(fileRef, file);
                         const url = await getDownloadURL(fileRef);
                         console.log('File download URL:', url);
-                        urls.push(url);
                         resolve(url);
                     } catch (error) {
                         console.error(error);
@@ -233,7 +131,8 @@ const NewProperty = () => {
             });
         
             // wait for all upload tasks to complete
-            await Promise.all(uploadPromises);
+
+            const urls = await Promise.all(uploadPromises);
 
             console.log('All download URLs:', urls);
             const joinedUrls = urls.join(',');
@@ -252,7 +151,6 @@ const NewProperty = () => {
         }
     };
 
->>>>>>> publish
     return (
         <section id="main-container">
             <section id="main-form-container">

@@ -88,10 +88,6 @@ def create_app(test_config=None):
 #--------------------------------ROUTES START-------------------
     # Initialize a Firebase app using the Firebase configuration
     firebaseConfig = {
-<<<<<<< HEAD
-=======
-        
->>>>>>> publish
         "apiKey": os.environ.get("REAL_ESTATE_FIREBASE_API_KEY"),
         "authDomain": os.environ.get("REAL_ESTATE_FIREBASE_AUTH_DOMAIN"),
         "projectId": os.environ.get("REAL_ESTATE_FIREBASE_PROJECT_ID"),
@@ -114,18 +110,9 @@ def create_app(test_config=None):
         email = body.get("email")
         password = body.get("password")
 
-<<<<<<< HEAD
-        user_details= None
-
-        # Try to sign in with Firebase
+       
         try:
             user = auth2.sign_in_with_email_and_password(email, password)
-            user_details = User.query.filter_by(email=email).first()
-=======
-        # Try to sign in with Firebase
-        try:
-            user = auth2.sign_in_with_email_and_password(email, password)
->>>>>>> publish
         except:
             # If there was an error signing in, return an error
             return jsonify({
@@ -134,15 +121,7 @@ def create_app(test_config=None):
 
         # If the sign in was successful, return the ID token to the client
         return jsonify({
-<<<<<<< HEAD
-            "success": True,
-            "user": {
-                "first_name":user_details.first_name,
-                "last_name": user_details.first_name
-            },
-=======
-            "success": True,            
->>>>>>> publish
+            "success": True, 
             "token":"Bearer " + user['idToken']
             })
 
@@ -218,32 +197,24 @@ def create_app(test_config=None):
         img_url = body.get('img_url', None)
         agent_id = body.get('agent_id', None)
 
-<<<<<<< HEAD
-        # try:
-        newProperty = PropertyList(description= description, amount = amount, \
-            location = location, bed = bed, bath = bath, toilet = toilet,\
-                action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
-        newProperty.insert()
-=======
         try:
             newProperty = PropertyList(description= description, amount = amount, \
                 location = location, bed = bed, bath = bath, toilet = toilet,\
                     action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
             newProperty.insert()
->>>>>>> publish
 
-        # return properties ordered by id
-        properties = PropertyList.query.order_by(PropertyList.id).all()
-        current_properties = paginate_properties(request, properties)
+            # return properties ordered by id
+            properties = PropertyList.query.order_by(PropertyList.id).all()
+            current_properties = paginate_properties(request, properties)
 
-        return jsonify({
-            "success":True,
-            "created":newProperty.id,
-            "properties":current_properties,
-            "total_properties":len(properties)
-        })
-        # except:
-        #     abort(422)
+            return jsonify({
+                "success":True,
+                "created":newProperty.id,
+                "properties":current_properties,
+                "total_properties":len(properties)
+            })
+        except:
+            abort(422)
 
     '''
     Edit Properties
@@ -333,52 +304,6 @@ def create_app(test_config=None):
         whatsapp = body.get('whatsapp', None)
         business_web = body.get('business_web', None)
         user_role = 'agent'
-<<<<<<< HEAD
-        signup_type = body.get('signup_type', 'email')
-        is_admin = False
-        google_token = body.get('google_token', None)
-
-        if signup_type is None:
-            abort(400)
-
-        if signup_type == "email":
-            if email is None or pword is None:
-                abort(400)
-
-            try:
-                user_exists = Agent.query.filter_by(email=email).first() is not None
-
-                if user_exists:
-                    abort(409)
-
-                hashed_password = bcrypt.generate_password_hash(pword)
-                
-                user = auth.create_user(
-                email=email,
-                password=pword
-                )
-                
-                newAgent = Agent(first_name=first_name, last_name=last_name, business_name=business_name,\
-                    email=email, pword=hashed_password, tel=tel, agent_call_number=agent_call_number,\
-                        whatsapp=whatsapp, business_web=business_web, user_role=user_role, is_admin=is_admin)
-                
-                newAgent.insert()
-
-                auth.update_user(user.uid, custom_claims={
-                    'user_role': 'agent',
-                    'is_admin': is_admin,
-                    'agent_id':newAgent.id})
-
-                agents = Agent.query.order_by(Agent.id).all()
-                return jsonify({
-                    'sucess':True,
-                    'created':user.uid,
-                    'total_users':len(agents)
-                })
-            except:
-                abort(422)
-            
-=======
         signup_type = 'email' #body.get('signup_type', None)
         is_admin = True
 
@@ -426,17 +351,12 @@ def create_app(test_config=None):
         except:
             abort(422)
         
->>>>>>> publish
 
     '''
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
-<<<<<<< HEAD
-    @requires_auth
-=======
     # @requires_auth
->>>>>>> publish
     def get_agent_properties(agent_id, user_role):
         if user_role != "agent":
             return jsonify({
@@ -512,13 +432,9 @@ def create_app(test_config=None):
         except:
             abort(422)
         
-<<<<<<< HEAD
-        
-=======
     '''
     Search
     '''
->>>>>>> publish
     @app.route('/search', methods=['POST'])
     def search_properties():
         try:
@@ -550,8 +466,6 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-<<<<<<< HEAD
-=======
     '''
     Fetch agent details
     '''
@@ -579,7 +493,34 @@ def create_app(test_config=None):
         except:
             abort(422)
 
->>>>>>> publish
+
+    '''
+    Fetch agent details
+    '''
+    @app.route('/agents/<int:agent_id>', methods=['GET'])
+    def get_agent(agent_id):
+        try:
+            agent = Agent.query.filter_by(id=agent_id).one_or_none()
+            if agent is None:
+                abort(404)
+            else:
+                return jsonify({
+                    'success': True,
+                    'agent': {
+                        'id': agent.id,
+                        'first_name': agent.first_name,
+                        'last_name': agent.last_name,
+                        'business_name': agent.business_name,
+                        'email': agent.email,
+                        'tel': agent.tel,
+                        'agent_call_number': agent.agent_call_number,
+                        'whatsapp': agent.whatsapp,
+                        'business_web': agent.business_web
+                    }
+                })
+        except:
+            abort(422)
+
 
        
     #ERROR HANDLERS

@@ -41,10 +41,6 @@ export const checkToken = () => {
   }
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c7d84d4 (UserProfile, dashboard, Nava=bAr coderef actor)
 export const divertDashboard = async () => {
   const isTokenValid = await checkToken();
   if (isTokenValid) {

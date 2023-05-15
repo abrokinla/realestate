@@ -2,8 +2,8 @@ import os
 import unittest
 import json
 from flaskr import create_app
-from models import setup_db, PropertyList, Agent, User
-# from models_classes import PropertyList, Agent, User
+from models import setup_db
+from models_classes import PropertyList, Agent, User
 class RealEstateTestCase(unittest.TestCase):
     print('about to start tests')
     def setUp(self):
@@ -15,6 +15,49 @@ class RealEstateTestCase(unittest.TestCase):
         )
         print('---here---')
         setup_db(self.app, self.database_path)
+        with self.app.app_context():
+            self.db.create_all()
+            print("created relations successfully")
+
+    
+        self.new_agent = {
+            "first_name":"John", 
+            "last_name":"Ackerty", 
+            "business_name":"Ackerty Properties",
+            "email":"myemail@email.com", 
+            "pword":"mypassword", 
+            "tel":"+2348190907787", 
+            "agent_call_number":"+2348190907787", 
+            "whatsapp":"+2348190907787", 
+            "business_web":"ackertyproperties.com",
+            "user_role": "agent",
+            "signup_type":"email"
+            }
+
+        self.new_property = {
+            'description': 'A cozy apartment',
+            'amount': 1000,
+            'location': 'New York',
+            'bed': 2,
+            'bath': 1,
+            'toilet': 1,
+            'action': 'rent',
+            'status': 'renovated',
+            'rating': 3,
+            'img_url': 'https://example.com/image.jpg',
+            'agent_id': '3'
+        }
+
+        self.new_user = {
+            "first_name":"John",
+            "last_name":"Ackerty",
+            "email":"myuseremail@email.com", 
+            "pword":"mypassword", 
+            "tel":"+2348190907787",
+            "user_role":"user",
+            "signup_type":"email"
+            }
+
 
         class PropertyList(self.db.Model):
             __tablename__ = 'propertylist'
@@ -59,13 +102,19 @@ class RealEstateTestCase(unittest.TestCase):
             tel = self.db.Column(self.db.String())
             user_role = self.db.Column(self.db.String())
             
-        self.db.create_all()
-        print("created relations successfully")
+        
         
      
             
     def tearDown(self):
         pass
+
+    def test_200_create_new_agent(self):
+        res = self.client().post("/agents", json = self.new_agent)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code,200)
+        self.assertEqual(data["success"], True)
+
       
     
 if __name__ == "__main__":

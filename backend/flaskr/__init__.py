@@ -10,12 +10,17 @@ import pyrebase
 from firebase_admin import credentials, auth
 from functools import wraps
 from flask_cors import CORS
-from models import db, setup_db, PropertyList, Agent, User
+from models import setup_db, PropertyList, Agent, User
 
 
-def create_app(test_config=None):
+def create_app(db_URI="", test_config=None):
     app = Flask(__name__)
-    setup_db(app)    
+    if db_URI:
+        setup_db(app,db_URI)
+    else:
+        setup_db(app)
+
+    # setup_db(app)    
     bcrypt = Bcrypt(app)
     
     
@@ -345,7 +350,7 @@ def create_app(test_config=None):
 
             agents = Agent.query.order_by(Agent.id).all()
             return jsonify({
-                'sucess':True,
+                'success':True,
                 'created':newAgent.id,
                 'total_users':len(agents)
             })

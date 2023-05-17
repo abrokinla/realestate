@@ -5,7 +5,15 @@ import bcrypt
 from flaskr import create_app
 from models import setup_db
 from models import PropertyList, Agent, User, db
-# from flask_sqlalchemy import SQLAlchemy
+
+
+
+def get_test_token(client):
+    headers = {'Content-Type': 'application/json'}
+    data = {'email': 'testuser@test.com', 'password': 'testpassword'}
+    res = client().post('/login',headers=headers, json=data)
+    token = json.loads(res.data)['token']
+    return token
 class RealEstateTestCase(unittest.TestCase):
     print('about to start tests')
     def setUp(self):
@@ -64,9 +72,16 @@ class RealEstateTestCase(unittest.TestCase):
     def test_200_create_new_agent(self):
         res = self.client().post("/agents", json = self.new_agent)
         data = json.loads(res.data)
-        print(data)
         self.assertEqual(res.status_code,200)
         self.assertEqual(data["success"], True)
+
+    def test_405_create_new_agent_failure(self):
+        res = self.client().post("/properties/9999", json=self.new_agent)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'],"method not allowed")
 
       
     

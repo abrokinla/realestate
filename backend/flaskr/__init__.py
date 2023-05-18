@@ -10,7 +10,8 @@ import pyrebase
 from firebase_admin import credentials, auth
 from functools import wraps
 from flask_cors import CORS
-from models import setup_db, PropertyList, Agent, User
+from models import db, setup_db
+from models_classes import PropertyList, Agent, User
 
 
 def create_app(db_URI="", test_config=None):
@@ -40,8 +41,10 @@ def create_app(db_URI="", test_config=None):
     
     if not cred_path:
         raise ValueError("Missing FIREBASE_CRED_PATH environment variable")
-    cred = credentials.Certificate(cred_path)
-    firebase_admin.initialize_app(cred) 
+    # Check if Firebase app is already initialized
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(cred_path)
+        firebase_admin.initialize_app(cred)
 
 
     # Create a decorator to handle authentication
@@ -324,7 +327,8 @@ def create_app(db_URI="", test_config=None):
                 print('No email/password')
                 abort(400)
 
-        try:
+    # try:
+        with db.session.begin_nested():
             user_exists = Agent.query.filter_by(email=email).first() is not None
 
             if user_exists:
@@ -332,16 +336,29 @@ def create_app(db_URI="", test_config=None):
 
             hashed_password = bcrypt.generate_password_hash(pword)
             
+            newAgent = Agent(
+                first_name=first_name, 
+                last_name=last_name, 
+                business_name=business_name,
+                email=email, 
+                pword=hashed_password, 
+                tel=tel, 
+                agent_call_number=agent_call_number,
+                whatsapp=whatsapp, 
+                business_web=business_web, 
+                user_role=user_role, 
+                is_admin=is_admin
+            )
+
+
+            db.session.add(newAgent)
+            db.session.commit()
+
             user = auth.create_user(
             email=email,
             password=pword
             )
             
-            newAgent = Agent(first_name=first_name, last_name=last_name, business_name=business_name,\
-                email=email, pword=hashed_password, tel=tel, agent_call_number=agent_call_number,\
-                    whatsapp=whatsapp, business_web=business_web, user_role=user_role, is_admin=is_admin)
-            
-            newAgent.insert()
 
             auth.update_user(user.uid, custom_claims={
                 'user_role': 'agent',
@@ -354,8 +371,10 @@ def create_app(db_URI="", test_config=None):
                 'created':newAgent.id,
                 'total_users':len(agents)
             })
-        except:
-            abort(422)
+    # except Exception as e:
+    #     db.session.rollback()  # Rollback the transaction
+    #     print(e)
+    #     abort(422)
         
 
     '''

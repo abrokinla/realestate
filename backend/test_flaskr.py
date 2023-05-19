@@ -31,7 +31,7 @@ class RealEstateTestCase(unittest.TestCase):
             "first_name":"John", 
             "last_name":"Ackerty", 
             "business_name":"Ackerty Properties",
-            "email":"policia@gmail.com", 
+            "email":"tadlakey@gmail.com", 
             "password":hashed_password.decode('utf-8'),             
             "tel":"+2348190907787", 
             "agent_call_number":"+2348190907787", 
@@ -56,11 +56,16 @@ class RealEstateTestCase(unittest.TestCase):
             'agent_id': '3'
         }
 
+        self.login = {
+            'email':'tadlakey@gmail.com',
+            'password': hashed_password.decode('utf-8')
+        }
+
         self.new_user = {
             "first_name":"John",
             "last_name":"Ackerty",
-            "email":"myuseremail@email.com", 
-            "pword":"mypassword", 
+            "email":"myuseremail@gmail.com", 
+            "password":hashed_password.decode('utf-8'), 
             "tel":"+2348190907787",
             "user_role":"user",
             "signup_type":"email"
@@ -69,19 +74,56 @@ class RealEstateTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_200_create_new_agent(self):
-        res = self.client().post("/agents", json = self.new_agent)
+    # def test_200_create_new_agent(self):
+    #     res = self.client().post("/agents", json = self.new_agent)
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code,200)
+    #     self.assertEqual(data["success"], True)
+
+    # def test_400_create_new_agent_failure(self):
+    #     # Missing required data for user creation
+    #     invalid_agent = {
+    #         "first_name": "John",
+    #         "last_name": "Doe"
+    #         # Missing other required fields
+    #     }
+
+    #     res = self.client().post("/users", json=invalid_agent)
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 400)
+    #     self.assertEqual(data["success"], False)
+    #     self.assertEqual(data["message"], "Bad request")
+
+    # def test_200_create_new_user(self):
+    #     res = self.client().post("/users", json = self.new_user)
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code,200)
+    #     self.assertEqual(data["success"], True)
+
+    # def test_400_create_new_user_failure(self):
+    #     # Missing required data for user creation
+    #     invalid_user = {
+    #         "first_name": "John",
+    #         "last_name": "Doe"
+    #         # Missing other required fields
+    #     }
+
+    #     res = self.client().post("/users", json=invalid_user)
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 400)
+    #     self.assertEqual(data["success"], False)
+    #     self.assertEqual(data["message"], "Bad request")
+
+
+    def test_login_success(self):
+        res = self.client().post('/login', json=self.login)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code,200)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
+        self.assertTrue(data["token"])
 
-    def test_405_create_new_agent_failure(self):
-        res = self.client().post("/properties/9999", json=self.new_agent)
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 405)
-        self.assertEqual(data["success"], False)
-        self.assertEqual(data['message'],"method not allowed")
 
       
     

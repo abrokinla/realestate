@@ -23,9 +23,9 @@ def setup_db(app, database_path=database_path):
     # db.create_all()
     Migrate(app,db)
 
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
+    # with app.app_context():
+    #     db.drop_all()
+    #     db.create_all()
 
 from models_classes import PropertyList, User, Agent
 

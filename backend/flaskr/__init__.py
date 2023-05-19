@@ -326,9 +326,7 @@ def create_app(db_URI="", test_config=None):
             if email is None or pword is None:
                 print('No email/password')
                 abort(400)
-
-    # try:
-        with db.session.begin_nested():
+        try:           
             user_exists = Agent.query.filter_by(email=email).first() is not None
 
             if user_exists:
@@ -350,38 +348,46 @@ def create_app(db_URI="", test_config=None):
                 is_admin=is_admin
             )
 
-
-            db.session.add(newAgent)
-            db.session.commit()
-
-            user = auth.create_user(
-            email=email,
-            password=pword
-            )
             
+            user = auth.create_user(
+                email=email,
+                password=pword
+            )
 
             auth.update_user(user.uid, custom_claims={
                 'user_role': 'agent',
                 'is_admin': is_admin,
-                'agent_id':newAgent.id})
+                'agent_id': newAgent.id
+            })
+
+            newAgent.insert()
+            # db.session.close()
 
             agents = Agent.query.order_by(Agent.id).all()
+
+            # db.session.close()
+
             return jsonify({
-                'success':True,
-                'created':newAgent.id,
-                'total_users':len(agents)
+                'success': True,
+                'created': newAgent.id,
+                'total_users': len(agents)
             })
-    # except Exception as e:
-    #     db.session.rollback()  # Rollback the transaction
-    #     print(e)
-    #     abort(422)
+
+        except Exception as e:
+            db.session.rollback()  # Rollback the transaction
+            print(e)
+            abort(422)
+
+        finally:
+            db.session.close()
+
         
 
     '''
     Fetch properties by agent
     '''
     @app.route('/agents/<agent_id>/properties', methods=['GET'])
-    # @requires_auth
+    @requires_auth
     def get_agent_properties(agent_id, user_role):
         if user_role != "agent":
             return jsonify({
@@ -437,25 +443,37 @@ def create_app(db_URI="", test_config=None):
                 abort(409)
 
             hashed_password = bcrypt.generate_password_hash(pword)
-            
+                        
+            newUser = User(
+                first_name=first_name,
+                last_name=last_name,
+                email=email, 
+                pword=hashed_password, 
+                tel=tel, 
+                user_role=user_role
+            )
+
             user = auth.create_user(
-            email=email,
-            password=pword
+                email=email,
+                password=pword
             )
             auth.update_user(user.uid, custom_claims={'user_role': 'user'})
-            newUser = User(first_name=first_name, last_name=last_name, \
-                email=email, pword=hashed_password, tel=tel, user_role=user_role)
-
+            
             newUser.insert()
             users = User.query.order_by(User.id).all()
 
             return jsonify({
-                'sucess':True,
+                'success':True,
                 'created':user.uid,
                 'total_users':len(users)
             })
-        except:
+        except Exception as e:
+            db.session.rollback()  # Rollback the transaction
+            print(e)
             abort(422)
+
+        finally:
+            db.session.close()
         
     '''
     Search
@@ -519,38 +537,9 @@ def create_app(db_URI="", test_config=None):
             abort(422)
 
 
-    # '''
-    # Fetch agent details
-    # '''
-    # @app.route('/agents/<int:agent_id>', methods=['GET'])
-    # def get_agent(agent_id):
-    #     try:
-    #         agent = Agent.query.filter_by(id=agent_id).one_or_none()
-    #         if agent is None:
-    #             abort(404)
-    #         else:
-    #             return jsonify({
-    #                 'success': True,
-    #                 'agent': {
-    #                     'id': agent.id,
-    #                     'first_name': agent.first_name,
-    #                     'last_name': agent.last_name,
-    #                     'business_name': agent.business_name,
-    #                     'email': agent.email,
-    #                     'tel': agent.tel,
-    #                     'agent_call_number': agent.agent_call_number,
-    #                     'whatsapp': agent.whatsapp,
-    #                     'business_web': agent.business_web
-    #                 }
-    #             })
-    #     except:
-    #         abort(422)
-
-
+    
        
     #ERROR HANDLERS
-
-    
 
     @app.errorhandler(405)
     def method_not_allowed(error):
@@ -574,7 +563,7 @@ def create_app(db_URI="", test_config=None):
         return jsonify({
             "success": False, 
             "error": 400, 
-            "message": "bad request"
+            "message": "Bad request"
             }), 400
 
     @app.errorhandler(401)

@@ -1,37 +1,7 @@
-# def test_200_create_new_agent(self):
-    #     res = self.client().post("/agents", json = self.new_agent)
-    #     data = json.loads(res.data)
-    #     self.assertEqual(res.status_code,200)
-    #     self.assertEqual(data["success"], True)
 
-    # def test_405_create_new_agent_failure(self):
-    #     res = self.client().post("/properties/9999", json=self.new_agent)
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 405)
-    #     self.assertEqual(data["success"], False)
-    #     self.assertEqual(data['message'],"method not allowed")
-
-    # def test_200_create_new_user(self):
-    #     res = self.client().post("/users", json = self.new_user)
-    #     data = json.loads(res.data)
-    #     self.asertEqual(res.status_code,200)
-    #     self.assertEqual(data["success"], True)
     
-    # def test_405_create_new_user(self):
-    #     res = self.client().post("/users/9999", json= self.new_user)
-    #     data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 405)
-    #     self.assertEqual(data["success"],False)
-    #     self.assertEqual(data["message"], "method not allowed")
-
-    # def test_login_success(self):
-    #     res = self.client().post('/login', json={'email': 'myemail@email.com', 'password': 'mypassword'})
-    #     data = json.loads(res.data)
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data["success"], True)
-    #     self.assertTrue(data["token"])
+    
 
     # def test_login_failure(self):
     #     res = self.client().post('/login', json={'email': 'invalid@example.com', 'password': 'password'})

@@ -116,7 +116,6 @@ class RealEstateTestCase(unittest.TestCase):
     #     self.assertEqual(data["success"], False)
     #     self.assertEqual(data["message"], "Bad request")
 
-
     def test_login_success(self):
         res = self.client().post('/login', json=self.login)
         data = json.loads(res.data)

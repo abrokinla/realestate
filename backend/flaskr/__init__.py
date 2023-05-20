@@ -4,6 +4,8 @@ from google.oauth2.credentials import Credentials
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import json
 import firebase_admin
 import pyrebase
@@ -16,6 +18,7 @@ from models_classes import PropertyList, Agent, User
 
 def create_app(db_URI="", test_config=None):
     app = Flask(__name__)
+    limiter = Limiter(app, key_func=get_remote_address)
     if db_URI:
         setup_db(app,db_URI)
     else:
@@ -24,6 +27,7 @@ def create_app(db_URI="", test_config=None):
     # setup_db(app)    
     bcrypt = Bcrypt(app)
     
+    limiter.default_limits = ["20/second"]
     
     # CORS HEADERS
     CORS(app, resources={r"/api/*": {"origins": "*"}})

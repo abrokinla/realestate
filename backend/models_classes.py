@@ -2,12 +2,12 @@ from sqlalchemy import Column, ForeignKey, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 from models import db
-
+import uuid
 
 # ...............Models start.................
 class PropertyList(db.Model):
     __tablename__ = 'propertylist'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True, default=str(uuid.uuid4()))
     description = db.Column(db.String())
     amount = db.Column(db.Integer)
     location = db.Column(db.String())
@@ -18,7 +18,7 @@ class PropertyList(db.Model):
     status = db.Column(db.String())
     rating = db.Column(db.Integer)
     img_url = db.Column(db.String())
-    agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
+    agent_id = db.Column(db.String(), db.ForeignKey('agent.id'), nullable=False)
 
     def __repr__(self):
         return f'<Property {self.id} {self.description} {self.amount} {self.location} {self.bed} {self.bath} {self.toilet} \
@@ -53,7 +53,7 @@ class PropertyList(db.Model):
 
 class Agent(db.Model):
     __tablename__ = 'agent'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True, default=str(uuid.uuid4()))
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
     business_name = db.Column(db.String())
@@ -99,7 +99,7 @@ class Agent(db.Model):
 
 class User(db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True, default=str(uuid.uuid4()))
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())    
     email = db.Column(db.String())

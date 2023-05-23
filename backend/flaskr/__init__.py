@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from uuid import UUID
 import json
 import firebase_admin
 import pyrebase
@@ -18,7 +19,8 @@ from models_classes import PropertyList, Agent, User
 
 def create_app(db_URI="", test_config=None):
     app = Flask(__name__)
-    limiter = Limiter(app, key_func=get_remote_address)
+    limiter = Limiter(app)
+    limiter.key_func = get_remote_address
     if db_URI:
         setup_db(app,db_URI)
     else:
@@ -26,7 +28,8 @@ def create_app(db_URI="", test_config=None):
 
     # setup_db(app)    
     bcrypt = Bcrypt(app)
-    
+
+    limiter.default_key_func = get_remote_address
     limiter.default_limits = ["20/second"]
     
     # CORS HEADERS
@@ -232,8 +235,14 @@ def create_app(db_URI="", test_config=None):
     '''
     Edit Properties
     '''
-    @app.route('/properties/<int:property_id>', methods=['PATCH'])    
-    def update_properties(property_id):
+    @app.route('/properties/<uuid:property_id>', methods=['PATCH'])
+    @requires_auth
+    def update_properties(property_id, user_role):
+        if user_role != "agent":
+            return jsonify({
+                "error": "Unauthorized"
+                }), 401
+
         body = request.get_json()
         try:
             propertyList = PropertyList.query.filter(PropertyList.id == property_id).one_or_none()
@@ -595,6 +604,11 @@ def create_app(db_URI="", test_config=None):
             "error": 500, 
             "message": "Internal Server Error"
             }), 500
+
+    # @limiter.limit_handler
+    # def limit_handler():
+    #     return "Rate limit exceeded. Please try again later.", 429
+
     
 
     return app

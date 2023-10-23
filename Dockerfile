@@ -1,22 +1,21 @@
-# First stage: install dependencies
-FROM public.ecr.aws/sam/build-python3.7:latest AS build
+# Use a more complete Python image
+FROM python:3.8
 
+# Set the working directory
 WORKDIR /app
 
-COPY backend/flaskr/requirements.txt /app
-RUN pip install --upgrade pip
+# Copy your project files to the container
+COPY . /app
+
+# Upgrade pip and install Python packages from requirements.txt
 RUN pip install -r requirements.txt
 
-# Second stage: run application
-FROM python:3.7-alpine
+# Set environment variables
+ENV FLASK_APP=flaskr
+ENV FLASK_ENV=development
 
-WORKDIR /app
+# Specify the command to run your application
+CMD flask run --host 0.0.0.0
 
-COPY --from=build /app /app
-
-COPY backend/flaskr /app
-
-ENV PORT=8080
-EXPOSE $PORT
-
-ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:$PORT", "flaskr.__init__:APP"]
+# Expose the port your application listens on
+EXPOSE 3000

@@ -131,6 +131,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+serviceAccountKey.json
 
 # Spyder project settings
 .spyderproject
@@ -296,3 +297,4 @@ dist
 
 firebase.js
 .vercel
+serviceAccountKey.json

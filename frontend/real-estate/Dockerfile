@@ -1,20 +1,25 @@
 # build environment
-FROM node:14.16.0-alpine3.13 as build
-WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-COPY frontend/real-estate/package.json ./
-COPY frontend/real-estate/package-lock.json ./
-RUN npm ci --silent
-RUN npm install react-scripts@4.0.3 -g --silent
-COPY frontend/real-estate/ ./
+FROM node:18-alpine as BUILD_IMAGE
+
+WORKDIR /arahomes/frontend
+
+COPY package.json .
+
+RUN npm install
+
+# Copy the rest of the files to the Docker image
+COPY . .
+
+# Build the application
 RUN npm run build
 
-# production environment
-FROM nginx:1.21.0-alpine
-COPY --from=build /app/build /usr/share/nginx/html
-RUN rm /etc/nginx/conf.d/default.conf
-COPY frontend/real-estate/nginx.conf /etc/nginx/conf.d
-EXPOSE 80
+#STAGE BUILD TWO
+FROM node:18-alpine as PRODUCTION_BUILD
 
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /arahomes/frontend
 
+COPY --from=BUILD_IMAGE /arahomes-frontend/dist/ /arahomes-frontend/dist/
+
+EXPOSE 8080
+
+CMD ["npm", "run", "dev"]

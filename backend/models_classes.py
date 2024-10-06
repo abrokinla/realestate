@@ -5,25 +5,26 @@ from models import db
 import uuid
 
 # ...............Models start.................
+import uuid
+
 class PropertyList(db.Model):
     __tablename__ = 'propertylist'
-    id = db.Column(db.String(), primary_key=True, default=str(uuid.uuid4()))
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
     description = db.Column(db.String())
     amount = db.Column(db.Integer)
     location = db.Column(db.String())
     bed = db.Column(db.Integer)
     bath = db.Column(db.Integer)
     toilet = db.Column(db.Integer)
-    action = db.Column(db.String())#For sale or rent
+    action = db.Column(db.String()) # For sale or rent
     status = db.Column(db.String())
     rating = db.Column(db.Integer)
     img_url = db.Column(db.String())
     agent_id = db.Column(db.String(), db.ForeignKey('agent.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Property {self.id} {self.description} {self.amount} {self.location} {self.bed} {self.bath} {self.toilet} \
-            {self.action} {self.status} {self.rating} {self.img_url}>'
-    
+        return f'<Property {self.id} {self.description} {self.amount} {self.location} {self.bed} {self.bath} {self.toilet} {self.action} {self.status} {self.rating} {self.img_url}>'
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -37,19 +38,19 @@ class PropertyList(db.Model):
 
     def format(self):
         return {
-            'id':self.id,
-            'description':self.description,
-            'amount':self.amount,
-            'location':self.location,
-            'bed':self.bed,
-            'bath':self.bath,
-            'toilet':self.toilet,
-            'action':self.action,
-            'status':self.status,
-            'rating':self.rating,
+            'id': self.id,
+            'description': self.description,
+            'amount': self.amount,
+            'location': self.location,
+            'bed': self.bed,
+            'bath': self.bath,
+            'toilet': self.toilet,
+            'action': self.action,
+            'status': self.status,
+            'rating': self.rating,
             'img_url': self.img_url,
         }
-        
+
 
 class Agent(db.Model):
     __tablename__ = 'agent'

@@ -10,7 +10,8 @@ from uuid import UUID
 import json
 import firebase_admin
 import pyrebase
-from firebase_admin import credentials, auth
+from firebase_admin import credentials
+from firebase_admin import auth as firebase_auth
 from functools import wraps
 from flask_cors import CORS
 from models import db, setup_db
@@ -54,7 +55,6 @@ def create_app(db_URI="", test_config=None):
         firebase_admin.initialize_app(cred)
 
 
-    # Create a decorator to handle authentication
     def requires_auth(f):
         @wraps(f)
         def decorated(*args, **kwargs):
@@ -65,24 +65,34 @@ def create_app(db_URI="", test_config=None):
                 return jsonify({
                     "error": "Authorization header is required"
                 }), 401
-            # Get the token from the header
-            token = auth_header.split("Bearer ")[1]
+            
+            # Check that the token is in the correct format (Bearer token)
+            try:
+                token = auth_header.split("Bearer ")[1]
+            except IndexError:
+                return jsonify({"error": "Authorization header format is 'Bearer <token>'"}), 401
+            
             # Verify the token with Firebase
             try:
-                decoded_token = auth.verify_id_token(token)
-            except:
+                decoded_token = firebase_auth.verify_id_token(token)
+            except Exception as e:
                 # If the token is invalid, return an error
-                return jsonify({"error": "Invalid token"}), 401
+                return jsonify({"error": f"Invalid token: {str(e)}"}), 401
+            
             # If the token is valid, extract the user's ID and role from the payload
-            agent_id = decoded_token["agent_id"]
+            agent_id = decoded_token.get("agent_id")
             user_role = decoded_token.get("user_role")
+            
+            # Ensure the token contains both agent_id and user_role
+            if not agent_id or not user_role:
+                return jsonify({"error": "Missing agent_id or user_role in token"}), 401
+            
             # Pass the user's ID and role to the route function
             kwargs["agent_id"] = agent_id
             kwargs["user_role"] = user_role
             return f(*args, **kwargs)
+
         return decorated
-
-
     """
     PAGINATION
     """ 
@@ -118,44 +128,76 @@ def create_app(db_URI="", test_config=None):
 
     """
     Login
-    """ 
+    """     
     @app.route("/login", methods=["POST"])
     def login():
         # Get the email and password from the request body
         body = request.get_json()
         email = body.get("email")
-        password = body.get("password")
+        password = body.get("password")       
 
-       
         try:
+            # Sign in the user with Firebase Authentication
             user = auth2.sign_in_with_email_and_password(email, password)
-        except:
+
+            # Fetch the user record from Firebase using their email
+            user_record = firebase_auth.get_user_by_email(email)
+
+            # Fetch agent details from your database based on the email
+            agent = Agent.query.filter_by(email=email).first()
+
+            # If the agent doesn't exist in your database, return an error
+            if not agent:
+                return jsonify({
+                    "error": "Agent not found"
+                }), 404
+
+            # Set custom claims for the user (agent_id, user_role, etc.)
+            firebase_auth.set_custom_user_claims(user_record.uid, {
+                'agent_id': agent.id,  # Use the agent's actual ID from your database
+                'user_role': agent.user_role,  # 'agent', 'user', etc.
+                'is_admin': agent.is_admin ,
+                'agent_name': agent.first_name
+            })
+
+        except Exception as e:
+            print(f"Error signing in: {e}")
             # If there was an error signing in, return an error
             return jsonify({
                 "error": "Invalid email or password"
-                }), 401
+            }), 401
 
-        # If the sign in was successful, return the ID token to the client
+        # Return the ID token to the client with a 'Bearer' prefix
         return jsonify({
             "success": True, 
-            "token":"Bearer " + user['idToken']
-            })
+            "token": "Bearer " + user['idToken']  # Return the Firebase ID token
+        })
 
     """
-    Verify Token
+        Verify Token
     """ 
     @app.route('/verify-token', methods=['POST'])
     def verify_token():
         # Get the token from the Authorization header
         auth_header = request.headers.get('Authorization')
+        
         if not auth_header:
             return jsonify({'error': 'Authorization header is required'}), 401
-        token = auth_header.split(' ')[1]
+
+        # The token might have the 'Bearer' prefix
+        parts = auth_header.split(' ')
+        
+        # Check if the token is correctly prefixed with 'Bearer'
+        if len(parts) != 2 or parts[0].lower() != 'bearer':
+            return jsonify({'error': 'Invalid Authorization header format'}), 401
+
+        token = parts[1]
 
         # Verify the token with Firebase
         try:
-            decoded_token = auth.verify_id_token(token)
-        except:
+            decoded_token = firebase_auth.verify_id_token(token)
+        except Exception as e:
+            print(f"Token verification failed: {e}")
             return jsonify({'error': 'Invalid token'}), 401
 
         # Get the user's ID and role from the token
@@ -165,7 +207,8 @@ def create_app(db_URI="", test_config=None):
         return jsonify({
             'agent_id': agent_id, 
             'user_role': user_role
-            }), 200
+        }), 200
+
 
     """
     Fetch properties
@@ -211,26 +254,29 @@ def create_app(db_URI="", test_config=None):
         status = body.get('status', None)
         rating = body.get('rating', None)
         img_url = body.get('img_url', None)
-        agent_id = body.get('agent_id', None)
 
         try:
-            newProperty = PropertyList(description= description, amount = amount, \
-                location = location, bed = bed, bath = bath, toilet = toilet,\
-                    action = action, status = status, rating = rating, agent_id=agent_id, img_url=img_url)
+            newProperty = PropertyList(
+                description=description, amount=amount,
+                location=location, bed=bed, bath=bath, toilet=toilet,
+                action=action, status=status, rating=rating,
+                agent_id=agent_id, img_url=img_url
+            )
             newProperty.insert()
 
-            # return properties ordered by id
             properties = PropertyList.query.order_by(PropertyList.id).all()
             current_properties = paginate_properties(request, properties)
 
             return jsonify({
-                "success":True,
-                "created":newProperty.id,
-                "properties":current_properties,
-                "total_properties":len(properties)
+                "success": True,
+                "created": newProperty.id,
+                "properties": current_properties,
+                "total_properties": len(properties)
             })
-        except:
+        except Exception as e:
+            print(f"Error occurred: {e}") 
             abort(422)
+
 
     '''
     Edit Properties

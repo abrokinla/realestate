@@ -16,7 +16,7 @@
 
 nav {
     display: flex;
-    height:200px;
+    height:20px;
     width:100%;
     background: #060221;
     align-items: center;
@@ -45,7 +45,7 @@ nav {
 #navitems li a{
     color: #ffffff;
     text-decoration: none;
-    font: size 1.5rem;
+    font-size: 0.8rem;
     font-weight: 600;
     padding:8px 15px;
     border-radius:5px;
@@ -186,6 +186,16 @@ li.login:hover > ul.login-submenu {
   }
 
 @media screen and (max-width:769px) {
+    nav {
+        display: flex;
+        height:35px;
+        width:100%;
+        background: #060221;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 80px;
+        box-shadow: 0 5px 15px rgba(0,0,0.06);
+    }
     #navitems {
         display: flex;
         flex-direction:column;
@@ -193,7 +203,7 @@ li.login:hover > ul.login-submenu {
         justify-content: flex-start;
         position:fixed;
         z-index:+99;
-        top:130px;
+        top:50px;
         right:-300px;
         width:300px;
         height:50vh;
@@ -201,7 +211,6 @@ li.login:hover > ul.login-submenu {
         box-shadow: 0 40px 60px rgba(0, 0, 0,0.1);
         padding: 40px 0 0 10px;
         transition: 0.3s ease-in-out;
-        border: 2px solid red;
     }
 
     #navitems.active {

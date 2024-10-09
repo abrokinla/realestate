@@ -10,8 +10,8 @@ class NavBarLoggedIn extends Component {
     if (isAuthorized) {
       await divertDashboard();
     } else {
-      // handle the case where the user is not authorized, maybe redirect to login page
-      window.location.href = window.location.origin + "/login";
+      // handle the case where the user is not authorized, redirect to login page
+      window.location.href = '/login';
     }
   };
   // logout

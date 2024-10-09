@@ -22,15 +22,25 @@ const NewProperty = () => {
     const [selectedFiles, setSelectedFiles] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(null);
 
-    const getAgentId = () => {
-        const idToken = Cookies.get('idToken')
-        const decodedToken = jwtDecode(idToken);        
-        const { agent_id } = decodedToken;
-        return agent_id;
-    }
 
     const handleNewProperty = (e) => {
         e.preventDefault();
+        
+        // Get the token from cookies
+        const idToken = Cookies.get('idToken');
+        console.log(idToken)
+        if (!idToken) {
+            console.error('No token found');
+            return; // Handle error as needed
+        }
+    
+        // Decode the token to get agent details and user role
+        const decodedToken = jwtDecode(idToken);
+        const agtId = decodedToken.agent_id;
+        const userRole = decodedToken.user_role; // Extract user_role
+        const isAdmin = decodedToken.is_admin;   // Extract is_admin
+        
+        // Ensure all necessary fields are properly set
         const desc = description;
         const amt = amount;
         const loca = location;
@@ -39,19 +49,15 @@ const NewProperty = () => {
         const numToilet = toilet;
         const act = action;
         const stat = status;
-        const agtId = getAgentId();
-        let propertyRating = "3";
         const imgurl = imgUrl;
-      
-        const idToken = Cookies.get('idToken');
-        const decodedToken = jwtDecode(idToken);
-        const isAdmin = decodedToken.is_admin;
-      
+    
+        // Set the property rating based on user role or is_admin flag
+        let propertyRating = "3"; // Default rating for regular agents
         if (isAdmin === true) {
-          propertyRating = "1";
+            propertyRating = "1"; // Admin rating
         }
-        
-        console.log("urls", imgurl);
+            
+        // Make the POST request to create the new property
         axios.post("http://localhost:5000/properties", {
             description: desc,
             amount: amt,
@@ -62,16 +68,18 @@ const NewProperty = () => {
             action: act,
             status: stat,
             agent_id: agtId,
+            user_role: userRole,
             rating: propertyRating,
             img_url: imgurl,
-          },
-          {
+        }, {
             headers: {
-              Authorization: idToken,
+                Authorization: `${idToken}`, // Ensure the token is sent in the right format
             },
-          })
-          .then(res => {
-            alert('New Property Added')
+        })
+        .then(res => {
+            alert('New Property Added');
+            
+            // Reset all form fields after successful submission
             setDescription('');
             setAmount('');
             setLocation('');
@@ -83,12 +91,14 @@ const NewProperty = () => {
             setAgent_Id('');
             setRating('');
             setImgUrl('');
-          })
-          .catch(error => {
-            // If there is an error, display the error message
-            console.error(error.response.data.error);
-          });
-      }
+        })
+        .catch(error => {
+            // Handle any errors from the request
+            console.error(error.response?.data?.error || "An error occurred");
+        });
+    
+    };
+    
       
    
     const handleDragStart = (e) => {
@@ -109,47 +119,71 @@ const NewProperty = () => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-
+    
         try {
-            // create an array of promises for each file upload
-            const uploadPromises = Array.from(selectedFiles).map((file) => {
-                // create a reference to the file in Firebase Storage
+            if (!selectedFiles) {
+                console.error('No files selected for upload');
+                return;
+            }
+    
+            // Create an array of promises for each file upload
+            const uploadPromises = Array.from(selectedFiles).map((file, index) => {
+                // Create a reference to the file in Firebase Storage
                 const fileRef = ref(storage, `images/${file.name}`);
-
-                // upload the file to Firebase Storage and return a promise that resolves with the download URL
-                return new Promise(async (resolve, reject) => {
-                    try {
-                        const snapshot = await uploadBytesResumable(fileRef, file);
-                        const url = await getDownloadURL(fileRef);
-                        console.log('File download URL:', url);
-                        resolve(url);
-                    } catch (error) {
-                        console.error(error);
-                        reject(error);
-                    }
+    
+                // Upload the file to Firebase Storage with progress tracking
+                return new Promise((resolve, reject) => {
+                    const uploadTask = uploadBytesResumable(fileRef, file);
+    
+                    // Listen for state changes, including progress updates
+                    uploadTask.on(
+                        'state_changed',
+                        (snapshot) => {
+                            // Calculate progress in percentage
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log(`Upload progress for file ${index + 1}: ${progress}%`);
+                            
+                            // Update the progress state if needed
+                            setUploadProgress(Math.round(progress));
+                        },
+                        (error) => {
+                            // Handle upload error
+                            console.error(`Error uploading file ${file.name}:`, error);
+                            reject(error);
+                        },
+                        async () => {
+                            // Handle successful upload, get download URL
+                            try {
+                                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                                resolve(downloadUrl);
+                            } catch (urlError) {
+                                console.error(`Error getting download URL for file ${file.name}:`, urlError);
+                                reject(urlError);
+                            }
+                        }
+                    );
                 });
             });
-        
-            // wait for all upload tasks to complete
-
+    
+            // Wait for all upload tasks to complete
             const urls = await Promise.all(uploadPromises);
-
+    
             console.log('All download URLs:', urls);
             const joinedUrls = urls.join(',');
-            console.log('All URLs:', joinedUrls);
             setImgUrl(joinedUrls);
-
-            // disable the upload button
+    
+            // Disable the upload button
             const uploadButton = document.getElementById('upload-button');
             uploadButton.disabled = true;
-
-            // return the array of download URLs
+    
+            // Return the array of download URLs
             return urls;
-
+    
         } catch (error) {
-            console.error(error);
+            console.error('Error in handleUpload:', error);
         }
     };
+    
 
     return (
         <section id="main-container">

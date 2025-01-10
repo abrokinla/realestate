@@ -22,8 +22,7 @@ const Main = () => {
                 </div> 
                 <div id="card-container">
                     <CardList 
-                   rating={1}/>
-                   
+                   rating={1}/>                   
                 </div>
                 <div  id="subtitle">
                     <p> Found What You Need? </p>                    

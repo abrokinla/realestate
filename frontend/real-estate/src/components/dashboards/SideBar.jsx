@@ -29,23 +29,20 @@ const SideBar = () => {
 
     return (
         <section className="main-container">
-            <div id="mobile-new-property">
-                <i id="bar"
-                className=
-                {
-                    isSidebarVisible ? "fas fa-times" : "fas fa-bars"
-                }
-                onClick={() => setIsSidebarVisible(!isSidebarVisible)}>
-                </i>
-            </div>            
-            <section id={ isSidebarVisible ? "side-bar-clicked" : "side-bar"}>            
-                <input type="submit" onClick={handleAddProperty} value="Add New Property" />            
-                <input type="submit" onClick={handleViewProperty} value="View Properties" />            
+          <div id="mobile-new-property">
+            <i
+              id="bar"
+              className={isSidebarVisible ? "fas fa-times" : "fas fa-bars"}
+              onClick={() => setIsSidebarVisible(!isSidebarVisible)}
+            />
+          </div>
+          {isSidebarVisible && (
+            <section id="side-bar-clicked">
+              <input type="submit" onClick={handleAddProperty} value="Add New Property" />
+              <input type="submit" onClick={handleViewProperty} value="View Properties" />
             </section>
-            <section id="rightPane">
-                <RightPane rightPane={rightPane} />
-            </section>
+          )}
         </section>
-    )
+      )
 }
 export default SideBar;

@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google.oauth2.credentials import Credentials
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_limiter import Limiter
@@ -23,7 +23,7 @@ def create_app(db_URI="", test_config=None):
     limiter = Limiter(app)
     limiter.key_func = get_remote_address
     if db_URI:
-        setup_db(app,db_URI)
+        setup_db(app, db_URI)
     else:
         setup_db(app)
 
@@ -54,6 +54,10 @@ def create_app(db_URI="", test_config=None):
         cred = credentials.Certificate(cred_path)
         firebase_admin.initialize_app(cred)
 
+    auth = firebase_auth
+
+    # Blueprint setup
+    api_bp = Blueprint('api_bp', __name__)
 
     def requires_auth(f):
         @wraps(f)
@@ -129,7 +133,7 @@ def create_app(db_URI="", test_config=None):
     """
     Login
     """     
-    @app.route("/login", methods=["POST"])
+    @api_bp.route("/login", methods=["POST"])
     def login():
         # Get the email and password from the request body
         body = request.get_json()
@@ -211,27 +215,46 @@ def create_app(db_URI="", test_config=None):
 
 
     """
-    Fetch properties
+    Fetch all properties
     """ 
     @app.route('/properties', methods=['GET'])
     def get_properties():
         properties = PropertyList.query.order_by(PropertyList.rating).all()
+
+        # Function to split image URLs for each property
+        def format_property(property):            
+            return {
+                'id': property['id'], 
+                'location': property['location'],
+                'amount': property['amount'],
+                'status': property['status'],
+                'description': property['description'],
+                'bed': property['bed'],
+                'bath': property['bath'],
+                'toilet': property['toilet'],
+                'rating': property['rating'],
+                'action': property['action'],
+                'img_urls': property['img_url'].split(',') if property['img_url'] else []  # Split img_url on commas
+            }
+
+        # Paginate properties
         current_properties = paginate_properties(request, properties)
-        
+
+        # Format paginated properties
+        formatted_properties = [format_property(property) for property in current_properties]
+
         try:
-            if len(current_properties) == 0:
+            if len(formatted_properties) == 0:
                 abort(404)
 
-            return jsonify ({
-                "success":True,
-                'properties':current_properties,
-                'total_properties':len(properties)
+            return jsonify({
+                "success": True,
+                'properties': formatted_properties,
+                'total_properties': len(properties)
             })
         except:
             abort(404)
-
-           
-        
+     
     """
     Create new property
     """    
@@ -325,6 +348,50 @@ def create_app(db_URI="", test_config=None):
             })
         except:
             abort(400)
+
+    @api_bp.route('/properties/<agent_id>', methods=['GET'])
+    def get_properties_by_agent(agent_id):
+        try:
+            # Fetch properties from the database where the agent_id matches
+            properties = PropertyList.query.filter_by(agent_id=agent_id).all()
+            
+            if not properties:
+                return jsonify({
+                    'success': False,
+                    'message': 'No properties found for this agent.'
+                }), 404
+
+            # Format the response to include the list of properties and split the img_url field
+            properties_list = []
+            for property in properties:
+                img_urls = property.img_url.split(',') if property.img_url else []  # Split img_url by commas
+                
+                properties_list.append({
+                    'id': property.id,
+                    'description': property.description,
+                    'amount': property.amount,
+                    'location': property.location,
+                    'bed': property.bed,
+                    'bath': property.bath,
+                    'toilet': property.toilet,
+                    'action': property.action,  # sale or rent
+                    'status': property.status,
+                    'rating': property.rating,
+                    'img_urls': img_urls  # Split image URLs
+                })
+
+            return jsonify({
+                'success': True,
+                'properties': properties_list
+            })
+
+        except Exception as e:
+            print(f"Error fetching properties: {e}")
+            return jsonify({
+                'success': False,
+                'message': 'An error occurred while fetching properties.'
+            }), 500
+
 
     '''
     Delete property
@@ -655,6 +722,6 @@ def create_app(db_URI="", test_config=None):
     # def limit_handler():
     #     return "Rate limit exceeded. Please try again later.", 429
 
-    
+    app.register_blueprint(api_bp, url_prefix='/api/v1')
 
     return app

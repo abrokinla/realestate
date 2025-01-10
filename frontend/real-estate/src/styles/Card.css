@@ -3,141 +3,213 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin: 0 10px;
+  /* margin: 0 10px; */
 }
 
 .card--content {
-  width: 30%;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  margin-bottom: 16px;
-}
+    width: 30%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
 
 .card--action--amount {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+ 
+  .card--action, .card--amount {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+/* .carousel {
+  display: flex;
+  width: fit-content;
+  height: 35px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+}
+    
+.carousel img {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  margin-right: 10px;
+  border: 2px solid red;
+} */
+.carousel {
+  display: flex;
+  width: 100%; /* or fixed width (e.g., 500px) */
+  height: 35px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
 }
 
-.card--amount {
-font-size: 24px;
-font-weight: bold;
+.carousel-container {
+  width: 100%; 
+  overflow-x: auto;
+}
+
+.carousel-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  width: fit-content;
+}
+
+.carousel img {
+  width: 50px;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid red;
+  margin-right: 10px;
+  flex-shrink: 0; 
+}
+
+.carousel::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.carousel::-webkit-scrollbar-track {
+  background-color: #eee;
+}
+
+.carousel {
+  scrollbar-width: thin; /* Firefox */
+  -ms-overflow-style: none; /* Edge */
 }
 
 .card--image {
-width: 100%;
-height: 200px;
-margin-bottom: 16px;
-background-position: center;
-background-size: cover;
-}
+    width: 100%;
+    height: 200px;
+    margin-bottom: 5px;
+    background-position: center;
+    background-size: cover;
+  }
 
 .houseimages {
-width: 100%;
-height: 100%;
-object-fit: cover;
-}
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
 .card--status {
-display: flex;
-align-items: center;
-margin-bottom: 16px;
-}
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 5px;
+  }
 
 .status {
-font-size: 16px;
-font-weight: bold;
-margin-right: 16px;
-}
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
 
 .status--details {
-font-size: 12px;
-color: #666666;
-}
+    font-size: 0.5rem;
+    color: #666666;
+  }
 
 .profile--pic {
-width: 32px;
-height: 32px;
-border-radius: 50%;
-margin-left: 8px;
-}
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
 
 .card--house--details {
-display: flex;
-flex-direction: column;
-margin-bottom: 16px;
-background-color: #f2f2f2;
-}
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    background-color: #f2f2f2;
+  }
 
 .location,
 .description,
 .extra {
-display: flex;
-align-items: center;
-margin-bottom: 8px;
-}
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
 
 .icon {
-width: 24px;
-height: 24px;
-margin-right: 8px;
-}
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+  }
 
 .facilities {
-display: flex;
-justify-content: space-between;  
-padding: 0 20px;
-}
+    display: flex;
+    justify-content: space-between;  
+    /* padding: 0 20px; */
+  }
 
 .facilities-icon {
-width: 20px;
-height: 20px;
-margin-right: 8px;
-}
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+  }
 
 .bath,
-.toilet {
-margin-left: 16px;
-}
+.toilet,
+.bed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    /* margin-left: 5px; */
+  }
 
 .search--area {
-  display: flex;
-  justify-content: space-between;
-  align-items:center;
-  flex-wrap: wrap;
-  margin: 0 20px;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    margin: 0 20px;
+  }
 
 .search-house{
-  display:block;
-  width: 100%;
-  height:350px;
-}
+    display:block;
+    width: 100%;
+    height:350px;
+  }
 
 #search--title {
-  height:50px;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-}
+    height:50px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
 
 .card {
-  display:flex;
-  justify-content: space-around;
-  flex-direction:column;
-  align-items: center;
-  color: white;
-  font-weight:600;
-  background-color:#1411A8;
-  width: 30%;
-  height:400px;
-  margin-bottom:20px;
-  transition: 0.3s ease;
-  border-radius: 10px;
-}
+    display:flex;
+    justify-content: space-around;
+    flex-direction:column;
+    align-items: center;
+    color: white;
+    font-weight:600;
+    background-color:#1411A8;
+    width: 30%;
+    height:400px;
+    margin-bottom:20px;
+    transition: 0.3s ease;
+    border-radius: 10px;
+  }
 
 
 @media screen and (max-width:769px) {
@@ -156,4 +228,79 @@ margin-left: 16px;
   .search--area {
       justify-content: center;
   }
+  #card--action--amount p {
+    font-size: 0.8rem;
+    color:#000;
+  }
+  .carousel {
+    display: flex;
+    width: 100%; /* or fixed width (e.g., 500px) */
+    height: 35px;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .carousel-container {
+    width: 100%; 
+    overflow-x: auto;
+  }
+  
+  .carousel-inner {
+    display: flex;
+    flex-wrap: nowrap;
+    width: fit-content;
+  }
+  
+  .carousel img {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid red;
+    margin-right: 10px;
+    flex-shrink: 0; 
+  }
+  
+  .carousel::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+  }
+  
+  .carousel::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+  }
+  
+  .carousel::-webkit-scrollbar-track {
+    background-color: #eee;
+  }
+  
+  .carousel {
+    scrollbar-width: thin; /* Firefox */
+    -ms-overflow-style: none; /* Edge */
+  }
+  
+  
+  .card--house--details p, .card--status p {
+    font-size: 0.8rem;
+  }
+
+  .card--house--details {
+    margin:auto;
+    padding: 0%;    
+  }
+  .extra img, .description img, .location img, .facilities img {
+    width:15px;
+    height: 15px;
+    padding-right: 5px;
+  }
+  .toilet, .bath, .bed {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
+  
 }

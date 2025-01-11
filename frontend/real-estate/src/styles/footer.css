@@ -1,11 +1,15 @@
 .aa--container {
     background: #000;
+    position: relative; 
+    bottom: 0;
 }
 
 .foota--container{
     display:flex;
     flex-direction:column;
     width:100%;
+    position: relative; 
+    bottom: 0;
 }
 
 .first--section {

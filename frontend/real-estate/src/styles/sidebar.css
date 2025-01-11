@@ -7,11 +7,11 @@
     
 }
 
-#rightPane {
+/* #rightPane {
     float: right;
-    width: 70%; 
+    width: 100%; 
     border-left: 2px solid #fff;
-}
+} */
 
 #side-bar input {
     margin: 20px 0;
@@ -50,15 +50,15 @@
         flex-direction: column;
         transform: translateX(0);
         position: fixed;
-        background-color:#2d3b55;
+        background-color:#020c20;
         z-index:9999;
         /* border: 2px solid red; */
     }
     
-    #rightPane {
+    /* #rightPane {
         width: 100%;
         color: #000;
-    }
+    } */
 
     #side-bar-clicked input {
         margin: 20px 0;

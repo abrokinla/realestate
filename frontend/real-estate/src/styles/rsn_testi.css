@@ -6,7 +6,6 @@
     justify-content: center;
     align-items: center;
     margin:20px;
-    /* position: relative; */
 }
 #a-container {
     display:flex;
@@ -58,7 +57,6 @@ article {
     position:relative;    
     box-shadow: 0 0 0 10px black;
     margin-top:10px;
-
     display:flex;
     justify-content:center;
     align-items:center;

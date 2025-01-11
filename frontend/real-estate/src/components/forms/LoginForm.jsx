@@ -79,27 +79,54 @@ const LoginForm = () => {
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
   const[error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const user_email = email;
     const user_password = password;
-
+  
+    // Reset both error and success messages at the start
+    setError('');
+    setSuccess('');
+  
     // Post login data to server
-    axios.post('http://127.0.0.1:5000/login', {         
+    axios.post('http://127.0.0.1:5000/api/v1/login', {         
       email: user_email,
       password: user_password 
     })
     .then(response => {
       // Save the token to a cookie
       Cookies.set('idToken', response.data.token);
-      alert('Login successful');
-      divertDashboard();
+  
+      // Clear any existing error message
+      setError('');
+  
+      setSuccess('Login successful! Redirecting to dashboard...');
+      
+      setTimeout(() => {
+        divertDashboard();
+      }, 2000);
     })
     .catch(error => {
-      setError('Invalid email or password');
+      // Clear success message in case of error
+      setSuccess('');
+      
+      // Check if the error is due to a server response or network issue
+      if (error.response) {
+        // Server responded with a status outside 200 range
+        setError('Invalid email or password. Please try again.');
+      } else if (error.request) {
+        // Request was made but no response received
+        setError('Network error. Please check your connection.');
+      } else {
+        // Something else happened during the request setup
+        setError('An unexpected error occurred. Please try again later.');
+      }
     });
-  };
+};
+
+  
 
   return (
     <section id="main-container">
@@ -116,7 +143,8 @@ const LoginForm = () => {
             <article>You are welcome back to <em>Araoye Homes</em>. We would love to help you find your next home.</article>
           </section>
         </section>
-        <section id="form-container">              
+        <section id="form-container"> 
+        {error && <div className="error-message">{error}</div>}
           <h2>Sign in to Araoye Homes</h2>
           <form id="login-form">
             {error && <p className="error">{error}</p>}  

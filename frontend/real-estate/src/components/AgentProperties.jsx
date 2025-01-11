@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import "../styles/agentproperties.css";
 

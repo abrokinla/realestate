@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react";
 import "../styles/Card.css"
 import house from "./images/house1.jpg"
 import profilepic from "./images/sillouhette.jpg"
@@ -12,6 +12,13 @@ import imgToilet from "./images/toilet.png"
 
 
 const Card = (props) => {     
+    const initialImage = props.img_urls && props.img_urls.length > 0 ? props.img_urls[0] : '';     
+    const [mainImage, setMainImage] = useState(initialImage);
+    // updates the state of the main image when you click the images in carousel
+    const handleImageClick = (img_url) => {
+        setMainImage(img_url);
+    };
+
     return (     
         <section className="card--content">                
             <section>
@@ -20,8 +27,27 @@ const Card = (props) => {
                     <p className="card--amount"> NGN {props.amount.toLocaleString()} </p>                            
                 </section>
 
+                {/* Main image container */}
                 <section className="card--image">
-                    <img src={props.img_url} className="houseimages" alt={props.description} />
+                    {mainImage ? (
+                        <img src={mainImage} className="houseimages" alt={props.description} />
+                    ) : (
+                        <p>No Image Available</p> // Fallback message if no image is available
+                    )}
+                </section>
+                {/* Carousel of images */}
+                <section className="carousel">
+                    {props.img_urls && props.img_urls.map((img_url, index) => (
+                            <section key={index} className="carousel-image">
+                                {/* On click, update the main image */}
+                                <img
+                                    src={img_url}
+                                    alt={`Property Image ${index + 1}`}
+                                    onClick={() => handleImageClick(img_url)} // Click handler
+                                    style={{ cursor: 'pointer', width: '50px', marginRight: '10px' }} // Make images clickable
+                                />
+                            </section>
+                        ))}
                 </section>
                 <section className="card--status">
                     <p className="status">{props.status}</p>                           

@@ -9,9 +9,12 @@
     flex-direction: column;
     justify-content: space-between;
     align-items:center;
-    border: 2px solid red;
     width: 100%;
     height:auto;
+}
+
+.dashboard-content {
+    width: 100%;
 }
 
 #admin-label {
@@ -24,53 +27,215 @@
 #dashboard-casing {
     display: flex;
     width: 90%;
-    border: 2px solid #fff;
-    /* background-color: #fff; */
     opacity:50%;
     box-shadow:#fff;
     margin-bottom:10px;
 }
 
 .sidebar {
-    width:100%;
+    width:30%;
 }
 
 #mobile-new-property {
-    display:none;
+    display:block;
 }
+
 #mobile-new-property i {
-    color:#000;
+    color:#fff;
 }
 
 #logout-btn {
     color:#000;
     background-color: #fff;
-    border: 2px solid red;
+}
+
+h1 {
+    color: #fff;
+}
+
+#dashboard-casing {
+    width: 100%;
+    height:fit-content;        
+    position: relative;
+}
+
+#mobile-new-property {
+    display:block;
+}
+
+#mobile-new-property i {
+    font-size:25px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+#logout-btn {
+    color:#000;
+    background-color: #fff;
+}
+
+.dashboard-card-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;  
+    justify-content: space-evenly; 
+    margin: 30px 0; 
+}
+
+.dash-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width:100%;
+    height: auto;
+    margin-bottom: 10px;;
+}
+
+.d-card {
+    background-color: #ec8352;
+    border-radius:20px;
+    width:40%;
+    height: 100px;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.d-card-details {
+    display:flex;
+    color: #fff;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    margin-top: 30px;
+}
+
+.d-card-details p {
+    color:#000;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.d-card-details h2 {
+    font-size: 1.0rem;
+    padding-left: 5px;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #fff;
+    width:30px;
+    height:30px;
+}
+
+.icon-container img {
+    width: 15px;
+    height: 15px;
+    color: #fff;
 }
 
 @media screen and (max-width:769px) {
     #dashboard-casing {
         width: 100%;
-        height:100vh;
+        height:fit-content;        
+        position: relative;
     }
     
     #mobile-new-property {
         display:block;
-        /* border:2px solid red; */
     }
 
     #mobile-new-property i {
         font-size:25px;
         cursor: pointer;
-        margin: 20px;
+        margin: 10px;
+        width: 50%;
+        color: #fff;
     }
 
     #logout-btn {
         color:#000;
         background-color: #fff;
-        border: 2px solid red;
     }
 
+    .sidebar {
+        display: block; 
+        width: 30px;
+      }
+      
+      #side-bar-clicked {
+        display: block; 
+        position: absolute; 
+        z-index: 1000; 
+        width: 50%;  
+      }      
+    
+      .dashboard-card-container {
+        display: flex;
+        flex-direction: column;    
+        height:auto;  
+        justify-content: space-evenly;  
+      }
+
+    
+      .dash-cards {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width:100%;
+        height: auto;
+        margin-bottom: 10px;;
+    }
+
+    .d-card {
+        background-color: #ec8352;
+        border-radius:20px;
+        width:40%;
+        height: fit-content;
+        padding: 5px 10px;
+        color: #fff;
+    }
+
+    .d-card-details {
+        display:flex;
+        color: #fff;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 10px;
+        margin-top: 5px;
+    }
+
+    .d-card-details p {
+        color:#000;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .d-card-details h2 {
+        font-size: 0.8rem;
+        padding-left: 5px;
+    }
+
+    .icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #fff;
+        width:30px;
+        height:30px;
+    }
+
+    .icon-container img {
+        width: 15px;
+        height: 15px;
+        color: #fff;
+    }
 
     
 }

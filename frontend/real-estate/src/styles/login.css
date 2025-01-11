@@ -17,7 +17,7 @@
 #beside-form {
     background-color: rgba(255, 153, 1, 0.955);
     width:40%;
-    height: 65vh;
+    height: 70vh;
     display:flex;
     flex-direction: column;
     justify-content:center;
@@ -27,7 +27,7 @@
 #form-container {
     background: #fff;
     width: 40%;
-    height: 65vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     border-radius: 4px;
@@ -35,10 +35,22 @@
     align-items:center;
     justify-content:center;
 }
+.error-message {
+    color: red;
+    font-size: 0.8rem; 
+    max-width: 300px; 
+    word-wrap: break-word; 
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ffe6e6; 
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+  }
 
 #form-container h2 {
     margin-bottom: 10px;
-    font-weight: 300;
+    font-weight: 700;
+    font-size: 1.0rem;
   }
 
 .input-field {

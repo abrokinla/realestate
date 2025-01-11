@@ -38,7 +38,7 @@ nav {
 
 #navitems li {
     list-style: none;
-    padding: 0 20px;
+    padding: 0 10px;
     position:relative;
 }
 
@@ -47,9 +47,8 @@ nav {
     text-decoration: none;
     font-size: 0.8rem;
     font-weight: 600;
-    padding:8px 15px;
     border-radius:5px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.05em;
     transition: all 0.3s ease-in-out;
 }
 
